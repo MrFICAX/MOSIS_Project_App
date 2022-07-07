@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- log_in strings -->
+
+	<string name="app_name">FreelenceLive</string>
+	<string name="ek_img_content">ExportKit Image</string>
+	<string name="forgot_your_password__string">Forgot your password?</string>
+	<string name="register_string">Register</string>
+	<string name="fill_the_fields_with_your_username_and_password__string">Fill the fields with your username and password!</string>
+	<string name="log_in_ek3_string">LOG IN</string>
+	<string name="freelencelive_string">FreelenceLive</string>
+	<string name="username_string">Username</string>
+	<string name="password_string">Password</string>
+	<string name="log_in_ek4_string">LOG IN</string>
+
+	<string name="register_ek3_string">REGISTER</string>
+	<string name="first_name_string">First Name</string>
+	<string name="last_name_string">Last Name</string>
+	<string name="phone_number_string">Phone Number</string>
+	<string name="__381_string">+381</string>
+	<string name="register_ek4_string">REGISTER</string>
+	<string name="back_to_login">Back to login</string>
+</resources>

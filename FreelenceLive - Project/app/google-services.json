@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "850537748286",
+    "project_id": "freelencelive",
+    "storage_bucket": "freelencelive.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850537748286:android:909736391af0ed76173e6f",
+        "android_client_info": {
+          "package_name": "elfak.mosis.freelencelive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "850537748286-mh1g8juisv2sh50g9adcelcsnca1jne8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiH3BhvomKxOJC1YkblltlPriJgATnhsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "850537748286-mh1g8juisv2sh50g9adcelcsnca1jne8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
