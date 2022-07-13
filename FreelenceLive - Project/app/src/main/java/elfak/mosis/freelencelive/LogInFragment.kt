@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import elfak.mosis.freelencelive.databinding.ActivityLogInBinding
 import elfak.mosis.freelencelive.databinding.FragmentLogInBinding
 
 
