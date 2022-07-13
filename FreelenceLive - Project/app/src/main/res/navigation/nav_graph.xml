@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentWelcome">
+
+    <fragment
+    android:id="@+id/fragmentWelcome"
+    android:name="elfak.mosis.freelencelive.WelcomeFragment"
+    android:label="fragment_welcome"
+    tools:layout="@layout/fragment_welcome" >
+        <action
+            android:id="@+id/action_welcome_to_homescreen"
+            app:destination="@id/fragmentHomescreen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentHomescreen"
+        android:name="elfak.mosis.freelencelive.HomeScreenFragment"
+        android:label="fragment_homescreen"
+        tools:layout="@layout/fragment_home_screen" >
+        <action
+            android:id="@+id/action_homescreen_goto_signup"
+            app:destination="@id/fragmentSignUp"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_hommescreen_goto_login"
+            app:destination="@id/fragmentLogIn"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+    android:id="@+id/fragmentLogIn"
+    android:name="elfak.mosis.freelencelive.LogInFragment"
+    android:label="fragment_login"
+    tools:layout="@layout/fragment_log_in">
+
+        <action
+            android:id="@+id/action_login_goto_signup"
+            app:destination="@id/fragmentSignUp"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+    android:id="@+id/fragmentSignUp"
+    android:name="elfak.mosis.freelencelive.SignUpFragment"
+    android:label="fragment_signup"
+    tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signup_goto_login"
+            app:destination="@id/fragmentLogIn"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"
+            />
+    </fragment>
+
+</navigation>

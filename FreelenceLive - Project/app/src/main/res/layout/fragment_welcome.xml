@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".WelcomeFragment">
+
+    <RelativeLayout android:id="@+id/content_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+
+        <ImageView
+            android:id="@+id/polygon_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:contentDescription="@string/polygon_1"
+            android:src="@drawable/polygon_1" />
+
+        <ImageView android:id="@+id/freelencelivelogo_1"
+            android:src="@drawable/freelencelivelogo_1"
+            android:contentDescription="@string/freelencelivelogo_1"
+            android:layout_marginStart="175dp"
+            android:layout_marginTop="0dp"
+            android:layout_width="246dp"
+            android:layout_height="235dp" />
+
+        <TextView
+            android:id="@+id/freelencelive"
+            android:layout_width="1200dp"
+            android:layout_height="800dp"
+            android:layout_marginLeft="-360dp"
+            android:layout_marginTop="225dp"
+            android:rotation="65"
+            android:text="@string/freelencelive_string"
+            android:textColor="@color/freelencelive_color"
+            android:textSize="96sp"
+            android:textStyle="bold" />
+
+        <TextView android:id="@+id/all_you_need_to_find_a_job_"
+            android:textStyle="bold"
+            android:textSize="60sp"
+            android:textColor="@color/_bg__welcome_ek2_color"
+            android:layout_marginLeft="23dp"
+            android:layout_marginRight="650dp"
+            android:layout_marginTop="395dp"
+            android:layout_width="180.5dp"
+            android:layout_height="527.5dp"
+            android:text="@string/all_you_need_to_find_a_job__string"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonBegin"
+            android:layout_width="332dp"
+            android:layout_height="95dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="783dp"
+            android:background="@drawable/rectangle_9_shape"
+            android:text="@string/begin_a_journey_string"
+            android:textColor="@color/_bg__log_in_ek2_color"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/rectangle_12_color" />
+
+        <View android:id="@+id/line_2"
+            android:src="@drawable/line_2"
+            android:contentDescription="line_2"
+            android:background="@drawable/line_3_shape"
+
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="387dp"
+            android:layout_width="112.61dp"
+            android:layout_height="3dp" />
+
+        <View   android:id="@+id/line_3"
+            android:background="@drawable/line_3_shape"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="763.5dp"
+            android:layout_width="290dp"
+            android:layout_height="3dp" />
+
+        <View   android:id="@+id/line_4"
+            android:background="@drawable/line_4_shape"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="575.75dp"
+            android:layout_width="420.22dp"
+            android:layout_height="3dp"
+            android:rotation="65"
+            />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

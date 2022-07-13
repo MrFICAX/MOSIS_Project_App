@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeScreenFragment">
+
+    <RelativeLayout android:id="@+id/content_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+            <View
+                android:id="@+id/_bg__welcome_2_ek2"
+                android:layout_width="428dp"
+                android:layout_height="926dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/_bg__welcome_2_ek2_shape" />
+
+        <View
+            android:id="@+id/rectangle_10"
+            android:layout_width="430dp"
+            android:layout_height="570dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="398dp"
+            android:background="@drawable/rectangle_10_shape" />
+
+        <ImageView
+            android:id="@+id/freelencelivelogo_1"
+            android:layout_width="246dp"
+            android:layout_height="235dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:contentDescription="@string/freelencelivelogo_1"
+            android:src="@drawable/freelencelivelogo_1" />
+
+        <TextView
+            android:id="@+id/freelencelive"
+            android:layout_width="408.98dp"
+            android:layout_height="115.9dp"
+            android:layout_marginTop="276dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/freelencelive_string"
+            android:textAlignment="center"
+            android:textColor="@color/freelencelive_color"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonLogin"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="607dp"
+                android:layout_width="227dp"
+                android:layout_height="104dp"
+                android:background="@drawable/rectangle_9_shape"
+                android:text="@string/log_in"
+                android:textColor="@color/_bg__log_in_ek2_color"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/rectangle_12_color"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSignUp"
+                android:background="@drawable/rectangle_11_shape"
+                android:layout_marginStart="175dp"
+                android:layout_marginTop="738dp"
+                android:layout_width="217dp"
+                android:layout_height="105dp"
+                android:text="@string/sign_up"
+                android:textColor="@color/_bg__log_in_ek2_color"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/rectangle_12_color"/>
+
+        <TextView
+            android:id="@+id/begin_your_journey_by_logging_in_or_signing_up_"
+            android:layout_width="408dp"
+            android:layout_height="199dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="442dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/begin_your_journey_by_logging_in_or_signing_up__string"
+            android:textColor="@color/_bg__welcome_2_ek2_color"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</FrameLayout>

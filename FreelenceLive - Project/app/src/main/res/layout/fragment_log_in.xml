@@ -1,20 +1,10 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content" >
-    <!--
-    /*
-     *	This content is generated from the API File Info.
-     *	(Alt+Shift+Ctrl+I).
-     *
-     *	@desc
-     *	@file 		log_in
-     *	@date 		1657218544677
-     *	@title 		Page 1
-     *	@author
-     *	@keywords
-     *	@generator 	Export Kit v1.3.figma
-     *
-     */
-    -->
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".LogInFragment">
 
     <RelativeLayout android:id="@+id/page_log_in_ek1"
         android:layout_marginTop="0dp"
@@ -43,18 +33,19 @@
             android:id="@+id/forgot_your_password_"
             android:layout_width="258dp"
             android:layout_height="44dp"
-            android:layout_marginLeft="97dp"
-            android:layout_marginTop="721dp"
+            android:layout_marginTop="729dp"
+            android:layout_centerHorizontal="true"
             android:text="@string/forgot_your_password__string"
             android:textColor="@color/_bg__log_in_ek2_color"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textAlignment="center"/>
 
         <TextView
             android:id="@+id/register"
             android:layout_width="110dp"
             android:layout_height="44dp"
-            android:layout_marginLeft="320dp"
+            android:layout_marginStart="320dp"
             android:layout_marginTop="856dp"
             android:text="@string/register_string"
             android:textColor="@color/_bg__log_in_ek2_color"
@@ -65,18 +56,18 @@
             android:id="@+id/fill_the_fields_with_your_username_and_password_"
             android:layout_width="416dp"
             android:layout_height="87.89dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginTop="484dp"
             android:text="@string/fill_the_fields_with_your_username_and_password__string"
             android:textColor="@color/fill_the_fields_with_your_username_and_password__color"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textAlignment="center"/>
 
         <TextView
             android:id="@+id/log_in_ek3"
             android:layout_width="216dp"
             android:layout_height="104.95dp"
-            android:layout_marginLeft="132dp"
+            android:layout_marginStart="132dp"
             android:layout_marginTop="366dp"
             android:text="@string/log_in_ek3_string"
             android:textColor="@color/fill_the_fields_with_your_username_and_password__color"
@@ -85,12 +76,11 @@
 
         <ImageView
             android:id="@+id/freelencelivelogo_2"
-            android:layout_width="246dp"
-            android:layout_height="235dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="91dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="38dp"
-            android:contentDescription="freelencelivelogo_2"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/freelencelivelogodescription"
             android:src="@drawable/freelencelivelogo_2" />
 
         <TextView
@@ -98,50 +88,62 @@
             android:layout_width="408.98dp"
             android:layout_height="115.9dp"
             android:layout_below="@+id/freelencelivelogo_2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="19dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:text="@string/freelencelive_string"
             android:textAlignment="center"
             android:textColor="@color/fill_the_fields_with_your_username_and_password__color"
             android:textSize="48sp"
             android:textStyle="bold" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username"
-
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailLayout"
             android:layout_width="375dp"
             android:layout_height="70dp"
             android:layout_marginStart="26dp"
             android:layout_marginTop="548dp"
-            android:background="@drawable/rectangle_11_shape"
-            android:hint="@string/username"
-            android:inputType="textPersonName" />
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="819dp"
+            android:hint="@string/email"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
-            android:background="@drawable/rectangle_11_shape"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="645dp"
-            android:layout_width="375dp"
-            android:layout_height="70dp"
-            android:hint="@string/password"
-            android:inputType="textPassword" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectangle_11_shape"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordLayout"
-            android:layout_width="match_parent"
+            android:layout_width="375dp"
             android:layout_height="70dp"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="26dp"
             android:layout_marginEnd="20dp"
-
+            android:hint="@string/password"
             android:layout_marginTop="656dp"
             android:layout_marginBottom="819dp"
-            app:boxStrokeColor="@color/black"
-            app:hintTextColor="@color/black"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:passwordToggleEnabled="true" />
+            app:passwordToggleEnabled="true"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:background="@drawable/rectangle_11_shape"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLogin"
@@ -150,11 +152,14 @@
             android:layout_marginStart="100dp"
             android:layout_marginTop="772dp"
             android:background="@drawable/rectangle_9_shape"
-            android:text="LOG IN"
+            android:text="@string/log_in"
             android:textColor="@color/_bg__log_in_ek2_color"
             android:textSize="36sp"
             android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_centerHorizontal="true"
             app:backgroundTint="@color/rectangle_12_color" />
 
     </RelativeLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,5 +20,11 @@
 	<color name="rectangle_12_color">#C963EC</color>
 	<color name="_bg__register_ek2_color">#FFFFFF</color>
 	<color name="rectangle_16_color">#C963EC</color>
+	<color name="_bg__welcome_2_ek2_color">#FFFFFF</color>
+	<color name="freelencelive_color">#000000</color>
+	<color name="_bg__welcome_ek2_color">#FFFFFF</color>
+
+
+
 
 </resources>

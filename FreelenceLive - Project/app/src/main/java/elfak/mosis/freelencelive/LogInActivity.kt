@@ -2,10 +2,6 @@ package elfak.mosis.freelencelive
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -35,7 +31,7 @@ class LogInActivity : AppCompatActivity() {
             if(email.isNotEmpty() && password.isNotEmpty()){
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                     if( it.isSuccessful){
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, TestDatabaseActivity::class.java)
                         startActivity(intent)
                         Toast.makeText(this, "UserLogin successful!", Toast.LENGTH_LONG).show()
 
@@ -59,7 +55,7 @@ class LogInActivity : AppCompatActivity() {
 
         if(firebaseAuth.currentUser != null)
         {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, TestDatabaseActivity::class.java)
             startActivity(intent)
         }
     }
