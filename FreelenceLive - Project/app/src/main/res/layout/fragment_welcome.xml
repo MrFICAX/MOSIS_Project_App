@@ -6,26 +6,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".WelcomeFragment">
 
-    <RelativeLayout android:id="@+id/content_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+    <RelativeLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <ImageView
             android:id="@+id/polygon_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
             android:contentDescription="@string/polygon_1"
             android:src="@drawable/polygon_1" />
 
-        <ImageView android:id="@+id/freelencelivelogo_1"
-            android:src="@drawable/freelencelivelogo_1"
-            android:contentDescription="@string/freelencelivelogo_1"
+        <ImageView
+            android:id="@+id/freelencelivelogo_1"
+            android:layout_width="246dp"
+            android:layout_height="235dp"
             android:layout_marginStart="175dp"
             android:layout_marginTop="0dp"
-            android:layout_width="246dp"
-            android:layout_height="235dp" />
+            android:contentDescription="@string/freelencelivelogo_1"
+            android:src="@drawable/freelencelivelogo_1" />
 
         <TextView
             android:id="@+id/freelencelive"
@@ -39,17 +45,17 @@
             android:textSize="96sp"
             android:textStyle="bold" />
 
-        <TextView android:id="@+id/all_you_need_to_find_a_job_"
-            android:textStyle="bold"
-            android:textSize="60sp"
-            android:textColor="@color/_bg__welcome_ek2_color"
-            android:layout_marginLeft="23dp"
-            android:layout_marginRight="650dp"
-            android:layout_marginTop="395dp"
+        <TextView
+            android:id="@+id/all_you_need_to_find_a_job_"
             android:layout_width="180.5dp"
             android:layout_height="527.5dp"
+            android:layout_marginLeft="23dp"
+            android:layout_marginTop="395dp"
+            android:layout_marginRight="650dp"
             android:text="@string/all_you_need_to_find_a_job__string"
-            />
+            android:textColor="@color/_bg__welcome_ek2_color"
+            android:textSize="60sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonBegin"
@@ -64,31 +70,33 @@
             android:textStyle="bold"
             app:backgroundTint="@color/rectangle_12_color" />
 
-        <View android:id="@+id/line_2"
-            android:src="@drawable/line_2"
-            android:contentDescription="line_2"
-            android:background="@drawable/line_3_shape"
-
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="387dp"
+        <View
+            android:id="@+id/line_2"
             android:layout_width="112.61dp"
-            android:layout_height="3dp" />
+            android:layout_height="3dp"
+            android:layout_marginStart="0dp"
 
-        <View   android:id="@+id/line_3"
+            android:layout_marginTop="387dp"
             android:background="@drawable/line_3_shape"
+            android:contentDescription="line_2"
+            android:src="@drawable/line_2" />
+
+        <View
+            android:id="@+id/line_3"
+            android:layout_width="290dp"
+            android:layout_height="3dp"
             android:layout_marginStart="0dp"
             android:layout_marginTop="763.5dp"
-            android:layout_width="290dp"
-            android:layout_height="3dp" />
+            android:background="@drawable/line_3_shape" />
 
-        <View   android:id="@+id/line_4"
-            android:background="@drawable/line_4_shape"
-            android:layout_marginStart="-10dp"
-            android:layout_marginTop="575.75dp"
+        <View
+            android:id="@+id/line_4"
             android:layout_width="420.22dp"
             android:layout_height="3dp"
-            android:rotation="65"
-            />
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="575.75dp"
+            android:background="@drawable/line_4_shape"
+            android:rotation="65" />
 
     </RelativeLayout>
 

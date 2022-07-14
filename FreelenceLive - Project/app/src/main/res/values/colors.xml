@@ -14,6 +14,7 @@
 	<color name="white">#FFFFFFFF</color>
 
 	<color name="menuColor">#FF2F3033</color>
+	<color name="searchBarColor">#FFEBEB26</color>
 
 	<color name="_bg__log_in_ek2_color">#FFFFFF</color>
 	<color name="rectangle_10_color">#7F57F1</color>

@@ -78,8 +78,8 @@
             android:id="@+id/freelencelivelogo_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="38dp"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="38dp"
             android:contentDescription="@string/freelencelivelogodescription"
             android:src="@drawable/freelencelivelogo_2" />
 
