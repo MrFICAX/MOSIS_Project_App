@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.databinding.FragmentHomeScreenBinding
-import elfak.mosis.freelencelive.databinding.FragmentWelcomeBinding
 
 
 class HomeScreenFragment : Fragment() {

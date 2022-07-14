@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main_window"
+    app:startDestination="@id/startPageFragment">
+
+    <fragment
+        android:id="@+id/startPageFragment"
+        android:name="elfak.mosis.freelencelive.StartPageFragment"
+        android:label="fragment_start_page"
+        tools:layout="@layout/fragment_start_page">
+        <action
+            android:id="@+id/action_startpage_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_starpage_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/invitationsFragment"
+        android:name="elfak.mosis.freelencelive.InvitationsFragment"
+        android:label="fragment_invitations"
+        tools:layout="@layout/fragment_invitations">
+        <action
+            android:id="@+id/action_invitations_to_startpage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_invitations_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="elfak.mosis.freelencelive.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications">
+        <action
+            android:id="@+id/action_notifications_to_startpage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_notifications_to_invitations"
+            app:destination="@id/invitationsFragment" />
+    </fragment>
+</navigation>

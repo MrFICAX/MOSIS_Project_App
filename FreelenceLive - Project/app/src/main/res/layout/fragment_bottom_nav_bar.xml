@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".BottomNavBarFragment"
+    android:background="@drawable/layout_bottom_nav_bar"
+    >
+
+    <ImageView
+        android:id="@+id/navbar_icon_invitations"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:paddingTop="15dp"
+        android:src="@drawable/message"
+        app:layout_constraintBottom_toTopOf="@id/navbar_title_invitations"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/navbar_icon_map"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/purple_200" />
+    <TextView
+        android:id="@+id/navbar_title_invitations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/purple_200"
+        android:textSize="24sp"
+        android:paddingBottom="5dp"
+        android:text="@string/string_invitations"
+        app:layout_constraintStart_toStartOf="@id/navbar_icon_invitations"
+        app:layout_constraintEnd_toEndOf="@id/navbar_icon_invitations"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+    <ImageView
+        android:id="@+id/navbar_icon_map"
+        android:layout_width="82dp"
+        android:layout_height="91dp"
+        android:layout_marginBottom="19dp"
+        android:paddingTop="6dp"
+        android:padding="8dp"
+        android:src="@drawable/map"
+        app:layout_constraintBottom_toBottomOf="@id/navbar_title_map"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@+id/navbar_icon_notifications"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/navbar_icon_invitations"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/purple_200" />
+
+    <TextView
+        android:id="@+id/navbar_title_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/purple_200"
+        android:textSize="24sp"
+        android:paddingBottom="5dp"
+        android:text="@string/string_map"
+        app:layout_constraintStart_toStartOf="@id/navbar_icon_map"
+        app:layout_constraintEnd_toEndOf="@id/navbar_icon_map"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+
+    <ImageView
+        android:id="@+id/navbar_icon_notifications"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="15dp"
+        android:src="@drawable/notifications"
+        android:scaleX="2.0"
+        android:scaleY="2.0"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toBottomOf="@id/navbar_title_notifications"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/navbar_icon_map"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/purple_200" />
+
+    <TextView
+        android:id="@+id/navbar_title_notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/purple_200"
+        android:textSize="24sp"
+        android:paddingBottom="5dp"
+        android:text="@string/string_notifications"
+        app:layout_constraintStart_toStartOf="@id/navbar_icon_notifications"
+        app:layout_constraintEnd_toEndOf="@id/navbar_icon_notifications"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

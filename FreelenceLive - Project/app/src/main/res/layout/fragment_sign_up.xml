@@ -15,15 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-        <View
-            android:id="@+id/_bg__register_ek2"
-            android:layout_width="428dp"
-            android:layout_height="926dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:background="@drawable/_bg__register_ek2_shape" />
-
         <View
             android:id="@+id/rectangle_10"
             android:layout_width="430dp"
@@ -36,7 +27,8 @@
             android:id="@+id/freelencelivelogo_2"
             android:layout_width="246dp"
             android:layout_height="235dp"
-
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="85dp"
             android:layout_marginEnd="85dp"
             android:contentDescription="freelencelivelogo_2"
@@ -125,60 +117,23 @@
             android:id="@+id/vector"
             android:layout_width="93.33dp"
             android:layout_height="78.33dp"
-            android:layout_marginStart="100.33dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="80dp"
             android:layout_marginTop="334.83dp"
             android:contentDescription="vector"
-            android:src="@drawable/vector" />
-
-        <!--            <ImageView android:id="@+id/vector_ek1"-->
-        <!--                android:src="@drawable/vector_ek1"-->
-        <!--                android:contentDescription="vector_ek1"-->
-        <!--                android:layout_marginStart="119dp"-->
-        <!--                android:layout_marginTop="401.63dp"-->
-        <!--                android:layout_width="56dp"-->
-        <!--                android:layout_height="19.58dp" />-->
-
-        <!--            <ImageView android:id="@+id/vector_ek2"-->
-        <!--                android:src="@drawable/vector_ek2"-->
-        <!--                android:contentDescription="vector_ek2"-->
-        <!--                android:layout_marginStart="116.67dp"-->
-        <!--                android:layout_marginTop="399.67dp"-->
-        <!--                android:layout_width="60.67dp"-->
-        <!--                android:layout_height="23.5dp" />-->
-
-        <!--            <ImageView android:id="@+id/vector_ek3"-->
-        <!--                android:src="@drawable/vector_ek3"-->
-        <!--                android:contentDescription="vector_ek3"-->
-        <!--                android:layout_marginStart="128.33dp"-->
-        <!--                android:layout_marginTop="360.5dp"-->
-        <!--                android:layout_width="37.33dp"-->
-        <!--                android:layout_height="31.33dp" />-->
-
-        <!--            <ImageView android:id="@+id/vector_ek4"-->
-        <!--                android:src="@drawable/vector_ek4"-->
-        <!--                android:contentDescription="vector_ek4"-->
-        <!--                android:layout_marginStart="128.33dp"-->
-        <!--                android:layout_marginTop="360.5dp"-->
-        <!--                android:layout_width="37.33dp"-->
-        <!--                android:layout_height="31.33dp" />-->
+            android:src="@drawable/profile" />
 
         <ImageView
             android:id="@+id/vector_ek5"
             android:layout_width="101dp"
             android:layout_height="64.5dp"
-            android:layout_marginStart="246dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="53dp"
             android:layout_marginTop="342.75dp"
+            android:layout_marginEnd="80dp"
+            android:layout_toEndOf="@+id/vector"
             android:contentDescription="vector_ek5"
-            android:src="@drawable/vector_ek5" />
-
-        <!--            <ImageView android:id="@+id/vector_ek6"-->
-        <!--                android:src="@drawable/vector_ek6"-->
-        <!--                android:contentDescription="vector_ek6"-->
-        <!--                android:layout_marginStart="258.63dp"-->
-        <!--                android:layout_marginTop="368.88dp"-->
-        <!--                android:layout_width="59.97dp"-->
-        <!--                android:layout_height="37.63dp" />-->
-
+            android:src="@drawable/camera" />
 
         <ImageView
             android:id="@+id/arrow_1"

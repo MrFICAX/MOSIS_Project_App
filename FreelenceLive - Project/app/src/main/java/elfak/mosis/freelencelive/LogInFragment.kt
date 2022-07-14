@@ -1,6 +1,5 @@
 package elfak.mosis.freelencelive
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
+import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.databinding.FragmentLogInBinding
 
 

@@ -33,4 +33,7 @@
     <string name="all_you_need_to_find_a_job__string">All you need to find a job.</string>
     <string name="begin_a_journey_string">BEGIN A JOURNEY</string>
     <string name="email">Email</string>
+    <string name="string_invitations">Invitations</string>
+    <string name="string_map">Map</string>
+    <string name="string_notifications">Notifications</string>
 </resources>
