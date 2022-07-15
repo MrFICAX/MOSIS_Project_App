@@ -36,4 +36,6 @@
     <string name="string_invitations">Invitations</string>
     <string name="string_map">Map</string>
     <string name="string_notifications">Notifications</string>
+    <string name="button_register">REGISTER</string>
+    <string name="openGallery">gallery</string>
 </resources>

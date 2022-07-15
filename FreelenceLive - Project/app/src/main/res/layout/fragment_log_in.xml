@@ -115,7 +115,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rectangle_11_shape"
+                android:background="@drawable/background_style"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -138,7 +138,7 @@
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password"
-                android:background="@drawable/rectangle_11_shape"
+                android:background="@drawable/background_style"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textPassword"
