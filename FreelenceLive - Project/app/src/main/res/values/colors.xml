@@ -18,11 +18,11 @@
 
 	<color name="_bg__log_in_ek2_color">#FFFFFF</color>
 	<color name="rectangle_10_color">#7F57F1</color>
-	<color name="rectangle_9_color">#FACDFB</color>
+	<color name="light_pink">#FACDFB</color>
 	<color name="fill_the_fields_with_your_username_and_password__color">#000000</color>
 	<color name="rectangle_12_color">#C963EC</color>
 	<color name="_bg__register_ek2_color">#FFFFFF</color>
-	<color name="rectangle_16_color">#C963EC</color>
+	<color name="pink">#C963EC</color>
 	<color name="_bg__welcome_2_ek2_color">#FFFFFF</color>
 	<color name="freelencelive_color">#000000</color>
 	<color name="_bg__welcome_ek2_color">#FFFFFF</color>

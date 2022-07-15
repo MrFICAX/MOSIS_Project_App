@@ -16,8 +16,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/shapeableImageView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_margin="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,21 +25,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
-            app:srcCompat="@drawable/freelencelivelogo_4" />
+            app:srcCompat="@drawable/freelencelivelogo_4"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
 
-        <EditText
-            android:id="@+id/editMobileNo"
-            android:layout_width="318dp"
-            android:layout_height="49dp"
-            android:background="@drawable/rectangle_search_shape"
-            android:drawableStart="@drawable/ic_search"
-            android:hint="Search job..."
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailLayout"
+            android:layout_width="309dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/search_job"
+            app:hintTextColor="@color/light_pink"
+            app:hintAnimationEnabled="true"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.666"
-            app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:expandedHintEnabled="true"
+            app:startIconDrawable="@drawable/ic_search"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editMobileNo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:textColor="@color/light_pink"
+                android:drawablePadding="0dp"
+                android:importantForAutofill="no"
+                android:background="@drawable/rectangle_search_shape"
+
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
