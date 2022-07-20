@@ -20,7 +20,6 @@
     <string name="__381_string">+381</string>
     <string name="register_ek4_string">REGISTER</string>
     <string name="back_to_login">Back to login</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="freelencelivelogodescription">freelencelivelogoDescription</string>
     <string name="username">UserName</string>
@@ -42,4 +41,5 @@
     <string name="creating_job">CREATING JOB</string>
     <string name="type_title_name">Type title name...</string>
     <string name="create_job">CREATE JOB</string>
+    <string name="dashboard">Dashboard</string>
 </resources>
