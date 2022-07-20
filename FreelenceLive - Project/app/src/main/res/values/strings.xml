@@ -39,4 +39,7 @@
     <string name="button_register">REGISTER</string>
     <string name="openGallery">gallery</string>
     <string name="search_job">Search job...</string>
+    <string name="creating_job">CREATING JOB</string>
+    <string name="type_title_name">Type title name...</string>
+    <string name="create_job">CREATE JOB</string>
 </resources>

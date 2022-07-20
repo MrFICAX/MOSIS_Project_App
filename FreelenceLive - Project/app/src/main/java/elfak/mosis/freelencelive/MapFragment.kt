@@ -137,13 +137,10 @@ class MapFragment : Fragment() {
         map.getOverlays().add(mScaleBarOverlay);
 
         //MiniMAPA u donjem desnom uglu
-        var mMinimapOverlay = MinimapOverlay(context, map.getTileRequestCompleteHandler())
-        mMinimapOverlay.setWidth(dm!!.widthPixels / 5)
-        mMinimapOverlay.setHeight(dm!!.heightPixels / 5)
-//optionally, you can set the minimap to a different tile source
-//mMinimapOverlay.setTileSource(....);
-    //optionally, you can set the minimap to a different tile source
-        map.getOverlays().add(mMinimapOverlay)
+//        var mMinimapOverlay = MinimapOverlay(context, map.getTileRequestCompleteHandler())
+//        mMinimapOverlay.setWidth(dm!!.widthPixels / 5)
+//        mMinimapOverlay.setHeight(dm!!.heightPixels / 5)
+//        map.getOverlays().add(mMinimapOverlay)
 
 
         //DODAVANJE IKONICE NA MAPU SA KLIK LISTENER - OM
@@ -193,9 +190,6 @@ class MapFragment : Fragment() {
 
         map.invalidate();
 
-        
-        //RUTE NA MAPI
-        val roadManager: roadManager = OSRMRoadManager(this, MY_USER_AGENT)
 
     }
 }
