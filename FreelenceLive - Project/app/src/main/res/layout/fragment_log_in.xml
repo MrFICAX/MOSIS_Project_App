@@ -36,7 +36,7 @@
             android:layout_marginTop="729dp"
             android:layout_centerHorizontal="true"
             android:text="@string/forgot_your_password__string"
-            android:textColor="@color/_bg__log_in_ek2_color"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textAlignment="center"/>
@@ -48,7 +48,7 @@
             android:layout_marginStart="320dp"
             android:layout_marginTop="856dp"
             android:text="@string/register_string"
-            android:textColor="@color/_bg__log_in_ek2_color"
+            android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -58,10 +58,10 @@
             android:layout_height="87.89dp"
             android:layout_marginTop="484dp"
             android:text="@string/fill_the_fields_with_your_username_and_password__string"
-            android:textColor="@color/fill_the_fields_with_your_username_and_password__color"
+            android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:textAlignment="center"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/log_in_ek3"
@@ -70,7 +70,7 @@
             android:layout_marginStart="132dp"
             android:layout_marginTop="366dp"
             android:text="@string/log_in_ek3_string"
-            android:textColor="@color/fill_the_fields_with_your_username_and_password__color"
+            android:textColor="@color/black"
             android:textSize="48sp"
             android:textStyle="bold" />
 
@@ -92,7 +92,7 @@
             android:layout_alignParentEnd="true"
             android:text="@string/freelencelive_string"
             android:textAlignment="center"
-            android:textColor="@color/fill_the_fields_with_your_username_and_password__color"
+            android:textColor="@color/black"
             android:textSize="48sp"
             android:textStyle="bold" />
 
@@ -153,12 +153,12 @@
             android:layout_marginTop="772dp"
             android:background="@drawable/rectangle_9_shape"
             android:text="@string/log_in"
-            android:textColor="@color/_bg__log_in_ek2_color"
+            android:textColor="@color/white"
             android:textSize="36sp"
             android:textStyle="bold"
             android:textAlignment="center"
             android:layout_centerHorizontal="true"
-            app:backgroundTint="@color/rectangle_12_color" />
+            app:backgroundTint="@color/pink" />
 
     </RelativeLayout>
 

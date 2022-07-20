@@ -44,7 +44,7 @@
             android:layout_marginTop="225dp"
             android:rotation="65"
             android:text="@string/freelencelive_string"
-            android:textColor="@color/freelencelive_color"
+            android:textColor="@color/black"
             android:textSize="96sp"
             android:textStyle="bold" />
 
@@ -56,7 +56,7 @@
             android:layout_marginTop="395dp"
             android:layout_marginRight="650dp"
             android:text="@string/all_you_need_to_find_a_job__string"
-            android:textColor="@color/_bg__welcome_ek2_color"
+            android:textColor="@color/white"
             android:textSize="60sp"
             android:textStyle="bold" />
 
@@ -68,10 +68,10 @@
             android:layout_marginTop="783dp"
             android:background="@drawable/rectangle_9_shape"
             android:text="@string/begin_a_journey_string"
-            android:textColor="@color/_bg__log_in_ek2_color"
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/rectangle_12_color" />
+            app:backgroundTint="@color/pink" />
 
         <View
             android:id="@+id/line_2"

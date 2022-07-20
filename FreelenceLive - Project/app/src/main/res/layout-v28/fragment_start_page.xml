@@ -87,6 +87,8 @@
         android:layout_marginEnd="-5dp"
         app:fabCustomSize="80dp"
         app:fabSize="normal"
+        android:outlineAmbientShadowColor="@color/light_pink"
+        android:outlineSpotShadowColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.951"

@@ -43,7 +43,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/freelencelive_string"
             android:textAlignment="center"
-            android:textColor="@color/freelencelive_color"
+            android:textColor="@color/black"
             android:textSize="48sp"
             android:textStyle="bold" />
 
@@ -55,10 +55,10 @@
                 android:layout_height="104dp"
                 android:background="@drawable/rectangle_9_shape"
                 android:text="@string/log_in"
-                android:textColor="@color/_bg__log_in_ek2_color"
+                android:textColor="@color/white"
                 android:textSize="36sp"
                 android:textStyle="bold"
-                app:backgroundTint="@color/rectangle_12_color"
+                app:backgroundTint="@color/pink"
                 />
 
             <com.google.android.material.button.MaterialButton
@@ -69,10 +69,10 @@
                 android:layout_width="217dp"
                 android:layout_height="105dp"
                 android:text="@string/sign_up"
-                android:textColor="@color/_bg__log_in_ek2_color"
+                android:textColor="@color/white"
                 android:textSize="36sp"
                 android:textStyle="bold"
-                app:backgroundTint="@color/rectangle_12_color"/>
+                app:backgroundTint="@color/pink"/>
 
         <TextView
             android:id="@+id/begin_your_journey_by_logging_in_or_signing_up_"
@@ -83,7 +83,7 @@
             android:layout_marginTop="442dp"
             android:fontFamily="@font/montserrat"
             android:text="@string/begin_your_journey_by_logging_in_or_signing_up__string"
-            android:textColor="@color/_bg__welcome_2_ek2_color"
+            android:textColor="@color/white"
             android:textSize="40sp"
             android:textStyle="bold" />
 
