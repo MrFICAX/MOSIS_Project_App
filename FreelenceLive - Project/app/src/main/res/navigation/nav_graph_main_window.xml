@@ -16,8 +16,22 @@
         <action
             android:id="@+id/action_starpage_to_notifications"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_startpage_to_setLocation"
+            app:destination="@id/setLocationFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/addEventFragmentDialog"
+        android:name="elfak.mosis.freelencelive.dialogs.addEventFragmentDialog"
+        android:label="addEventFragmentDialog">
 
+        <action
+            android:id="@+id/action_mapFragment_to_setLocationFragment"
+            app:destination="@id/setLocationFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_testFragment"
+            app:destination="@id/testFragment" />
+    </dialog>
     <fragment
         android:id="@+id/invitationsFragment"
         android:name="elfak.mosis.freelencelive.InvitationsFragment"
@@ -43,4 +57,9 @@
             android:id="@+id/action_notifications_to_invitations"
             app:destination="@id/invitationsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/setLocationFragment"
+        android:name="elfak.mosis.freelencelive.SetLocationFragment"
+        android:label="fragment_set_location"
+        tools:layout="@layout/fragment_set_location" />
 </navigation>
