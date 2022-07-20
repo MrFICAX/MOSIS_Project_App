@@ -9,6 +9,7 @@ import android.widget.Toast
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.databinding.FragmentStartPageBinding
 import elfak.mosis.freelencelive.dialogs.addEventFragmentDialog
+import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
 
 class StartPageFragment : Fragment() {
 
@@ -32,15 +33,15 @@ class StartPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.radius.setOnClickListener {
-//            Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
-//
-//            val fragmentNovi = addEventFragmentDialog()
-//            fragmentNovi.show(parentFragmentManager, "customString")
-//        }
+        binding.radius.setOnClickListener {
+            //Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
+
+            val fragmentNovi = searchByRadiusFragmentDialog()
+            fragmentNovi.show(parentFragmentManager, "customString")
+        }
 
         binding.fab.setOnClickListener {
-            Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
+            //Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
 
             val fragmentNovi = addEventFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
