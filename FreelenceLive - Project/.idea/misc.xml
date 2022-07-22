@@ -24,6 +24,7 @@
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/drawable/ic_launcher_background.xml" value="0.167" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/drawable/layout_bottom_nav_bar.xml" value="0.202" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/drawable/message.xml" value="0.3775" />
+        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/drawable/rectange_job_shape.xml" value="0.3775" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/drawable/spinner_bg.xml" value="0.2885" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout-v28/fragment_start_page.xml" value="0.28125" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/activity_log_in.xml" value="0.264" />
@@ -32,12 +33,14 @@
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/activity_sign_up.xml" value="0.18541666666666667" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/date_time_picker.xml" value="0.3095339888841385" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_bottom_nav_bar.xml" value="0.4" />
-        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_comment_item.xml" value="0.6458333333333334" />
+        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_comment_item.xml" value="0.6" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_dashboard.xml" value="0.4" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_dialog_add_event.xml" value="0.4" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_dialog_search_by_radius.xml" value="0.18223028105167724" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_home_screen.xml" value="0.29884566053869177" />
+        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_invitation_item.xml" value="0.8" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_invitations.xml" value="0.3103890551517743" />
+        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_job_item.xml" value="0.8" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_log_in.xml" value="0.4" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_map.xml" value="0.20649850363403163" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_my_jobs.xml" value="0.21804189824711415" />

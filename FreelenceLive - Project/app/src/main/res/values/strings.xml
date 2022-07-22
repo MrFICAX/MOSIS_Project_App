@@ -47,4 +47,12 @@
     <string name="set_location">SET LOCATION</string>
     <string name="opencamera">openCamera</string>
     <string name="freelencelivelogo_2">freelencelivelogo_2</string>
+    <string name="JobTitle">JobTitle</string>
+    <string name="Date">date</string>
+    <string name="invites_you_for">Invites you for:</string>
+    <string name="accept">ACCEPT</string>
+    <string name="decline">DECLINE</string>
+    <string name="date">Date:</string>
+    <string name="title">Title:</string>
+    <string name="click_to_open_map">Click to open map:</string>
 </resources>

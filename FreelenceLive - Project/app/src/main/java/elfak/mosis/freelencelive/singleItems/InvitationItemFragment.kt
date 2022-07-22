@@ -6,12 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import elfak.mosis.freelencelive.R
-import elfak.mosis.freelencelive.databinding.FragmentCommentItemBinding
+import elfak.mosis.freelencelive.databinding.FragmentInvitationItemBinding
 
+class InvitationItemFragment : Fragment() {
 
-class CommentItemFragment : Fragment() {
-
-    private lateinit var binding: FragmentCommentItemBinding
+    private lateinit var binding: FragmentInvitationItemBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +21,8 @@ class CommentItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_comment_item, container, false)
-        binding = FragmentCommentItemBinding.inflate(inflater)
+        //return inflater.inflate(R.layout.fragment_invitation_item, container, false)
+        binding = FragmentInvitationItemBinding.inflate(inflater)
         return binding.root
     }
-
 }

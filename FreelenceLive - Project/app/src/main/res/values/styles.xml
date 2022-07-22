@@ -16,6 +16,11 @@
 		<item name="cornerSize">50%</item>
 	</style>
 
+	<style name="textStyle">
+		<item name="strokeColor">@color/white</item>
+		<item name="strokeWidth">3dp</item>
+	</style>
+
 	<style name="datePicker" parent="Theme.AppCompat.Light">
 		<item name="colorAccent">@color/menuColor</item>
 		<item name="colorControlActivated">#33691e</item>

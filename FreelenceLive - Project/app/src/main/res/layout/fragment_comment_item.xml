@@ -25,6 +25,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.116"
         app:shapeAppearance="@style/photo"
+        app:srcCompat="@drawable/person"
         app:strokeWidth="2dp" />
 
     <TextView
@@ -60,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center"
             android:gravity="center_vertical"
-            android:text="@string/username"
+            android:text="ASFASDFSADF;LKSDFJSA;DFJSKDL;FJS;AKLFJSKDJFKJSDFSDKJAKS;DJFKLDSAJFSDAKJF;SADKJFSKADFJ;ASKLF"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
