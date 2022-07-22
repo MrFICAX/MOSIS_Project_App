@@ -45,4 +45,6 @@
     <string name="search_by_radius">SEARCH BY RADIUS</string>
     <string name="input_radius_in_meters">Input radius in meters..</string>
     <string name="set_location">SET LOCATION</string>
+    <string name="opencamera">openCamera</string>
+    <string name="freelencelivelogo_2">freelencelivelogo_2</string>
 </resources>
