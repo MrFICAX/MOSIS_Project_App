@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.databinding.FragmentHomeScreenBinding
@@ -32,11 +33,16 @@ class HomeScreenFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonLogin.setOnClickListener{
-            findNavController().navigate(R.id.action_hommescreen_goto_login)
+            val action = HomeScreenFragmentDirections.actionHommescreenGotoLogin()
+            NavHostFragment.findNavController(this).navigate(action)
+            //findNavController().navigate(R.id.action_hommescreen_goto_login)
         }
 
         binding.buttonSignUp.setOnClickListener{
-            findNavController().navigate(R.id.action_homescreen_goto_signup)
+            val action = HomeScreenFragmentDirections.actionHomescreenGotoSignup()
+            NavHostFragment.findNavController(this).navigate(action)
+
+            //findNavController().navigate(R.id.action_homescreen_goto_signup)
         }
     }
 

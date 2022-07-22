@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
@@ -69,9 +70,11 @@ class SignUpFragment : Fragment() {
 
         }
         binding.backToLogin.setOnClickListener{
-            findNavController().navigate(R.id.action_signup_goto_login)
-            //            val intent = Intent(this, LogInActivity::class.java)
-//            startActivity(intent)
+            //findNavController().navigate(R.id.action_signup_goto_login)
+            val action = SignUpFragmentDirections.actionSignupGotoLogin()
+            NavHostFragment.findNavController(this).navigate(action)
+        //            val intent = Intent(this, LogInActivity::class.java)
+        //            startActivity(intent)
         }
         binding.buttonSignUp.setOnClickListener{
             val email = binding.username.text.toString()

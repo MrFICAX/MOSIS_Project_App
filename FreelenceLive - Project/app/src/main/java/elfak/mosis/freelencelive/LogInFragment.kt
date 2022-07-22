@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.R
@@ -37,7 +38,9 @@ class LogInFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.register.setOnClickListener {
-            findNavController().navigate(R.id.action_login_goto_signup)
+            //findNavController().navigate(R.id.action_login_goto_signup)
+            val action = LogInFragmentDirections.actionLoginGotoSignup()
+            NavHostFragment.findNavController(this).navigate(action)
 
             //            val intent = Intent(this, SignUpActivity::class.java)
 //            startActivity(intent)

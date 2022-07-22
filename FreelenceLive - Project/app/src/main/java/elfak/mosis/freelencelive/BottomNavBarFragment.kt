@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.databinding.FragmentBottomNavBarBinding
 
@@ -49,11 +50,15 @@ class BottomNavBarFragment : Fragment() {
             when (navController.currentDestination?.id) {
 
                 R.id.startPageFragment -> {
-                    navController.navigate(R.id.action_startpage_to_invitations)
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    val action = StartPageFragmentDirections.actionStartpageToInvitations()
+                    NavHostFragment.findNavController(this).navigate(action)
 
                 }
                 R.id.notificationsFragment -> {
-                    navController.navigate(R.id.action_notifications_to_invitations)
+                    //navController.navigate(R.id.action_notifications_to_invitations)
+                    val action = NotificationsFragmentDirections.actionNotificationsToInvitations()
+                    NavHostFragment.findNavController(this).navigate(action)
                 }
                 else -> {}
             }
@@ -63,10 +68,14 @@ class BottomNavBarFragment : Fragment() {
             setColorsOnMapClicked();
             when (navController.currentDestination?.id) {
                 R.id.notificationsFragment -> {
-                    navController.navigate(R.id.action_notifications_to_startpage)
+                    //navController.navigate(R.id.action_notifications_to_startpage)
+                    val action = NotificationsFragmentDirections.actionNotificationsToStartpage()
+                    NavHostFragment.findNavController(this).navigate(action)
                 }
                 R.id.invitationsFragment -> {
-                    navController.navigate(R.id.action_invitations_to_startpage)
+                    //navController.navigate(R.id.action_invitations_to_startpage)
+                    val action = InvitationsFragmentDirections.actionInvitationsToStartpage()
+                    NavHostFragment.findNavController(this).navigate(action)
                 }
                 else -> {}
             }
@@ -75,10 +84,14 @@ class BottomNavBarFragment : Fragment() {
             setColorsOnNotificationsClicked();
             when (navController.currentDestination?.id) {
                 R.id.startPageFragment -> {
-                    navController.navigate(R.id.action_starpage_to_notifications)
+                    //navController.navigate(R.id.action_starpage_to_notifications)
+                    val action = StartPageFragmentDirections.actionStarpageToNotifications()
+                    NavHostFragment.findNavController(this).navigate(action)
                 }
                 R.id.invitationsFragment -> {
-                    navController.navigate(R.id.action_invitations_to_notifications)
+                    //navController.navigate(R.id.action_invitations_to_notifications)
+                    val action = InvitationsFragmentDirections.actionInvitationsToNotifications()
+                    NavHostFragment.findNavController(this).navigate(action)
                 }
                 else -> {}
             }

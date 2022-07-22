@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.databinding.FragmentWelcomeBinding
@@ -24,7 +25,9 @@ class WelcomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonBegin.setOnClickListener{
-            this.findNavController().navigate(R.id.action_welcome_to_homescreen)
+            //this.findNavController().navigate(R.id.action_welcome_to_homescreen)
+            val action = WelcomeFragmentDirections.actionWelcomeToHomescreen()
+            NavHostFragment.findNavController(this).navigate(action)
         }
     }
     override fun onCreateView(
