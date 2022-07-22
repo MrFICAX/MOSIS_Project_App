@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import elfak.mosis.freelencelive.data.Event
 
 class addEventViewModel :ViewModel() {
-    private val _event =   MutableLiveData<Event>()
+    private val _event = MutableLiveData<Event>()
     val event : LiveData<Event>
         get() = _event
 
