@@ -63,7 +63,8 @@ class addEventFragmentDialog : DialogFragment() {
         //val ikonaMapa = requireDialog().findViewById(AndroidR.id.icon_map)
         binding.iconMap.setOnClickListener {
             Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
-            findNavController().navigate(AndroidR.id.action_startpage_to_setLocation)
+            findNavController().navigate(AndroidR.id.action_startpage_to_viewLocation)
+
             dismiss()
 
         }

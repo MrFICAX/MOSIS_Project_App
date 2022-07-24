@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_startpage_to_setLocation"
             app:destination="@id/setLocationFragment" />
+        <action
+            android:id="@+id/action_startpage_to_viewLocation"
+            app:destination="@id/viewLocationOnMap" />
     </fragment>
     <dialog
         android:id="@+id/addEventFragmentDialog"
@@ -62,4 +65,9 @@
         android:name="elfak.mosis.freelencelive.SetLocationFragment"
         android:label="fragment_set_location"
         tools:layout="@layout/fragment_set_location" />
+    <fragment
+        android:id="@+id/viewLocationOnMap"
+        android:name="elfak.mosis.freelencelive.ViewLocationOnMapFragment"
+        android:label="fragment_view_location_on_map"
+        tools:layout="@layout/fragment_view_location_on_map" />
 </navigation>

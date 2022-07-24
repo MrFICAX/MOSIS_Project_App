@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import elfak.mosis.freelencelive.R
-import elfak.mosis.freelencelive.databinding.FragmentInvitationItemBinding
+import elfak.mosis.freelencelive.databinding.FragmentNotificationItemBinding
 
-class InvitationItemFragment : Fragment() {
 
-    private lateinit var binding: FragmentInvitationItemBinding
+class NotificationItemFragment : Fragment() {
+
+    private lateinit var binding: FragmentNotificationItemBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +24,9 @@ class InvitationItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_invitation_item, container, false)
-        binding = FragmentInvitationItemBinding.inflate(inflater)
+        binding = FragmentNotificationItemBinding.inflate(inflater)
         return binding.root
+        //return inflater.inflate(R.layout.fragment_notification_item, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,8 +34,9 @@ class InvitationItemFragment : Fragment() {
 
         binding.iconMap.setOnClickListener {
             Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
-            //findNavController().navigate(R.id.action_invitations_to_viewLocationOnMap)
+            //findNavController().navigate(R.id.action_notifications_to_viewLocationOnMap)
 
         }
     }
+
 }

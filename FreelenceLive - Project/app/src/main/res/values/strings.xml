@@ -55,4 +55,6 @@
     <string name="date">Date:</string>
     <string name="title">Title:</string>
     <string name="click_to_open_map">Click to open map:</string>
+    <string name="wants_to_join_for">Wants to join for:</string>
+    <string name="back">BACK</string>
 </resources>
