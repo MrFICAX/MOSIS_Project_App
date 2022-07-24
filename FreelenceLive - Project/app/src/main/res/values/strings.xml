@@ -69,4 +69,16 @@
     <string name="apply">APPLY</string>
     <string name="choose_date">Choose date</string>
     <string name="choose_time">Choose time</string>
+    <string name="my_profile">My profile</string>
+    <string name="change_photo">Change photo</string>
+    <string name="change_username">Change username</string>
+    <string name="your_email">your_email</string>
+    <string name="email_"><u>email:</u></string>
+    <string name="phone_number"><u>Phone number:</u></string>
+    <string name="password_"><u>Password:</u></string>
+    <string name="first_name_"><u>First name:</u></string>
+    <string name="last_name_"><u>Last name:</u></string>
+    <string name="last_name">Last name</string>
+    <string name="type_username_of_organisator">Type username of organisator..</string>
+    <string name="apply_changes">Apply changes</string>
 </resources>

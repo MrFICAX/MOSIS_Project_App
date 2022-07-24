@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import elfak.mosis.freelencelive.databinding.FragmentMyJobsBinding
+import elfak.mosis.freelencelive.dialogs.AdvancedSearchFragmentDialog
+import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
 
 class MyJobsFragment : Fragment() {
 
@@ -23,6 +25,18 @@ class MyJobsFragment : Fragment() {
         binding = FragmentMyJobsBinding.inflate(inflater)
         return binding.root
         //return inflater.inflate(R.layout.fragment_my_jobs, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        binding.buttonAdvancedSearch.setOnClickListener{
+
+            val fragmentNovi = AdvancedSearchFragmentDialog()
+            fragmentNovi.show(parentFragmentManager, "customString")
+        }
+
     }
 
 }
