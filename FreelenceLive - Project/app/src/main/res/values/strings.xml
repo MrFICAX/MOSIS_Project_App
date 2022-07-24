@@ -57,4 +57,16 @@
     <string name="click_to_open_map">Click to open map:</string>
     <string name="wants_to_join_for">Wants to join for:</string>
     <string name="back">BACK</string>
+    <string name="overall_score">Overall score:</string>
+    <string name="comments">Comments:</string>
+    <string name="my_jobs">My Jobs</string>
+    <string name="advanced_search">Advanced search</string>
+    <string name="job_title">Job title</string>
+    <string name="organisator">Organisator:</string>
+    <string name="finished">Finished:</string>
+    <string name="change_date_and_time">Change date/time:</string>
+    <string name="photos">Photos:</string>
+    <string name="apply">APPLY</string>
+    <string name="choose_date">Choose date</string>
+    <string name="choose_time">Choose time</string>
 </resources>

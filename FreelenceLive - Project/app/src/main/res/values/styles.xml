@@ -25,6 +25,6 @@
 		<item name="colorAccent">@color/menuColor</item>
 		<item name="colorControlActivated">#33691e</item>
 		<item name="android:selectableItemBackgroundBorderless">@color/colorPrimaryDark</item>
-		<item name="colorControlHighlight">#AA000000</item>
+		<item name="colorControlHighlight">#AA440000</item>
 	</style>
 </resources>

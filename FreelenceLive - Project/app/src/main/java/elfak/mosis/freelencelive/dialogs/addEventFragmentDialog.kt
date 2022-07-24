@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import elfak.mosis.freelencelive.StartPageFragmentDirections
 import elfak.mosis.freelencelive.data.Event
 import elfak.mosis.freelencelive.R as AndroidR
 import elfak.mosis.freelencelive.databinding.FragmentDialogAddEventBinding
@@ -63,7 +64,9 @@ class addEventFragmentDialog : DialogFragment() {
         //val ikonaMapa = requireDialog().findViewById(AndroidR.id.icon_map)
         binding.iconMap.setOnClickListener {
             Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
-            findNavController().navigate(AndroidR.id.action_startpage_to_viewLocation)
+            //findNavController().navigate(AndroidR.id.action_startpage_to_setLocation)
+            val action = StartPageFragmentDirections.actionStartpageToSetLocation()
+            findNavController().navigate(action)
 
             dismiss()
 

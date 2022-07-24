@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main_window"
-    app:startDestination="@id/startPageFragment">
+    app:startDestination="@id/jobReviewFragment">
 
     <fragment
         android:id="@+id/startPageFragment"
@@ -70,4 +70,14 @@
         android:name="elfak.mosis.freelencelive.ViewLocationOnMapFragment"
         android:label="fragment_view_location_on_map"
         tools:layout="@layout/fragment_view_location_on_map" />
+    <fragment
+        android:id="@+id/myJobsFragment"
+        android:name="elfak.mosis.freelencelive.MyJobsFragment"
+        android:label="fragment_my_jobs"
+        tools:layout="@layout/fragment_my_jobs" />
+    <fragment
+        android:id="@+id/jobReviewFragment"
+        android:name="elfak.mosis.freelencelive.JobReviewFragment"
+        android:label="fragment_job_review"
+        tools:layout="@layout/fragment_job_review" />
 </navigation>
