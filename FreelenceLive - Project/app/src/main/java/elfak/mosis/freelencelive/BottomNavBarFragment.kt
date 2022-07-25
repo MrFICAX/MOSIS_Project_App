@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import elfak.mosis.freelencelive.R
@@ -18,7 +19,7 @@ import elfak.mosis.freelencelive.databinding.FragmentBottomNavBarBinding
 class BottomNavBarFragment : Fragment() {
 
     private lateinit var binding: FragmentBottomNavBarBinding
-
+    private lateinit var action: NavDirections
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,17 +52,39 @@ class BottomNavBarFragment : Fragment() {
 
                 R.id.startPageFragment -> {
                     //navController.navigate(R.id.action_startpage_to_invitations)
-                    val action = StartPageFragmentDirections.actionStartpageToInvitations()
-                    NavHostFragment.findNavController(this).navigate(action)
+                    action = StartPageFragmentDirections.actionStartpageToInvitations()
+                    //NavHostFragment.findNavController(this).navigate(action)
 
                 }
                 R.id.notificationsFragment -> {
                     //navController.navigate(R.id.action_notifications_to_invitations)
-                    val action = NotificationsFragmentDirections.actionNotificationsToInvitations()
-                    NavHostFragment.findNavController(this).navigate(action)
+                    action = NotificationsFragmentDirections.actionNotificationsToInvitations()
+                    //NavHostFragment.findNavController(this).navigate(action)
+                }
+                R.id.jobReviewFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = JobReviewFragmentDirections.actionJobReviewToInvitations()
+                }
+                R.id.jobViewFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = JobViewFragmentDirections.actionJobViewToInvitations()
+                }
+                R.id.myProfileFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = MyProfileFragmentDirections.actionMyProfileToInvitations()
+                }
+                R.id.myJobsFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = MyJobsFragmentDirections.actionMyJobsToInvitations()
+                }
+                R.id.dashboardFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = DashboardFragmentDirections.actionDashboardToInvitations()
                 }
                 else -> {}
             }
+            NavHostFragment.findNavController(this).navigate(action)
+
         }
 
         binding.navbarIconMap.setOnClickListener {
@@ -69,32 +92,74 @@ class BottomNavBarFragment : Fragment() {
             when (navController.currentDestination?.id) {
                 R.id.notificationsFragment -> {
                     //navController.navigate(R.id.action_notifications_to_startpage)
-                    val action = NotificationsFragmentDirections.actionNotificationsToStartpage()
-                    NavHostFragment.findNavController(this).navigate(action)
+                    action = NotificationsFragmentDirections.actionNotificationsToStartpage()
+                    //NavHostFragment.findNavController(this).navigate(action)
                 }
                 R.id.invitationsFragment -> {
                     //navController.navigate(R.id.action_invitations_to_startpage)
-                    val action = InvitationsFragmentDirections.actionInvitationsToStartpage()
-                    NavHostFragment.findNavController(this).navigate(action)
+                    action = InvitationsFragmentDirections.actionInvitationsToStartpage()
+                }
+                R.id.jobReviewFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = JobReviewFragmentDirections.actionJobReviewToStartpage()
+                }
+                R.id.jobViewFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = JobViewFragmentDirections.actionJobViewToStartpage()
+                }
+                R.id.myProfileFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = MyProfileFragmentDirections.actionMyProfileToStartpage()
+                }
+                R.id.myJobsFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = MyJobsFragmentDirections.actionMyJobsToStartpage()
+                }
+                R.id.dashboardFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = DashboardFragmentDirections.actionDashboardToStartpage()
                 }
                 else -> {}
             }
+            NavHostFragment.findNavController(this).navigate(action)
+
         }
         binding.navbarIconNotifications.setOnClickListener {
             setColorsOnNotificationsClicked();
             when (navController.currentDestination?.id) {
                 R.id.startPageFragment -> {
                     //navController.navigate(R.id.action_starpage_to_notifications)
-                    val action = StartPageFragmentDirections.actionStarpageToNotifications()
-                    NavHostFragment.findNavController(this).navigate(action)
+                    action = StartPageFragmentDirections.actionStarpageToNotifications()
                 }
                 R.id.invitationsFragment -> {
                     //navController.navigate(R.id.action_invitations_to_notifications)
-                    val action = InvitationsFragmentDirections.actionInvitationsToNotifications()
-                    NavHostFragment.findNavController(this).navigate(action)
+                    action = InvitationsFragmentDirections.actionInvitationsToNotifications()
+                    //NavHostFragment.findNavController(this).navigate(action)
+                }
+                R.id.jobReviewFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = JobReviewFragmentDirections.actionJobReviewToNotifications()
+                }
+                R.id.jobViewFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = JobViewFragmentDirections.actionJobViewToNotifications()
+                }
+                R.id.myProfileFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = MyProfileFragmentDirections.actionMyProfileToNotifications()
+                }
+                R.id.myJobsFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = MyJobsFragmentDirections.actionMyJobsToNotifications()
+                }
+                R.id.dashboardFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = DashboardFragmentDirections.actionDashboardToNotifications()
                 }
                 else -> {}
             }
+            NavHostFragment.findNavController(this).navigate(action)
+
         }
 
     }

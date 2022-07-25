@@ -52,10 +52,11 @@
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_invitations.xml" value="0.3103890551517743" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_job_item.xml" value="0.8" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_job_review.xml" value="0.2" />
+        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_job_view.xml" value="0.536" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_log_in.xml" value="0.4" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_map.xml" value="0.20649850363403163" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_my_jobs.xml" value="0.264" />
-        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_my_profile.xml" value="0.1" />
+        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_my_profile.xml" value="0.4" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_notification_item.xml" value="0.21804189824711415" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_notifications.xml" value="0.29827742520398914" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_search_by_radius.xml" value="0.21804189824711415" />
@@ -65,8 +66,9 @@
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_test.xml" value="0.21804189824711415" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_view_location_on_map.xml" value="0.21804189824711415" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/fragment_welcome.xml" value="0.2" />
+        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/friend_item.xml" value="0.72" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/log_in.xml" value="0.6" />
-        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/photo_item.xml" value="0.6" />
+        <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/photo_item.xml" value="0.264" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/register.xml" value="0.3103890551517743" />
         <entry key="..\:/ELFAK Filip/VIII SEMESTAR/Mobilni sistemi i servisi/Projekat/MOSIS_Project_App/FreelenceLive - Project/app/src/main/res/layout/test_activity.xml" value="0.3103890551517743" />
       </map>

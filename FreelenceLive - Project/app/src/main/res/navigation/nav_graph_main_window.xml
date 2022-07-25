@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main_window"
-    app:startDestination="@id/myJobsFragment">
+    app:startDestination="@id/jobViewFragment">
 
     <fragment
         android:id="@+id/startPageFragment"
@@ -74,10 +74,75 @@
         android:id="@+id/myJobsFragment"
         android:name="elfak.mosis.freelencelive.MyJobsFragment"
         android:label="fragment_my_jobs"
-        tools:layout="@layout/fragment_my_jobs" />
+        tools:layout="@layout/fragment_my_jobs">
+        <action
+            android:id="@+id/action_myJobs_to_startpage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_myJobs_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_myJobs_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/jobReviewFragment"
         android:name="elfak.mosis.freelencelive.JobReviewFragment"
         android:label="fragment_job_review"
-        tools:layout="@layout/fragment_job_review" />
+        tools:layout="@layout/fragment_job_review">
+        <action
+            android:id="@+id/action_jobReview_to_startpage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_jobReview_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_jobReview_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobViewFragment"
+        android:name="elfak.mosis.freelencelive.JobViewFragment"
+        android:label="fragment_job_view"
+        tools:layout="@layout/fragment_job_view">
+        <action
+            android:id="@+id/action_jobView_to_startpage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_jobView_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_jobView_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="elfak.mosis.freelencelive.MyProfileFragment"
+        android:label="fragment_my_profile"
+        tools:layout="@layout/fragment_my_profile">
+        <action
+            android:id="@+id/action_myProfile_to_startpage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_myProfile_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_myProfile_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="elfak.mosis.freelencelive.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_startpage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_dashboard_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
 </navigation>

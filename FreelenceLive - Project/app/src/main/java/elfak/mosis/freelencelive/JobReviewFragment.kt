@@ -98,6 +98,8 @@ class JobReviewFragment : Fragment() {
         imageView.setImageResource(android.R.drawable.ic_input_add)
         //imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.purple_500), android.graphics.PorterDuff.Mode.SRC_IN)
         imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.purple_500));
+        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(160, 160);
+        imageView.setLayoutParams(params)
         imageView.minimumWidth = 100
         imageView.setBackgroundColor(R.color.menuColor)
         imageView.setBackgroundResource(R.drawable.rectangle_11_shape)

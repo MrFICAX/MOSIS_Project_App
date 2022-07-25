@@ -81,4 +81,7 @@
     <string name="last_name">Last name</string>
     <string name="type_username_of_organisator">Type username of organisator..</string>
     <string name="apply_changes">Apply changes</string>
+    <string name="date_and_time">Date and time:</string>
+    <string name="cancel">CANCEL</string>
+    <string name="send_request">Send request</string>
 </resources>
