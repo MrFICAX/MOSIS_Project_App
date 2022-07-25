@@ -150,14 +150,31 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_comments"
+        <ScrollView
+            android:id="@+id/horizScrlFriends"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/white"
+            android:scrollbars="vertical"
+            android:layout_marginBottom="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Comments" />
+            app:layout_constraintTop_toBottomOf="@+id/Comments" >
+
+
+            <LinearLayout
+                android:id="@+id/CommentsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/menuColor"
+                android:maxWidth="250dp"
+                android:maxHeight="150dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

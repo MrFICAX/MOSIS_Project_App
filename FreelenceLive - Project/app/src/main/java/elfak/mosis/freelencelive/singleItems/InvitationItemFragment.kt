@@ -30,7 +30,7 @@ class InvitationItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.iconMap.setOnClickListener {
+        binding.IconMapInvitations.setOnClickListener {
             Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
             //findNavController().navigate(R.id.action_invitations_to_viewLocationOnMap)
 

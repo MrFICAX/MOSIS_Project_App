@@ -73,17 +73,42 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_comments"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="37dp"
-        android:background="@drawable/border_bottom_top"
+    <ScrollView
+        android:id="@+id/horizScrlFriends"
+        android:layout_width="409dp"
+        android:layout_height="611dp"
+        android:background="@color/white"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DashboardTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/DashboardTitle"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <LinearLayout
+            android:id="@+id/InvitationsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/menuColor"
+            android:maxWidth="250dp"
+            android:maxHeight="150dp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recycler_invitations"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginBottom="37dp"-->
+<!--        android:background="@drawable/border_bottom_top"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/DashboardTitle" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,6 +56,8 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.0'
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
+    //noinspection GradleCompatible
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     //SAFEARGS
     def nav_version = "2.5.0"

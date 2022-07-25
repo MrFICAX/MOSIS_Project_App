@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main_window"
-    app:startDestination="@id/jobViewFragment">
+    app:startDestination="@id/dashboardFragment">
 
     <fragment
         android:id="@+id/startPageFragment"
@@ -44,6 +44,9 @@
             android:id="@+id/action_invitations_to_startpage"
             app:destination="@id/startPageFragment" />
         <action
+            android:id="@+id/action_invitations_to_viewLocationOnMap"
+            app:destination="@id/viewLocationOnMap" />
+        <action
             android:id="@+id/action_invitations_to_notifications"
             app:destination="@id/notificationsFragment" />
     </fragment>
@@ -56,6 +59,9 @@
         <action
             android:id="@+id/action_notifications_to_startpage"
             app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_notifications_to_viewLocationOnMap"
+            app:destination="@id/viewLocationOnMap" />
         <action
             android:id="@+id/action_notifications_to_invitations"
             app:destination="@id/invitationsFragment" />
