@@ -84,4 +84,6 @@
     <string name="date_and_time">Date and time:</string>
     <string name="cancel">CANCEL</string>
     <string name="send_request">Send request</string>
+    <string name="invitations">Invitations</string>
+    <string name="notifications">Notifications</string>
 </resources>

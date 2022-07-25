@@ -1,14 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InvitationsFragment">
+    tools:context=".InvitationsFragment"
+    android:background="@color/menuColor">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ToolbarConstraint"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Invitations fragment" />
+        android:layout_height="80dp"
+        android:background="@color/menuColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/shapeableImageView"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.019"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
+            app:srcCompat="@drawable/freelencelivelogo_4" />
+
+
+        <TextView
+            android:id="@+id/editMobileNo"
+            android:layout_width="301dp"
+            android:layout_height="77dp"
+            android:text="@string/freelencelive_string"
+            android:textAlignment="center"
+            android:textColor="@color/light_pink"
+            android:textSize="46dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/DashboardTitle"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/border_bottom_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ToolbarConstraint">
+
+        <TextView
+            android:id="@+id/DashboardString"
+            android:layout_width="301dp"
+            android:layout_height="77dp"
+            android:gravity="center"
+            android:text="@string/invitations"
+            android:textAlignment="center"
+            android:textColor="@color/light_pink"
+            android:textSize="46sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_comments"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="37dp"
+        android:background="@drawable/border_bottom_top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/DashboardTitle" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
