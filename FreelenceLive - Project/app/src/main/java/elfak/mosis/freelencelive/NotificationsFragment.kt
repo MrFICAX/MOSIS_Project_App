@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.freelencelive.databinding.FragmentInvitationsBinding
 import elfak.mosis.freelencelive.databinding.FragmentNotificationsBinding
@@ -51,6 +52,11 @@ class NotificationsFragment : Fragment() {
 
         notificationsLayout =  requireActivity().findViewById(R.id.NotificationsLayout) //binding.gallery
         inflater = LayoutInflater.from(requireContext())
+
+        binding.shapeableImageView.setOnClickListener{
+            val action = NotificationsFragmentDirections.actionNotificationsToStartpage()
+            NavHostFragment.findNavController(this).navigate(action)
+        }
 
         addNotificationsToLinearLayout()
     }

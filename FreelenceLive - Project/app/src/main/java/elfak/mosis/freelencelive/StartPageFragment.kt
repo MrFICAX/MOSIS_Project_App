@@ -1,11 +1,14 @@
 package elfak.mosis.freelencelive
 
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.databinding.FragmentStartPageBinding
 import elfak.mosis.freelencelive.dialogs.addEventFragmentDialog
@@ -45,6 +48,11 @@ class StartPageFragment : Fragment() {
 
             val fragmentNovi = addEventFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
+        }
+
+        binding.shapeableImageView.setOnClickListener{
+            val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout) as DrawerLayout
+            drawerLayout.open()
         }
     }
 

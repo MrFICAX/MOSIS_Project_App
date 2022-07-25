@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardFragment">
+    tools:context=".FriendsFragment"
+    android:background="@color/menuColor">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ToolbarConstraint"
@@ -37,7 +38,7 @@
             android:text="@string/freelencelive_string"
             android:textAlignment="center"
             android:textColor="@color/light_pink"
-            android:textSize="46dp"
+            android:textSize="46sp"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,11 +62,10 @@
             android:layout_width="301dp"
             android:layout_height="77dp"
             android:gravity="center"
-            android:text="@string/dashboard"
+            android:text="@string/friends"
             android:textAlignment="center"
             android:textColor="@color/light_pink"
-            android:textSize="46dp"
-
+            android:textSize="46sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,110 +73,74 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/Score"
+        android:id="@+id/checkIfFriendsLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:background="@drawable/border_bottom_top"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DashboardTitle">
 
-        <TextView
-            android:id="@+id/ScoreText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/overall_score"
-            android:textColor="@color/light_pink"
-            android:textSize="46sp"
-            android:layout_marginStart="15dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailLayout"
+            android:layout_width="309dp"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:hint="@string/search_job"
+            app:expandedHintEnabled="true"
+            app:hintAnimationEnabled="true"
+
+            app:hintTextColor="@color/light_pink"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:startIconDrawable="@drawable/ic_search">
 
-        <TextView
-            android:id="@+id/ScoreNumber"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="4.3"
-            android:textColor="@color/light_pink"
-            android:textSize="40sp"
-            android:layout_marginStart="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ScoreText"
-            app:layout_constraintVertical_bias="0.0" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchFriendsText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectangle_search_shape"
+                android:drawablePadding="0dp"
+                android:importantForAutofill="no"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:textColor="@color/light_pink"
 
-        <RatingBar
-            android:id="@+id/Rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:progressTint="@color/white"
-            android:layout_margin="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ScoreNumber"
-            app:layout_constraintVertical_bias="0.0" />
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
+        android:id="@+id/horizScrlFriends"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/border_bottom_top"
-
+        android:layout_marginBottom="50dp"
+        android:background="@color/menuColor"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Score">
+        app:layout_constraintTop_toBottomOf="@+id/checkIfFriendsLayout">
 
-        <TextView
-            android:id="@+id/Comments"
+
+        <LinearLayout
+            android:id="@+id/FriendsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="@string/comments"
-            android:textColor="@color/light_pink"
-            android:textSize="46sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ScrollView
-            android:id="@+id/horizScrlFriends"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:background="@color/menuColor"
-            android:scrollbars="vertical"
-            android:layout_marginBottom="50dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Comments" >
+            android:maxWidth="250dp"
+            android:maxHeight="150dp"
+            android:orientation="vertical">
 
-
-            <LinearLayout
-                android:id="@+id/CommentsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/menuColor"
-                android:maxWidth="250dp"
-                android:maxHeight="150dp"
-                android:orientation="vertical">
-
-            </LinearLayout>
-        </ScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

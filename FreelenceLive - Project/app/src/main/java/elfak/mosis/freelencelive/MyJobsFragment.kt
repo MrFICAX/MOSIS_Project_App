@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
 import elfak.mosis.freelencelive.databinding.FragmentMyJobsBinding
 import elfak.mosis.freelencelive.dialogs.AdvancedSearchFragmentDialog
 import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
@@ -30,6 +31,10 @@ class MyJobsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.shapeableImageView.setOnClickListener{
+            val action = MyJobsFragmentDirections.actionMyJobsToStartpage()
+            NavHostFragment.findNavController(this).navigate(action)
+        }
 
         binding.buttonAdvancedSearch.setOnClickListener{
 

@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -60,6 +61,11 @@ class JobViewFragment : Fragment() {
         galleryView =  requireActivity().findViewById(R.id.galleryView) //binding.gallery
         friendsView = requireActivity().findViewById(R.id.FriendsView)
         inflater = LayoutInflater.from(requireContext())
+
+        binding.shapeableImageView.setOnClickListener{
+            val action = JobViewFragmentDirections.actionJobViewToStartpage()
+            NavHostFragment.findNavController(this).navigate(action)
+        }
 
         checkCheckBox()
         addPhotosToGalleryView()

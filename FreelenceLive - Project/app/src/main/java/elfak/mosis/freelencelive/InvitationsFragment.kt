@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,6 +58,11 @@ class InvitationsFragment : Fragment() {
 
         invitationsLayout =  requireActivity().findViewById(R.id.InvitationsLayout) //binding.gallery
         inflater = LayoutInflater.from(requireContext())
+
+        binding.shapeableImageView.setOnClickListener{
+            val action = InvitationsFragmentDirections.actionInvitationsToStartpage()
+            NavHostFragment.findNavController(this).navigate(action)
+        }
 
         addInvitationsToLinearLayout()
     }

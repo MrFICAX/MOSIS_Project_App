@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <item android:title="Business" >
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_dashboard"
+                    android:icon="@drawable/dashboard"
+                    android:title="@string/dashboard" />
+                <item
+                    android:id="@+id/nav_myJobs"
+                    android:icon="@drawable/work"
+                    android:title="@string/my_jobs" />
+                <item
+                    android:id="@+id/nav_myFriends"
+                    android:icon="@drawable/ic_search"
+                    android:title="@string/my_friends" />
+                <item
+                    android:id="@+id/nav_rankings"
+                    android:icon="@drawable/ic_search"
+                    android:title="@string/rankings" />
+                <item
+                    android:id="@+id/nav_settings"
+                    android:icon="@drawable/ic_search"
+                    android:title="@string/settings" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="Other">
+        <menu>
+            <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_help"
+                        android:icon="@drawable/ic_search"
+                        android:title="@string/help" />
+                    <item
+                        android:id="@+id/nav_logout"
+                        android:gravity="bottom"
+                        android:icon="@drawable/ic_search"
+                        android:title="@string/logout" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

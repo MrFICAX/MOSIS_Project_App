@@ -81,6 +81,14 @@ class BottomNavBarFragment : Fragment() {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = DashboardFragmentDirections.actionDashboardToInvitations()
                 }
+                R.id.friendsFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = FriendsFragmentDirections.actionFriendsToInvitations()
+                }
+                R.id.ratingFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = RatingFragmentDirections.actionRatingToInvitations()
+                }
                 else -> {}
             }
             NavHostFragment.findNavController(this).navigate(action)
@@ -119,6 +127,14 @@ class BottomNavBarFragment : Fragment() {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = DashboardFragmentDirections.actionDashboardToStartpage()
                 }
+                R.id.friendsFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = FriendsFragmentDirections.actionFriendsToStartPage()
+                }
+                R.id.ratingFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = RatingFragmentDirections.actionRatingToStartPage()
+                }
                 else -> {}
             }
             NavHostFragment.findNavController(this).navigate(action)
@@ -155,6 +171,14 @@ class BottomNavBarFragment : Fragment() {
                 R.id.dashboardFragment -> {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = DashboardFragmentDirections.actionDashboardToNotifications()
+                }
+                R.id.friendsFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = FriendsFragmentDirections.actionFriendsToNotifications()
+                }
+                R.id.ratingFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = RatingFragmentDirections.actionRatingToNotifications()
                 }
                 else -> {}
             }

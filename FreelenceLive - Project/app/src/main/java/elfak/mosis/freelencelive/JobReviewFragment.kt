@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import elfak.mosis.freelencelive.databinding.FragmentJobReviewBinding
 import elfak.mosis.freelencelive.dialogs.ChooseDateFragmentDialog
@@ -63,6 +64,10 @@ class JobReviewFragment : Fragment() {
         binding.timePicker.setOnClickListener{
             val fragmentNovi = ChooseTimeFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
+        }
+        binding.shapeableImageView.setOnClickListener{
+            val action = JobReviewFragmentDirections.actionJobReviewToStartpage()
+            NavHostFragment.findNavController(this).navigate(action)
         }
 
         gallery =  requireActivity().findViewById(R.id.gallery) //binding.gallery

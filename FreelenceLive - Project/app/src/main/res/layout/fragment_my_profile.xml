@@ -237,8 +237,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.07"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.25"
+                app:layout_constraintTop_toBottomOf="@+id/PhoneText"
+                app:layout_constraintVertical_bias="0.0"
                 app:startIconDrawable="@drawable/edit_text">
 
 
@@ -283,8 +283,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.07"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.47"
+                app:layout_constraintTop_toBottomOf="@+id/passwordTitle"
+                app:layout_constraintVertical_bias="0.0"
                 app:passwordToggleEnabled="true"
                 app:startIconDrawable="@drawable/edit_text">
 
@@ -329,8 +329,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.97"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25"
+            app:layout_constraintTop_toBottomOf="@+id/FirstNameTitle"
+            app:layout_constraintVertical_bias="0.0"
             app:startIconDrawable="@drawable/edit_text">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -374,8 +374,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.97"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.47"
+            app:layout_constraintTop_toBottomOf="@+id/LastNameTitle"
+            app:layout_constraintVertical_bias="0.0"
             app:startIconDrawable="@drawable/edit_text">
 
             <com.google.android.material.textfield.TextInputEditText

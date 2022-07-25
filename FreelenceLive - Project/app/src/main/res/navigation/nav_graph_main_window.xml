@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main_window"
-    app:startDestination="@id/dashboardFragment">
+    app:startDestination="@id/startPageFragment">
 
     <fragment
         android:id="@+id/startPageFragment"
@@ -14,6 +14,9 @@
             android:id="@+id/action_startpage_to_invitations"
             app:destination="@id/invitationsFragment" />
         <action
+            android:id="@+id/action_startpage_to_myprofile"
+            app:destination="@id/myProfileFragment" />
+        <action
             android:id="@+id/action_starpage_to_notifications"
             app:destination="@id/notificationsFragment" />
         <action
@@ -22,6 +25,18 @@
         <action
             android:id="@+id/action_startpage_to_viewLocation"
             app:destination="@id/viewLocationOnMap" />
+        <action
+            android:id="@+id/action_startpage_to_dashboard"
+            app:destination="@id/dashboardFragment" />
+        <action
+            android:id="@+id/action_startpage_to_myJobs"
+            app:destination="@id/myJobsFragment" />
+        <action
+            android:id="@+id/action_startpage_to_rating"
+            app:destination="@id/ratingFragment" />
+        <action
+            android:id="@+id/action_startpage_to_friends"
+            app:destination="@id/friendsFragment" />
     </fragment>
     <dialog
         android:id="@+id/addEventFragmentDialog"
@@ -149,6 +164,36 @@
             app:destination="@id/invitationsFragment" />
         <action
             android:id="@+id/action_dashboard_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ratingFragment"
+        android:name="elfak.mosis.freelencelive.RatingFragment"
+        android:label="fragment_rating"
+        tools:layout="@layout/fragment_rating" >
+        <action
+            android:id="@+id/action_rating_to_startPage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_rating_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_rating_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendsFragment"
+        android:name="elfak.mosis.freelencelive.FriendsFragment"
+        android:label="fragment_friends"
+        tools:layout="@layout/fragment_friends" >
+        <action
+            android:id="@+id/action_friends_to_startPage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_friends_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_friends_to_notifications"
             app:destination="@id/notificationsFragment" />
     </fragment>
 </navigation>
