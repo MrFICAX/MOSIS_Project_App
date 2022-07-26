@@ -111,4 +111,16 @@
     <string name="informations4">MrFICAX 2022\n All Right reserved.</string>
     <string name="activate_service">Activate\nservice</string>
     <string name="online">Online</string>
+    <string name="invite_for">Invite for:</string>
+    <string name="choose_job">Choose job..</string>
+
+
+
+    <string-array name="feelings">
+        <item>Sad</item>
+        <item>Dissatisfied</item>
+        <item>Satisfied</item>
+        <item>Happy</item>
+        <item>Excited</item>
+    </string-array>
 </resources>

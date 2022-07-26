@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import elfak.mosis.freelencelive.databinding.FragmentJobReviewBinding
 import elfak.mosis.freelencelive.dialogs.ChooseDateFragmentDialog
@@ -59,6 +60,9 @@ class JobReviewFragment : Fragment() {
         binding.datePicker.setOnClickListener{
             val fragmentNovi = ChooseDateFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
+        }
+        binding.cancelButton.setOnClickListener{
+            findNavController().popBackStack()
         }
 
         binding.timePicker.setOnClickListener{

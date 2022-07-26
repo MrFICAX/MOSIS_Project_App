@@ -111,6 +111,12 @@
         <action
             android:id="@+id/action_myJobs_to_notifications"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_myJobs_to_jobReview"
+            app:destination="@id/jobReviewFragment" />
+        <action
+            android:id="@+id/action_myJobs_to_jobView"
+            app:destination="@id/jobViewFragment" />
     </fragment>
     <fragment
         android:id="@+id/jobReviewFragment"

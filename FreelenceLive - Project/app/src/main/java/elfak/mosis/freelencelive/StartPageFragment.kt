@@ -11,6 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.databinding.FragmentStartPageBinding
+import elfak.mosis.freelencelive.dialogs.InviteFriendFragmentDialog
 import elfak.mosis.freelencelive.dialogs.addEventFragmentDialog
 import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
 
@@ -41,13 +42,20 @@ class StartPageFragment : Fragment() {
 
             val fragmentNovi = searchByRadiusFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
+//          val fragmentNovi = InviteFriendFragmentDialog()
+//          fragmentNovi.show(parentFragmentManager, "customString")
+
         }
 
         binding.fab.setOnClickListener {
-            //Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
-
+        //ISPRAVAN KOD JE U KOMENTARU
             val fragmentNovi = addEventFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
+
+//            val fragmentNovi = InviteFriendFragmentDialog()
+//            fragmentNovi.show(parentFragmentManager, "customString")
+
+
         }
 
         binding.shapeableImageView.setOnClickListener{

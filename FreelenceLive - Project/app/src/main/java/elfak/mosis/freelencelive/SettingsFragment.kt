@@ -40,36 +40,36 @@ class SettingsFragment : Fragment() {
             NavHostFragment.findNavController(this).navigate(action)
         }
 
-        binding.toggleService.setOnClickListener {
-            if(!status){
-                binding.toggleService.setImageResource(R.drawable.toggle_on)
-                binding.toggleService.setColorFilter(
-                    ContextCompat.getColor(requireContext(), R.color.green),
-                    android.graphics.PorterDuff.Mode.SRC_IN)
-                status = true
-            } else{
-                binding.toggleService.setImageResource(R.drawable.toggle_off)
-                binding.toggleService.setColorFilter(
-                    ContextCompat.getColor(requireContext(), R.color.red),
-                    android.graphics.PorterDuff.Mode.SRC_IN)
-                status = false
-            }
-        }
-        binding.toggleOnline.setOnClickListener {
-            if(!online){
-                binding.toggleOnline.setImageResource(R.drawable.toggle_on)
-                binding.toggleOnline.setColorFilter(
-                    ContextCompat.getColor(requireContext(), R.color.green),
-                    android.graphics.PorterDuff.Mode.SRC_IN)
-                online = true
-            } else{
-                binding.toggleOnline.setImageResource(R.drawable.toggle_off)
-                binding.toggleOnline.setColorFilter(
-                    ContextCompat.getColor(requireContext(), R.color.red),
-                    android.graphics.PorterDuff.Mode.SRC_IN)
-                online = false
-            }
-        }
+//        binding.toggleService.setOnClickListener {
+//            if(!status){
+//                binding.toggleService.setImageResource(R.drawable.toggle_on)
+//                binding.toggleService.setColorFilter(
+//                    ContextCompat.getColor(requireContext(), R.color.green),
+//                    android.graphics.PorterDuff.Mode.SRC_IN)
+//                status = true
+//            } else{
+//                binding.toggleService.setImageResource(R.drawable.toggle_off)
+//                binding.toggleService.setColorFilter(
+//                    ContextCompat.getColor(requireContext(), R.color.red),
+//                    android.graphics.PorterDuff.Mode.SRC_IN)
+//                status = false
+//            }
+//        }
+//        binding.toggleOnline.setOnClickListener {
+//            if(!online){
+//                binding.toggleOnline.setImageResource(R.drawable.toggle_on)
+//                binding.toggleOnline.setColorFilter(
+//                    ContextCompat.getColor(requireContext(), R.color.green),
+//                    android.graphics.PorterDuff.Mode.SRC_IN)
+//                online = true
+//            } else{
+//                binding.toggleOnline.setImageResource(R.drawable.toggle_off)
+//                binding.toggleOnline.setColorFilter(
+//                    ContextCompat.getColor(requireContext(), R.color.red),
+//                    android.graphics.PorterDuff.Mode.SRC_IN)
+//                online = false
+//            }
+//        }
 
 
 //        if (it) {

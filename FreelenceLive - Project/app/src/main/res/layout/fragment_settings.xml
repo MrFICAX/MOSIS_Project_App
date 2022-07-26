@@ -84,63 +84,6 @@
         app:layout_constraintTop_toBottomOf="@+id/myJobsTitleLayout">
 
         <TextView
-            android:id="@+id/InformationView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:paddingLeft="20dp"
-            android:textAlignment="center"
-            android:text="@string/activate_service"
-            android:textColor="@color/light_pink"
-            android:textSize="35sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.083" />
-
-        <ImageView
-            android:id="@+id/toggle_service"
-            android:layout_width="150dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="40dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/toggle_off"
-            app:layout_constraintDimensionRatio="2:1.5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.509"
-            app:layout_constraintStart_toEndOf="@+id/InformationView1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/red" />
-
-        <TextView
-            android:id="@+id/InformationView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:paddingLeft="20dp"
-            android:text="@string/online"
-            android:textColor="@color/light_pink"
-            android:textSize="35sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.275" />
-
-        <ImageView
-            android:id="@+id/toggle_online"
-            android:layout_width="150dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="152dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/toggle_off"
-            app:layout_constraintDimensionRatio="2:1.5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.611"
-            app:layout_constraintStart_toEndOf="@+id/InformationView2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/red" />
-
-        <TextView
             android:id="@+id/InformationView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -153,6 +96,66 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.996" />
+
+        <TextView
+            android:id="@+id/activate_serviceTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/activate_service"
+            android:textColor="@color/light_pink"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.157"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.055" />
+
+        <Switch
+            android:id="@+id/service_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:switchMinWidth="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.756"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.091"
+            tools:ignore="RtlSymmetry,UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:id="@+id/onlineTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/online"
+            android:textColor="@color/light_pink"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.157"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.231" />
+
+        <Switch
+            android:id="@+id/online_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:scaleX="2"
+            android:scaleY="2"
+            android:switchMinWidth="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.756"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.241"
+            tools:ignore="RtlSymmetry,UseSwitchCompatOrMaterialXml" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
