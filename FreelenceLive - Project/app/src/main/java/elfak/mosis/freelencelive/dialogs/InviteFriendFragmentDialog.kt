@@ -17,7 +17,6 @@ import elfak.mosis.freelencelive.databinding.FragmentDialogInviteFriendBinding
 
 class InviteFriendFragmentDialog : DialogFragment() {
 
-    lateinit var selectedOption: String
     lateinit var binding: FragmentDialogInviteFriendBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +46,6 @@ class InviteFriendFragmentDialog : DialogFragment() {
         binding.autoCompleteTextView.setDropDownBackgroundDrawable(ColorDrawable(R.color.light_pink))
 
         binding.buttonInvite.setOnClickListener {
-
-            var flag = false
 
             if (binding.autoCompleteTextView.text.isNotEmpty()){
 

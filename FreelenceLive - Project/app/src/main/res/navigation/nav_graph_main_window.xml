@@ -38,6 +38,9 @@
             android:id="@+id/action_startpage_to_friends"
             app:destination="@id/friendsFragment" />
         <action
+            android:id="@+id/action_startpage_to_friendsProfile"
+            app:destination="@id/friendsProfileFragment" />
+        <action
             android:id="@+id/action_startpage_to_help"
             app:destination="@id/helpFragment" />
         <action

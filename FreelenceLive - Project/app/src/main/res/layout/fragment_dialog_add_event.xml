@@ -27,7 +27,7 @@
 
     <TextView
         android:id="@+id/creatingJob"
-        android:layout_width="411dp"
+        android:layout_width="415dp"
         android:layout_height="78dp"
         android:background="@color/rectangle_10_color"
         android:gravity="center_vertical"

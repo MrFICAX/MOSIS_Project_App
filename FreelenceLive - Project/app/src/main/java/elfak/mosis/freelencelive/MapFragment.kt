@@ -156,7 +156,7 @@ class MapFragment : Fragment() {
             OverlayItem(
                 "Filip",
                 "Trajkovic",
-                GeoPoint(43.0209, 21.8958)
+                GeoPoint(43.2209, 21.8958)
             )
         ) // Lat/Lon decimal degrees
 

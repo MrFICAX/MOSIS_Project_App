@@ -11,6 +11,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.databinding.FragmentStartPageBinding
+import elfak.mosis.freelencelive.dialogs.AskToJoinFragmentDialog
 import elfak.mosis.freelencelive.dialogs.InviteFriendFragmentDialog
 import elfak.mosis.freelencelive.dialogs.addEventFragmentDialog
 import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
@@ -40,11 +41,15 @@ class StartPageFragment : Fragment() {
         binding.radius.setOnClickListener {
             //Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
 
-            val fragmentNovi = searchByRadiusFragmentDialog()
-            fragmentNovi.show(parentFragmentManager, "customString")
-//          val fragmentNovi = InviteFriendFragmentDialog()
-//          fragmentNovi.show(parentFragmentManager, "customString")
+//            val fragmentNovi = searchByRadiusFragmentDialog()
+//            fragmentNovi.show(parentFragmentManager, "customString")
 
+
+        //          val fragmentNovi = InviteFriendFragmentDialog()
+        //          fragmentNovi.show(parentFragmentManager, "customString")
+
+            val fragmentNovi = AskToJoinFragmentDialog()
+            fragmentNovi.show(parentFragmentManager, "customString")
         }
 
         binding.fab.setOnClickListener {
