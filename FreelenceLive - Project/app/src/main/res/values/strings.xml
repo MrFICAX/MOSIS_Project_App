@@ -75,7 +75,7 @@
     <string name="change_photo">Change photo</string>
     <string name="change_username">Change username</string>
     <string name="your_email">your_email</string>
-    <string name="email_"><u>email:</u></string>
+    <string name="email_"><u>Email:</u></string>
     <string name="phone_number"><u>Phone number:</u></string>
     <string name="password_"><u>Password:</u></string>
     <string name="first_name_"><u>First name:</u></string>
@@ -98,4 +98,17 @@
     <string name="help">Help</string>
     <string name="logout">Logout</string>
     <string name="friends">Friends</string>
+    <string name="friends_profile">Friend\'s profile</string>
+    <string name="username_"><u>Username:</u></string>
+    <string name="your_username">your Username</string>
+    <string name="custom_number">0636555067</string>
+    <string name="score">Score:</string>
+    <string name="write_a_comment">Write a comment..</string>
+    <string name="leave_a_comment">Leave a comment..</string>
+    <string name="informations3">If you want, you can request for help or you can help others.</string>
+    <string name="informations2">Connect with your friends and organise group jobs in order to finish them easily.</string>
+    <string name="informations1">FreelenceLive is a mobile app for everyone who wants to find job online. Firstly, you need to register and that’s all you need to start your journey.</string>
+    <string name="informations4">MrFICAX 2022\n All Right reserved.</string>
+    <string name="activate_service">Activate\nservice</string>
+    <string name="online">Online</string>
 </resources>

@@ -3,6 +3,7 @@ package elfak.mosis.freelencelive
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toolbar
@@ -67,6 +68,18 @@ class MainWindowActivity : AppCompatActivity() {
                     Navigation.findNavController(findViewById(R.id.fragment_container)).navigate(action)
                     drawerLayout.close()
                 }
+                R.id.nav_help -> {
+                    //Toast.makeText(this, "GALLERY CLICKED!", Toast.LENGTH_LONG).show()
+                    val action = StartPageFragmentDirections.actionStartpageToHelp()
+                    Navigation.findNavController(findViewById(R.id.fragment_container)).navigate(action)
+                    drawerLayout.close()
+                }
+                R.id.nav_settings -> {
+                    //Toast.makeText(this, "GALLERY CLICKED!", Toast.LENGTH_LONG).show()
+                    val action = StartPageFragmentDirections.actionStartpageToSettings()
+                    Navigation.findNavController(findViewById(R.id.fragment_container)).navigate(action)
+                    drawerLayout.close()
+                }
 //                R.id.nav_slideshow -> {
 //                    Toast.makeText(this, "SLIDESHOW!", Toast.LENGTH_LONG).show()
 //                }
@@ -77,6 +90,10 @@ class MainWindowActivity : AppCompatActivity() {
         var userNameText:TextView = headerView.findViewById(R.id.UserNameText)
         userNameText.setText("MrFICAX")
 
+        val shapeableView: ImageView = headerView.findViewById(R.id.shapeableImageView)
+        shapeableView.setOnClickListener{
+            drawerLayout.close()
+        }
         val profileConstraint = headerView.findViewById<ConstraintLayout>(R.id.ToolbarConstraintUser)
         profileConstraint.setOnClickListener{
             val action = StartPageFragmentDirections.actionStartpageToMyprofile()

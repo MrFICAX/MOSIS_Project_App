@@ -89,6 +89,18 @@ class BottomNavBarFragment : Fragment() {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = RatingFragmentDirections.actionRatingToInvitations()
                 }
+                R.id.friendsProfileFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = FriendsProfileFragmentDirections.actionFriendsProfileToInvitations()
+                }
+                R.id.helpFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = HelpFragmentDirections.actionHelpToInvitations()
+                }
+                R.id.settingsFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = SettingsFragmentDirections.actionSettingsToInvitations()
+                }
                 else -> {}
             }
             NavHostFragment.findNavController(this).navigate(action)
@@ -135,6 +147,18 @@ class BottomNavBarFragment : Fragment() {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = RatingFragmentDirections.actionRatingToStartPage()
                 }
+                R.id.friendsProfileFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = FriendsProfileFragmentDirections.actionFriendsProfileToStartPage()
+                }
+                R.id.helpFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = HelpFragmentDirections.actionHelpToStartPage()
+                }
+                R.id.settingsFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = SettingsFragmentDirections.actionSettingsToStartPage()
+                }
                 else -> {}
             }
             NavHostFragment.findNavController(this).navigate(action)
@@ -179,6 +203,18 @@ class BottomNavBarFragment : Fragment() {
                 R.id.ratingFragment -> {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = RatingFragmentDirections.actionRatingToNotifications()
+                }
+                R.id.friendsProfileFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = FriendsProfileFragmentDirections.actionFriendsProfileToNotifications()
+                }
+                R.id.helpFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = HelpFragmentDirections.actionHelpToNotifications()
+                }
+                R.id.settingsFragment -> {
+                    //navController.navigate(R.id.action_startpage_to_invitations)
+                    action = SettingsFragmentDirections.actionSettingsToNotifications()
                 }
                 else -> {}
             }

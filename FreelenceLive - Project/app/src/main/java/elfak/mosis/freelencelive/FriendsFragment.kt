@@ -84,6 +84,12 @@ class FriendsFragment : Fragment() {
                     Toast.makeText(requireContext(), "SALJEM ZAHTEV ZA PRIJATELJSTVO!", Toast.LENGTH_LONG).show()
                 }
             }
+
+            viewItem.setOnClickListener{
+                val action = FriendsFragmentDirections.actionFriendsToFriendsProfile()
+                NavHostFragment.findNavController(this).navigate(action)
+            }
+
             imageView.setImageResource(R.drawable.img_0944)
             usernameView.setText("UserName "+i.toString())
             phoneView.setText("061 644 50 67")

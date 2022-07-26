@@ -37,6 +37,12 @@
         <action
             android:id="@+id/action_startpage_to_friends"
             app:destination="@id/friendsFragment" />
+        <action
+            android:id="@+id/action_startpage_to_help"
+            app:destination="@id/helpFragment" />
+        <action
+            android:id="@+id/action_startpage_to_settings"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <dialog
         android:id="@+id/addEventFragmentDialog"
@@ -194,6 +200,54 @@
             app:destination="@id/invitationsFragment" />
         <action
             android:id="@+id/action_friends_to_notifications"
+            app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_friends_to_friendsProfile"
+            app:destination="@id/friendsProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/friendsProfileFragment"
+        android:name="elfak.mosis.freelencelive.FriendsProfileFragment"
+        android:label="fragment_friends_profile"
+        tools:layout="@layout/fragment_friends_profile">
+        <action
+            android:id="@+id/action_friendsProfile_to_startPage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_friendsProfile_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_friendsProfile_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="elfak.mosis.freelencelive.HelpFragment"
+        android:label="fragment_help"
+        tools:layout="@layout/fragment_help">
+        <action
+            android:id="@+id/action_help_to_startPage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_help_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_help_to_notifications"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="elfak.mosis.freelencelive.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settings_to_startPage"
+            app:destination="@id/startPageFragment" />
+        <action
+            android:id="@+id/action_settings_to_invitations"
+            app:destination="@id/invitationsFragment" />
+        <action
+            android:id="@+id/action_settings_to_notifications"
             app:destination="@id/notificationsFragment" />
     </fragment>
 </navigation>

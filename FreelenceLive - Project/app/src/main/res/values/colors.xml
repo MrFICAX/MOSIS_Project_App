@@ -23,6 +23,7 @@
 	<color name="transparent_grey">#AAAAAAAA</color>
 	<color name="grey">#FFAAAAAA</color>
 	<color name="green">#FF00ff00</color>
+	<color name="red">#FFFF0000</color>
 
 	<color name="comment_username_color">#AAD9D9D9</color>
 
