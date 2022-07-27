@@ -2,15 +2,19 @@ package elfak.mosis.freelencelive
 
 import android.app.Activity
 import android.app.Activity.RESULT_OK
+import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
+import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -18,6 +22,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 
@@ -26,6 +31,8 @@ class SignUpFragment : Fragment() {
     private var imageUri: Uri? = null
     private val pickImage = 100
     private val REQUEST_IMAGE_CAPTURE = 1;
+    lateinit var pd : ProgressDialog
+
     private lateinit var imageBitmap: Bitmap
     private var formCheck: BooleanArray = BooleanArray(7)
 
@@ -34,6 +41,8 @@ class SignUpFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        pd = ProgressDialog(context)
+        pd.setCancelable(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,20 +86,36 @@ class SignUpFragment : Fragment() {
         //            startActivity(intent)
         }
         binding.buttonSignUp.setOnClickListener{
-            val email = binding.username.text.toString()
+            pd.setMessage("REGISTRACIJA U TOKU...")
+            pd.show()
+
+            val email = binding.email.text.toString()
             val password = binding.password.text.toString()
+            val userName = binding.username.text.toString()
             val firstName = binding.firstName.text.toString()
             val lastName = binding.lastName.text.toString()
+            val phoneNumber = binding.phoneNumber.text.toString()
 
             if(email.isNotEmpty() && password.isNotEmpty()){
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener{
                     if( it.isSuccessful){
-//                        val intent = Intent(this, LogInActivity::class.java)
-//                        startActivity(intent)
-                        Toast.makeText(activity, "UserCreation successful!", Toast.LENGTH_LONG).show()
+
+                        val userId = it.result.user?.uid
+                        Log.d("tag", userId.toString())
+
+                        Toast.makeText(activity, userId.toString(), Toast.LENGTH_LONG).show()
+                        val action = SignUpFragmentDirections.actionSignupGotoLogin()
+                        NavHostFragment.findNavController(this).navigate(action)
+                        pd.hide()
                     }
                     else{
-                        Toast.makeText(activity, "UserCreation not successful!", Toast.LENGTH_LONG).show()
+                        pd.hide()
+                        Snackbar.make(
+                            binding.root,
+                            "Neuspešna registracija",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+                        //Toast.makeText(activity, "UserCreation not successful!", Toast.LENGTH_LONG).show()
                     }
 
                 }
@@ -120,18 +145,24 @@ class SignUpFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK ){//&& data != null && data.data != null) {
             imageBitmap = data?.extras?.get("data") as Bitmap
             formCheck[0] = true
             binding.openCamera.setImageBitmap(null)
             binding.imageCameraBackground.setImageBitmap(imageBitmap)
             //imageView.setImageBitmap(imageBitmap)
         }
-        if (resultCode == RESULT_OK && requestCode == pickImage) {
+        if (resultCode == RESULT_OK && requestCode == pickImage && data != null && data.data != null) {
             imageUri = data?.data
             binding.openCamera.setImageBitmap(null)
             binding.imageCameraBackground.setImageURI(imageUri)
         }
+    }
+
+    private fun getFileExtension(uri: Uri) : String? {
+        val cR: ContentResolver? = context?.contentResolver
+        val mime: MimeTypeMap = MimeTypeMap.getSingleton()
+        return mime.getExtensionFromMimeType(cR?.getType(uri))
     }
 
 

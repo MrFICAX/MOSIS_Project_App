@@ -29,6 +29,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/openCamera"
+        android:layout_width="150dp"
+        android:layout_height="64.150dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="264dp"
+        android:contentDescription="@string/opencamera"
+        android:src="@drawable/img_0950"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textViewLoad"
         android:layout_width="wrap_content"
@@ -38,6 +52,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="30dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="29dp"
+        android:progress="@android:integer/config_longAnimTime"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLoad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLoad">
+
+    </ProgressBar>
 
     <Button
         android:id="@+id/buttonLoad"

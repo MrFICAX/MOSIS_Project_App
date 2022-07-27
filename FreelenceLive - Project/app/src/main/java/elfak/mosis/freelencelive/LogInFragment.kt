@@ -1,5 +1,6 @@
 package elfak.mosis.freelencelive
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -56,6 +57,11 @@ class LogInFragment : Fragment() {
 //                        startActivity(intent)
                         Toast.makeText(activity, "UserLogin successful!", Toast.LENGTH_LONG).show()
 
+                        val intent = Intent(context, MainWindowActivity::class.java)
+                        // To pass any data to next activity
+                        //intent.putExtra("keyIdentifier", value)
+                        // start your next activity
+                        startActivity(intent)
                     }
                     else{
                         Toast.makeText(activity, "Login not successful!", Toast.LENGTH_LONG).show()
