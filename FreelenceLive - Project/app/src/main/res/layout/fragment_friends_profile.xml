@@ -102,7 +102,7 @@
             tools:ignore="RtlCompat" />
 
         <TextView
-            android:id="@+id/change_photo3"
+            android:id="@+id/EmailText"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="168dp"
@@ -136,7 +136,7 @@
             tools:ignore="RtlCompat" />
 
         <TextView
-            android:id="@+id/change_photo2"
+            android:id="@+id/phoneNumberText"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="168dp"
@@ -171,7 +171,7 @@
             app:strokeColor="@color/white"    />
 
         <TextView
-            android:id="@+id/change_photo"
+            android:id="@+id/userNameText"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="168dp"

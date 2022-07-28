@@ -9,9 +9,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.freelencelive.databinding.FragmentDashboardBinding
+import elfak.mosis.freelencelive.model.userViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -21,6 +23,7 @@ class DashboardFragment : Fragment() {
     var brojKomentara = 10
     lateinit var CommentsLayout: LinearLayout // requireActivity().findViewById(R.id.gallery) //binding.gallery
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
+    private val userViewModel: userViewModel by activityViewModels()
 
     private lateinit var binding: FragmentDashboardBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +51,12 @@ class DashboardFragment : Fragment() {
             NavHostFragment.findNavController(this).navigate(action)
         }
 
+        val totalScore = userViewModel.user.value?.totalScore?.toFloat()
+        val numOfRatings = userViewModel.user.value?.numOfRatings
+        val ratingResult = totalScore?.div(numOfRatings!!)
+
+        binding.Rating.rating = ratingResult!!
+        binding.ScoreNumber.text = ratingResult.toString()!!
         addCommentsToLinearLayout()
     }
 

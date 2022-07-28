@@ -238,7 +238,7 @@
         app:layout_constraintTop_toBottomOf="@+id/label2" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonCreateJob"
         android:layout_width="415dp"
         android:layout_height="77dp"
         android:background="@drawable/rectangle_10_shape"

@@ -68,9 +68,6 @@ class TestDatabaseActivity : AppCompatActivity() {
 //                Log.w(TAG, "Error adding document", e)
 //            }
 
-//        var db = Firebase.firestore
-//        db = FirebaseFirestore.getInstance()
-
         //PRIBAVLJANJE ID-JA ZA PRAZNI DOKUMENT KOJI NIJE DODAT U BAZU
 //        val newRef = cloudFirestore.collection("users").document()
 //        val id = newRef.id
@@ -90,7 +87,6 @@ class TestDatabaseActivity : AppCompatActivity() {
     }
 
     fun getDataFromCloudFirestore(){
-        //val db = Firebase.firestore
 
         cloudFirestore.collection("users")
             .get()
@@ -103,18 +99,15 @@ class TestDatabaseActivity : AppCompatActivity() {
                     event.organiser = document.data["lastName"].toString()
 
                     Toast.makeText(this, event.name +" "+ event.organiser, Toast.LENGTH_LONG).show()
-
                 }
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents.", exception)
                 Toast.makeText(this, exception.toString(), Toast.LENGTH_LONG).show()
-
             }
     }
 
     fun postFileToCloudStorage(){
-//        var storageRef = cloudStorage.reference
 
         val imageView: ImageView = findViewById(R.id.openCamera)
         imageView.isDrawingCacheEnabled = true
@@ -178,43 +171,39 @@ class TestDatabaseActivity : AppCompatActivity() {
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.test_activity)
-
-        setDatabaseReference()
-        postEventToRealTimeDB()
-        //postDataToCloudFirestore()
-
-        myRef.setValue("Hello, World!")
-
+    fun setViews(){
         textBox =  findViewById(R.id.textComment)
         textLoad = findViewById(R.id.textViewLoad)
         buttonPost = findViewById(R.id.buttonPost)
         buttonLoad = findViewById(R.id.buttonLoad)
         pBar = findViewById(R.id.progressBar)
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.test_activity)
+
+        setDatabaseReference()
+        //postEventToRealTimeDB()
+        //postDataToCloudFirestore()
+        setViews()
+        //getDataFromCloudFirestore()
+        //downloadFilesFromCloudStorage()
+
+
         var tekst:String? = null;
         if (firebaseAuth.currentUser != null)
             tekst = firebaseAuth.currentUser!!.email.toString();
-        Toast.makeText(this, firebaseAuth.currentUser?.email.toString(), Toast.LENGTH_LONG )
+        Toast.makeText(this, firebaseAuth.currentUser?.email.toString(), Toast.LENGTH_LONG ).show()
         //textBox.setText(tekst)
 
         buttonPost.setOnClickListener {
-//            val tekst: String = textBox.text.toString()
-//            if (tekst.isNotEmpty())
-//            {
-//                myRef.setValue(tekst)
-//            }
-            //getDataFromCloudFirestore()
-
             if (uploadTask.isInProgress){
                 Toast.makeText(this, "Upload is in progress!", Toast.LENGTH_LONG )
             } else{
                 postFileToCloudStorage()
             }
-            //downloadFilesFromCloudStorage()
 
         }
 
@@ -233,25 +222,23 @@ class TestDatabaseActivity : AppCompatActivity() {
             }
         })
         buttonLoad.setOnClickListener {
-            //textLoad.text = myRef.get().getResult().value.toString() // NE RADI
             myRef = realtimeDatabase.reference.child("events")
 
-//            val event: Event
-//            val EventRef = database.reference.child("events").get().addOnSuccessListener {
-//                //textLoad.text = it.getValue<Event>()?.name
-//                //val event: List<Event>? = it.getValue<List<Event>>()
-//                for (postSnapshot in it.children) {
-////                    val event: Event = postSnapshot.toObject<Event>()
-//                    Log.d("tag", postSnapshot.toString())
-//                    val event = postSnapshot.getValue(Event::class.java);
-//                    //Log.d("tag", event!!.name)
-//
-//
-//                }
-//               // textLoad.text = event?.name
-//            }.addOnFailureListener{
-//                Log.e("firebase", "Error getting data", it)
-//            }
+            val event: Event
+            val EventRef = Firebase.database.reference.child("events").get().addOnSuccessListener {
+                //textLoad.text = it.getValue<Event>()?.name
+                //val event: List<Event>? = it.getValue<List<Event>>()
+                for (postSnapshot in it.children) {
+//                    val event: Event = postSnapshot.toObject<Event>()
+                    Log.d("tag", postSnapshot.toString())
+                    val event = postSnapshot.getValue(Event::class.java);
+                    //Toast.makeText(this, event?.name + event?.organiser, Toast.LENGTH_LONG).show()
+                    Log.d("tag", event!!.name + " " + event!!.organiser)
+                }
+               // textLoad.text = event?.name
+            }.addOnFailureListener{
+                Log.e("firebase", "Error getting data", it)
+            }
 
 //            val myNewRef = database.collection("events").child("123")
 //            myNewRef.get().addOnSuccessListener { document ->

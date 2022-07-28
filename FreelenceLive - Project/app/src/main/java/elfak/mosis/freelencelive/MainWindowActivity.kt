@@ -7,10 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toolbar
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
@@ -20,25 +22,37 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import elfak.mosis.freelencelive.R
+import elfak.mosis.freelencelive.data.User
+import elfak.mosis.freelencelive.model.userViewModel
 
 class MainWindowActivity : AppCompatActivity() {
+
+    private val userViewModel: userViewModel by viewModels()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var toggle: ActionBarDrawerToggle
     lateinit var drawerLayout: DrawerLayout
+
+
+
+    //val object = intent.extras.get("extra_object") as Object
+    //val user = intent.getSerializableExtra("user") as? User
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_window)
 
-        drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+        val newUser: User = this.intent.getSerializableExtra("user") as User
 
-//        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-//        drawerLayout.addDrawerListener(toggle)
-//        toggle.syncState()
-//
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        userViewModel.setNewUser(newUser)
+
+        Toast.makeText(this, newUser.userName, Toast.LENGTH_LONG).show()
+
+
+        drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
 
         val navView = findViewById<NavigationView>(R.id.nav_view)
         navView.setNavigationItemSelectedListener {
@@ -88,12 +102,25 @@ class MainWindowActivity : AppCompatActivity() {
         }
         val headerView = navView.getHeaderView(0)
         var userNameText:TextView = headerView.findViewById(R.id.UserNameText)
-        userNameText.setText("MrFICAX")
+        //userNameText.setText("MrFICAX")
+
+        val UserObserver = Observer<User> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            userNameText.setText(newValue.userName)
+
+        }
+        userViewModel.user.observe(this,UserObserver)
+
 
         val shapeableView: ImageView = headerView.findViewById(R.id.shapeableImageView)
         shapeableView.setOnClickListener{
             drawerLayout.close()
         }
+
+        val profilePicture: ImageView = headerView.findViewById(R.id.shapeableImageViewUser)
+
+        Glide.with(this).load(userViewModel.user.value?.imageUrl).into(profilePicture)
+
         val profileConstraint = headerView.findViewById<ConstraintLayout>(R.id.ToolbarConstraintUser)
         profileConstraint.setOnClickListener{
             val action = StartPageFragmentDirections.actionStartpageToMyprofile()

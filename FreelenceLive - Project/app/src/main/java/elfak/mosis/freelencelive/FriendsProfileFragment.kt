@@ -8,8 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
+import com.bumptech.glide.Glide
+import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.databinding.FragmentFriendsProfileBinding
+import elfak.mosis.freelencelive.model.userViewModel
 
 
 class FriendsProfileFragment : Fragment() {
@@ -17,6 +22,7 @@ class FriendsProfileFragment : Fragment() {
     var brojKomentara = 10
     lateinit var CommentsLayout: LinearLayout // requireActivity().findViewById(R.id.gallery) //binding.gallery
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
+    private val userViewModel: userViewModel by activityViewModels()
 
     lateinit var binding: FragmentFriendsProfileBinding
 
@@ -32,7 +38,27 @@ class FriendsProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_friends_profile, container, false)
         binding = FragmentFriendsProfileBinding.inflate(inflater)
+
+        val FriendObserver = Observer<User> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            Glide.with(this).load(newValue.imageUrl).into(binding.imageCameraBackground)
+            binding.userNameText.setText(newValue.userName)
+            binding.phoneNumberText.setText(newValue.phoneNumber)
+            binding.EmailText.setText(newValue.email)
+            setRating()
+        }
+        userViewModel.selectedUser.observe(viewLifecycleOwner, FriendObserver)
+
         return binding.root
+    }
+
+    private fun setRating() {
+        val totalScore = userViewModel.selectedUser.value?.totalScore?.toFloat()
+        val numOfRatings = userViewModel.selectedUser.value?.numOfRatings
+        val ratingResult = totalScore?.div(numOfRatings!!)
+
+        binding.Rating.rating = ratingResult!!
+        binding.ScoreText.text = ratingResult.toString()!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

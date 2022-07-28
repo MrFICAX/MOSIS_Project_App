@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MyProfileFragment">
@@ -34,11 +34,11 @@
             android:id="@+id/editMobileNo"
             android:layout_width="301dp"
             android:layout_height="77dp"
+            android:gravity="center"
             android:text="@string/freelencelive_string"
             android:textAlignment="center"
             android:textColor="@color/light_pink"
             android:textSize="46dp"
-            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
@@ -97,15 +97,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.411"
             app:shapeAppearance="@style/photo"
-            app:strokeWidth="5dp"
-            app:srcCompat="@drawable/img_0950"/>
+            app:srcCompat="@drawable/img_0950"
+            app:strokeWidth="5dp" />
 
         <TextView
             android:id="@+id/change_photo"
             android:layout_width="117dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginStart="32dp"
+            android:gravity="center"
 
             android:text="@string/change_photo"
             android:textAlignment="center"
@@ -134,7 +134,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/JobTitleLayout"
+            android:id="@+id/userNameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="197dp"
             android:layout_height="58dp"
@@ -147,13 +147,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.96"
-            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
             app:startIconDrawable="@drawable/edit_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password"
+                android:id="@+id/usernameText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/rectange_job_title"
@@ -223,35 +223,36 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/phoneNumberLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="177dp"
-                android:layout_height="58dp"
-                android:hint="@string/phone_number_string"
-                app:hintTextColor="@color/black"
-                android:textColorHint="@color/black"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.07"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/PhoneText"
-                app:layout_constraintVertical_bias="0.0"
-                app:startIconDrawable="@drawable/edit_text">
+            android:id="@+id/phoneNumberLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="177dp"
+            android:layout_height="58dp"
+            android:hint="@string/phone_number_string"
+
+            android:textColorHint="@color/black"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:endIconMode="clear_text"
+            app:hintTextColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.07"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PhoneText"
+            app:layout_constraintVertical_bias="0.0"
+            app:startIconDrawable="@drawable/edit_text">
 
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phoneNumberText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/rectange_job_title"
-                    android:backgroundTint="@color/purple_200"
-                    android:inputType="text"
-                    android:textColor="@color/black" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phoneNumberText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectange_job_title"
+                android:backgroundTint="@color/purple_200"
+                android:inputType="text"
+                android:textColor="@color/black" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/passwordTitle"
@@ -269,35 +270,36 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passwordLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="177dp"
-                android:layout_height="58dp"
-                android:hint="@string/password"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:endIconMode="clear_text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.07"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/passwordTitle"
-                app:layout_constraintVertical_bias="0.0"
-                app:passwordToggleEnabled="true"
-                app:startIconDrawable="@drawable/edit_text">
+            android:id="@+id/passwordLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="177dp"
+            android:layout_height="58dp"
+            android:hint="@string/new_pass"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:endIconMode="clear_text"
+            app:hintTextColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.07"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordTitle"
+            app:layout_constraintVertical_bias="0.0"
+            app:passwordToggleEnabled="true"
+            app:startIconDrawable="@drawable/edit_text">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/rectange_job_title"
-                    android:backgroundTint="@color/purple_200"
-                    android:inputType="textPassword"
-                    android:textColor="@color/black" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rectange_job_title"
+                android:backgroundTint="@color/purple_200"
+                android:inputType="textPassword"
+                android:textColor="@color/black" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/FirstNameTitle"
@@ -324,7 +326,9 @@
             android:textColorHint="@color/black"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
+
             app:endIconMode="clear_text"
+            app:hintTextColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.97"
@@ -339,7 +343,6 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/rectange_job_title"
                 android:backgroundTint="@color/purple_200"
-                android:inputType="textPassword"
                 android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -370,6 +373,7 @@
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:endIconMode="clear_text"
+            app:hintTextColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.97"
@@ -384,7 +388,6 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/rectange_job_title"
                 android:backgroundTint="@color/purple_200"
-                android:inputType="textPassword"
                 android:textColor="@color/black" />
 
         </com.google.android.material.textfield.TextInputLayout>
