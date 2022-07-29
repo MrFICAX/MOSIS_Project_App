@@ -4,10 +4,15 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -22,6 +27,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -30,8 +37,11 @@ import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.freelencelive.MainWindowActivity
 import elfak.mosis.freelencelive.MyProfileFragment
+import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.SignUpFragmentDirections
+import elfak.mosis.freelencelive.data.Comment
 import elfak.mosis.freelencelive.data.User
+import elfak.mosis.freelencelive.data.friendRequest
 import elfak.mosis.freelencelive.databinding.FragmentMyProfileBinding
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.model.addEventViewModel
@@ -125,6 +135,10 @@ object FirebaseHelper {
 //        Toast.makeText(this, exception.toString(), Toast.LENGTH_LONG).show()
 //    }
 
+//UPITI U CLOUD FIRESTORE-U
+
+    // 1. collection("").whereEqualTo("keyString", "value") //vraca
+
 
     private var cloudStorage: FirebaseStorage = Firebase.storage
     private var storageRef: StorageReference = cloudStorage.reference
@@ -195,6 +209,7 @@ object FirebaseHelper {
                     Log.d("user", user.toString())
 
                     var currUser: User = User(
+                        user?.uid!!,
                         email,
                         username,
                         firstName,
@@ -202,12 +217,13 @@ object FirebaseHelper {
                         phoneNumber,
                         0,
                         0,
-                        ""
+                        "",
+                        hashMapOf<String, Boolean>()
 //                            listOf<User>(),
 //                            listOf<String>()
                     )
                     try {
-                        val db = user?.let { it1 ->
+                        val db = user.let { it1 ->
                             cloudFirestore.collection("Profiles").document(
                                 it1.uid
                             ).set(currUser).addOnCompleteListener {
@@ -225,7 +241,7 @@ object FirebaseHelper {
                                 }.addOnSuccessListener { taskSnapshot ->
                                     //taskSnapshot.metadata contains file metadata such as size, content-type, etc.
                                     firebaseAuth.signOut()
-//                                    navController.navigate(R.id.action)
+                                    //                                    navController.navigate(R.id.action)
                                     val action =
                                         SignUpFragmentDirections.actionSignupGotoLogin()
                                     NavHostFragment.findNavController(fragment).navigate(action)
@@ -308,52 +324,67 @@ object FirebaseHelper {
                     Log.d("100", "DocumentSnapshot data: ${result.data}")
                     try {
 
-                    var userTmp: User = User("", "", "", "", "", 0, 0, "")
+                        var userTmp: User = User(
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            0,
+                            0,
+                            "",
+                            hashMapOf<String, Boolean>()
+                        )
 
-                    //user = result.toObject<User>()
-                    userTmp.email = result.data?.get("email").toString()
-                    userTmp.userName = result.data?.get("userName").toString()
-                    userTmp.firstName = result.data?.get("firstName").toString()
-                    userTmp.lastName = result.data?.get("lastName").toString()
-                    userTmp.phoneNumber = result.data?.get("phoneNumber").toString()
-                    var tmpString: String = result.data?.get("numOfRatings").toString()
-                    userTmp.numOfRatings = tmpString.toInt()
-                    tmpString = result.data?.get("totalScore").toString()
-                    userTmp.totalScore = tmpString.toInt()
-                    //user.numOfRatings = result.data?.get("numOfRatings") as Int
-                    //user.totalScore = result.data?.get("totalScore") as Int
+                        //user = result.toObject<User>()
+                        userTmp.id = result.data?.get("id").toString()
+                        userTmp.email = result.data?.get("email").toString()
+                        userTmp.userName = result.data?.get("userName").toString()
+                        userTmp.firstName = result.data?.get("firstName").toString()
+                        userTmp.lastName = result.data?.get("lastName").toString()
+                        userTmp.phoneNumber = result.data?.get("phoneNumber").toString()
+                        var tmpString: String = result.data?.get("numOfRatings").toString()
+                        userTmp.numOfRatings = tmpString.toInt()
+                        tmpString = result.data?.get("totalScore").toString()
+                        userTmp.totalScore = tmpString.toInt()
+
+                        var lista = result.data?.getValue("friendsList")
+                        userTmp.friendsList = lista as HashMap<String, Boolean>
+                        //user.numOfRatings = result.data?.get("numOfRatings") as Int
+                        //user.totalScore = result.data?.get("totalScore") as Int
 
 //                    var profileImg = " "
 //                    val storageRef = Firebase.storage.reference
-                    storageRef.child("ProfileImages/${user.uid}.png").downloadUrl.addOnSuccessListener {
-                        userTmp.imageUrl = it.toString()
+                        storageRef.child("ProfileImages/${user.uid}.png").downloadUrl.addOnSuccessListener {
+                            userTmp.imageUrl = it.toString()
 
-                        val mapa: Map<String, String> = mapOf("imageUrl" to userTmp.imageUrl)
+                            val mapa: Map<String, String> = mapOf("imageUrl" to userTmp.imageUrl)
 
-                        cloudFirestore.collection("Profiles").document(
-                            user!!.uid
-                        ).update(mapa)
+                            cloudFirestore.collection("Profiles").document(
+                                user!!.uid
+                            ).update(mapa)
 
-                        Toast.makeText(context, "Data downloaded!", Toast.LENGTH_LONG).show()
-                        val intent = Intent(context, MainWindowActivity::class.java)
-                        intent.putExtra("user", userTmp as Serializable)
+                            Toast.makeText(context, "Data downloaded!", Toast.LENGTH_LONG).show()
+                            val intent = Intent(context, MainWindowActivity::class.java)
+                            intent.putExtra("user", userTmp as Serializable)
 
-                        startActivity(context, intent, null)
-                        activity.finish()
-                    }
-                } catch (e: Exception) {
-                user?.delete()?.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
+                            startActivity(context, intent, null)
+                            activity.finish()
+                        }
+                    } catch (e: Exception) {
+//                user?.delete()?.addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
                         Toast.makeText(
-                           context,
+                            context,
                             e.toString(),
                             //"Neuspešna registracija V2",
                             Toast.LENGTH_LONG
                         ).show()
 
+//                    }
+//                }
                     }
-                }
-            }
                 }
             }
             .addOnFailureListener { exception ->
@@ -361,7 +392,12 @@ object FirebaseHelper {
             }
     }
 
-    fun updateProfilePhoto(pd: ProgressDialog, imageBitmap: Bitmap, binding: FragmentMyProfileBinding, imageUri: Uri?){
+    fun updateProfilePhoto(
+        pd: ProgressDialog,
+        imageBitmap: Bitmap,
+        binding: FragmentMyProfileBinding,
+        imageUri: Uri?
+    ) {
         val user = firebaseAuth.currentUser
 
         val baos = ByteArrayOutputStream()
@@ -384,8 +420,12 @@ object FirebaseHelper {
     }
 
 
-
-    fun updateUserData( mapa: HashMap<String, String>, pd: ProgressDialog, context: Context, navController: NavController){
+    fun updateUserData(
+        mapa: HashMap<String, String>,
+        pd: ProgressDialog,
+        context: Context,
+        navController: NavController
+    ) {
         val user = firebaseAuth.currentUser
 
         cloudFirestore.collection("Profiles").document(
@@ -394,24 +434,36 @@ object FirebaseHelper {
             Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_LONG).show()
 
             navController.popBackStack()
-        }.addOnFailureListener{
+        }.addOnFailureListener {
             Toast.makeText(context, "Data not updated !", Toast.LENGTH_LONG).show()
         }
 
     }
 
-    fun getOtherUsers(context: Context, userViewModel: userViewModel){
+    fun getOtherUsers(context: Context, userViewModel: userViewModel) {
         val userMe = firebaseAuth.currentUser
 
         cloudFirestore.collection("Profiles").get().addOnSuccessListener {
             val document = it.documents
             val lista: ArrayList<User> = arrayListOf<User>()
-            document.forEach{ user ->
-                //if(!(userMe?.equals(user)!!)){
+            document.forEach { user ->
+                if (!(userMe?.uid.equals(user.id))) {
 
-                    var userTmp: User = User("", "", "", "", "", 0, 0, "")
+                    var userTmp: User = User(
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        0,
+                        0,
+                        "",
+                        hashMapOf<String, Boolean>()
+                    )
 
                     //user = result.toObject<User>()
+                    userTmp.id = user.data?.get("id").toString()
                     userTmp.email = user.data?.get("email").toString()
                     userTmp.userName = user.data?.get("userName").toString()
                     userTmp.firstName = user.data?.get("firstName").toString()
@@ -422,21 +474,101 @@ object FirebaseHelper {
                     tmpString = user.data?.get("totalScore").toString()
                     userTmp.totalScore = tmpString.toInt()
 
+                    var hashMapa = user.data?.getValue("friendsList")
+                    userTmp.friendsList = hashMapa as HashMap<String, Boolean>
+
                     storageRef.child("ProfileImages/${user.id}.png").downloadUrl.addOnSuccessListener {
                         userTmp.imageUrl = it.toString()
                         lista.add(userTmp)
                     }
-                        .addOnFailureListener{
+                        .addOnFailureListener {
                             lista.add(userTmp)
                         }
-                //}
+                    //}
 
+                }
             }
             userViewModel.addUserList(lista)
-
-        }.addOnFailureListener{
+        }.addOnFailureListener {
             Toast.makeText(context, "Users not downloaded!", Toast.LENGTH_LONG).show()
         }
+    }
+
+    fun getAllFriendRequests(context: Context, userViewModel: userViewModel) {
+        val userMe = firebaseAuth.currentUser
+
+        cloudFirestore.collection("friendRequests").get().addOnSuccessListener {
+            val document = it.documents
+            val lista: ArrayList<friendRequest> = arrayListOf<friendRequest>()
+            document.forEach { singleRequestDocument ->
+
+                var friendRequestTmp: friendRequest = friendRequest(
+                    "",
+                    "",
+                    ""
+                )
+
+                //user = result.toObject<User>()
+                friendRequestTmp.id = singleRequestDocument.data?.get("id").toString()
+                friendRequestTmp.issuedBy = singleRequestDocument.data?.get("issuedBy").toString()
+                friendRequestTmp.requestTo = singleRequestDocument.data?.get("requestTo").toString()
+
+                lista.add(friendRequestTmp)
+
+            }
+            userViewModel.addFriendsRequestList(lista)
+        }.addOnFailureListener {
+            Toast.makeText(context, "requests not downoloaded!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun sendFriendsRequest(
+        userId: String,
+        context: Context,
+        pd: ProgressDialog,
+        sendRequestButton: Button,
+        userViewModel: userViewModel
+    ) {
+
+//        val request = hashMapOf(
+//            "issuedBy" to FirebaseAuth.getInstance().currentUser?.uid,
+//            "requestTo" to userId
+//        )
+
+
+        val newRef = cloudFirestore.collection("friendRequests").document()
+        val id = newRef.id
+
+        val newRequest: friendRequest =
+            friendRequest(id, FirebaseAuth.getInstance().currentUser?.uid.toString(), userId)
+
+
+        newRef.set(newRequest)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
+                pd.dismiss()
+                sendRequestButton.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.yellow
+                        )
+                    )
+                )
+                sendRequestButton.setText("REQUEST SENT")
+                sendRequestButton.isClickable = false
+                userViewModel.addNewFriendRequest(newRequest)
+
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                pd.dismiss()
+            }
+    }
+
+
+    fun getAllInvitations(requireContext: Context, userViewModel: userViewModel) {
+
     }
 
 
@@ -458,6 +590,7 @@ object FirebaseHelper {
         docData["objectExample"] = nestedData
 
         val currUser = User(
+            "1",
             "ficax00@gmail.com",
             "Aa1234.",
             "ficax99",
@@ -465,10 +598,11 @@ object FirebaseHelper {
             "0616440562",
             0,
             0,
-            ""
+            "",
+            hashMapOf<String, Boolean>()
         )
 
-        cloudFirestore.collection("Profiles").document("one").set(currUser)
+        cloudFirestore.collection("users").document("SFKdYaQ7ZwBsuGuUN13Y").delete()
             .addOnSuccessListener {
                 Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
             }
@@ -477,5 +611,173 @@ object FirebaseHelper {
             }
 
     }
+
+//TESTIRATI
+    fun declineRequest(singleRequest: friendRequest, context: Context, userViewModel: userViewModel){
+        val newRef = cloudFirestore.collection("friendRequests").document(singleRequest.id)
+            .delete().addOnSuccessListener{
+                Toast.makeText(context, "Request deleted! "+it.toString(), Toast.LENGTH_LONG).show()
+
+                val updatedRequest: friendRequest? = userViewModel.friendReqeusts.value?.filter { it.id.equals(singleRequest.id) }?.firstOrNull()
+                val updatedListOfRequests: List<friendRequest>? = userViewModel.friendReqeusts.value?.filter { ! it.id.equals(singleRequest.id) }
+
+                updatedListOfRequests?.minus(updatedRequest)
+                userViewModel.addFriendsRequestList(updatedListOfRequests!!)
+
+            }.addOnFailureListener{
+                Toast.makeText(context, "Request not deleted! "+it.toString(), Toast.LENGTH_LONG).show()
+
+            }
+
+    }
+
+    fun acceptRequest(
+        singleRequest: friendRequest,
+        context: Context,
+        userViewModel: userViewModel,
+        viewItem: View,
+        invitationsLayout: LinearLayout
+    ) {
+
+        try{
+
+        cloudFirestore.collection("friendRequests").document(singleRequest.id).delete().addOnSuccessListener {
+
+            val hashMapRequestToUser: HashMap<String, Boolean> = hashMapOf(singleRequest.requestTo to true)
+            val hashMapIssuedByUser = hashMapOf(singleRequest.issuedBy to true)
+
+            //hashMapRequestToUser.
+
+            try {
+
+                cloudFirestore.collection("Profiles")
+                    .document(singleRequest.issuedBy)
+                    .get().addOnSuccessListener {
+                        var hashMapa = it.data?.getValue("friendsList")
+                        var hashMap: HashMap<String, Boolean> = hashMapa as HashMap<String, Boolean>
+                        hashMapRequestToUser.plus(hashMap)
+
+                    }
+
+                cloudFirestore.collection("Profiles")
+                    .document(singleRequest.issuedBy)
+                    .update( "friendsList", hashMapRequestToUser as Map<String, Any>) //.set(hashMapRequestToUser, SetOptions.merge())
+                    .addOnSuccessListener {
+
+                        cloudFirestore.collection("Profiles")
+                            .document(singleRequest.requestTo).get().addOnSuccessListener {
+                                var hashMapa = it.data?.getValue("friendsList")
+                                var hashMap: HashMap<String, Boolean> = hashMapa as HashMap<String, Boolean>
+                                hashMapIssuedByUser.plus(hashMap)
+                            }
+
+                        cloudFirestore.collection("Profiles")
+                            .document(singleRequest.requestTo).update("friendsList", hashMapIssuedByUser as Map<String, Any>)
+//                            .set(hashMapIssuedByUser, SetOptions.merge())
+
+                        val updatedRequest: friendRequest? =
+                            userViewModel.friendReqeusts.value?.filter { it.id.equals(singleRequest.id) }
+                                ?.firstOrNull()
+                        val updatedListOfRequests: List<friendRequest>? =
+                            userViewModel.friendReqeusts.value?.filter { !it.id.equals(singleRequest.id) }
+
+                        updatedListOfRequests?.minus(updatedRequest)
+                        userViewModel.addFriendsRequestList(updatedListOfRequests!!)
+
+//                        val tmpLista =
+//                            userViewModel.friendReqeusts.value?.filter { !it.id.equals(singleRequest.id) }
+//                        userViewModel.addFriendsRequestList(tmpLista!!)
+
+                        val updatedUser: User = userViewModel.user.value!!
+                        updatedUser.friendsList.put(singleRequest.issuedBy, true)
+                        userViewModel.setNewUser(updatedUser)
+
+                        val updatedFriend: User? =
+                            userViewModel.users.value?.filter { it.id.equals(singleRequest.issuedBy) }
+                                ?.firstOrNull()
+                        updatedFriend?.friendsList?.put(singleRequest.requestTo, true)
+
+
+                        val updatedList: MutableList<User>? =
+                            userViewModel.users.value?.filter { !it.id.equals(singleRequest.issuedBy) } as MutableList<User>?
+
+
+                        updatedList?.add(updatedFriend!!)
+
+                        userViewModel.addUserList(updatedList!!)
+
+                        invitationsLayout.removeView(viewItem)
+
+
+                    }.addOnFailureListener {
+                        Toast.makeText(context, "Data not updated to profiles!", Toast.LENGTH_LONG)
+                            .show()
+                    }
+
+            } catch (e: Exception) {
+                Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                cloudFirestore.collection("friendRequests").document(singleRequest.id).set(singleRequest)
+
+            }
+        }.addOnFailureListener{
+                Toast.makeText(context, "Request not deleted! "+it.toString(), Toast.LENGTH_LONG).show()
+
+            }
+        } catch (e: Exception){
+            Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
+
+        }
+    }
+
+    fun postComment(newComment: Comment, requireContext: Context, userViewModel: userViewModel, pd: ProgressDialog) {
+
+        val newRef = cloudFirestore.collection("comments").document()
+        val id = newRef.id
+
+        newRef.set(newComment)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
+                pd.dismiss()
+
+                var listaKomentara: List<Comment> = userViewModel.comments.value!!
+                listaKomentara.plus(newComment)
+                userViewModel.addCommentList(listaKomentara)
+
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
+                pd.dismiss()
+            }
+    }
+
+    fun getAllComments(userId: String, userViewModel: userViewModel, context: Context) {
+        val userMe = firebaseAuth.currentUser
+
+        cloudFirestore.collection("comments").whereEqualTo("issuedFor", userId).get()
+            .addOnSuccessListener {
+            val comments = it.documents
+            val lista: ArrayList<Comment> = arrayListOf<Comment>()
+                comments.forEach { singleRequestDocument ->
+
+                var commentTmp: Comment = Comment(
+                    "",
+                    "",
+                    ""
+                )
+
+                //user = result.toObject<User>()
+                    commentTmp.text = singleRequestDocument.data?.get("text").toString()
+                    commentTmp.issuedBy = singleRequestDocument.data?.get("issuedBy").toString()
+                    commentTmp.issuedFor = singleRequestDocument.data?.get("issuedFor").toString()
+
+                lista.add(commentTmp)
+
+            }
+            userViewModel.addCommentList(lista)
+        }.addOnFailureListener {
+            Toast.makeText(context, "comments not downoloaded!", Toast.LENGTH_LONG).show()
+        }
+    }
+
 
 }

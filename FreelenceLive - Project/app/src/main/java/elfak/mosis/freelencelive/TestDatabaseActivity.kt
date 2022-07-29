@@ -19,7 +19,9 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.freelencelive.data.Event
+import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import java.io.ByteArrayOutputStream
+import kotlin.math.log
 
 class TestDatabaseActivity : AppCompatActivity() {
 
@@ -188,8 +190,13 @@ class TestDatabaseActivity : AppCompatActivity() {
         //postEventToRealTimeDB()
         //postDataToCloudFirestore()
         setViews()
+        //addTempData()
+        //getTempData()
+        //addCollectionToTempData()
         //getDataFromCloudFirestore()
         //downloadFilesFromCloudStorage()
+
+        FirebaseHelper.probniCloudFirestore(this)
 
 
         var tekst:String? = null;
@@ -254,6 +261,54 @@ class TestDatabaseActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun addTempData() {
+
+        val cities = Firebase.firestore.collection("cities")
+
+        val data5 = hashMapOf(
+            "name" to "Beijing",
+            "state" to null,
+            "country" to "China",
+            "capital" to true,
+            "population" to 21500000,
+            "hashMapa" to hashMapOf<String, Boolean>(),
+            "regions" to listOf("jingjinji", "hebei")
+        )
+        cities.document("BJ").update(data5)
+    }
+
+    private fun addCollectionToTempData(){
+        val citiesRef = Firebase.firestore.collection("cities")
+        val jpData = mapOf(
+            "name" to "Jingshan Park",
+            "type" to "park"
+        )
+        citiesRef.document("BJ").collection("landmarks").add(jpData)
+
+        val baoData = mapOf(
+            "name" to "Beijing Ancient Observatory",
+            "type" to "musuem"
+        )
+        citiesRef.document("BJ").collection("landmarks").add(baoData)
+    }
+
+    private fun getTempData(){
+        val cities = Firebase.firestore.collection("cities")
+
+        //cities.whereEqualTo("hashMapa.123", true).get()... /MOZE I OVO
+
+        cities.orderBy("hashMapa.123").get().addOnSuccessListener {queryDocumentSnapshots ->
+            var lista = queryDocumentSnapshots.documents
+            lista.forEach {
+            Log.d("mrficax", it.data.toString())
+            }
+            Toast.makeText(this, "Uspesno; Ovoliko elemenata:"+lista.size, Toast.LENGTH_LONG).show()
+        }
+            .addOnFailureListener{
+                Toast.makeText(this, "Neuspesno", Toast.LENGTH_LONG).show()
+            }
     }
 
     override fun onBackPressed() {

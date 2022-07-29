@@ -97,7 +97,7 @@ class MapFragment : Fragment() {
 
         map.controller.setZoom(13.0)
         val startPoint = GeoPoint(43.3209, 21.8958)
-        //map.controller.setCenter(startPoint)
+        map.controller.setCenter(startPoint)
 
         myLocationOverlay.enableMyLocation()
         myLocationOverlay.enableFollowLocation()

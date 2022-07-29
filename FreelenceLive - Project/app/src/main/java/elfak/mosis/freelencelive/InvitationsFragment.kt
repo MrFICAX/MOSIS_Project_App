@@ -1,6 +1,5 @@
 package elfak.mosis.freelencelive
 
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -9,17 +8,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
-import androidx.navigation.Navigation
-import androidx.navigation.Navigation.findNavController
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
-import elfak.mosis.freelencelive.adapters.InvitationsRecyclerAdapter
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import elfak.mosis.freelencelive.data.User
+import elfak.mosis.freelencelive.data.friendRequest
+import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentInvitationsBinding
-import elfak.mosis.freelencelive.databinding.FragmentJobViewBinding
+import elfak.mosis.freelencelive.model.userViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -34,6 +33,9 @@ class InvitationsFragment : Fragment() {
     var brojInvitationsa = 3
     lateinit var invitationsLayout: LinearLayout // requireActivity().findViewById(R.id.gallery) //binding.gallery
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
+    private val userViewModel: userViewModel by activityViewModels()
+    var usersDownloaded = false
+    var friendRequestsDownloaded = false
 
 
     private lateinit var binding: FragmentInvitationsBinding
@@ -49,6 +51,41 @@ class InvitationsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentInvitationsBinding.inflate(inflater)
+
+        if (userViewModel.users.value?.isEmpty() == true) {
+            FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
+        }
+
+        if (userViewModel.friendReqeusts.value?.isEmpty() == true) {
+            FirebaseHelper.getAllFriendRequests(requireContext(), userViewModel)
+        }
+        if (userViewModel.invitations.value?.isEmpty() == true) {
+            //FirebaseHelper.getAllInvitations(requireContext(), userViewModel)
+        }
+
+        val FriendsObserver = Observer<List<User>> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            val lista: List<User> = newValue
+            usersDownloaded = true
+
+            addFriendsRequestsToLinearLayout()
+
+        }
+        userViewModel.users.observe(viewLifecycleOwner, FriendsObserver)
+
+        val FriendsRequestsObserver = Observer<List<friendRequest>> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+//            val lista: List<User> = newValue
+
+            friendRequestsDownloaded = true
+            addFriendsRequestsToLinearLayout()
+
+            //addFriendsRequestsToLinearLayout(lista, false, "")
+
+        }
+        userViewModel.friendReqeusts.observe(viewLifecycleOwner, FriendsRequestsObserver)
+
+
         return binding.root
         //return inflater.inflate(R.layout.fragment_invitations, container, false)
     }
@@ -56,31 +93,36 @@ class InvitationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        invitationsLayout =  requireActivity().findViewById(R.id.InvitationsLayout) //binding.gallery
+        invitationsLayout = requireActivity().findViewById(R.id.InvitationsLayout) //binding.gallery
         inflater = LayoutInflater.from(requireContext())
 
-        binding.shapeableImageView.setOnClickListener{
+        binding.shapeableImageView.setOnClickListener {
             val action = InvitationsFragmentDirections.actionInvitationsToStartpage()
             NavHostFragment.findNavController(this).navigate(action)
         }
 
-        addInvitationsToLinearLayout()
+//        addInvitationsToLinearLayout()
+//        addFriendsRequestsToLinearLayout(lista, false, "")
     }
 
     private fun addInvitationsToLinearLayout() {
         //DODAVANJE FRIEND ITEM-A IZ LISTE PRIJAVLJENIH KORISNIKA
         //DODAVANJE SLIKA IZ LISTE SLIKA ZA OVAJ JOB
-        for(i in 0..brojInvitationsa - 1){
-            val viewItem: View = inflater.inflate(R.layout.fragment_invitation_item, invitationsLayout, false)
-            val imageView: ImageView = viewItem.findViewById(R.id.userProfilePictureInvitations) as ImageView
+        for (i in 0..brojInvitationsa - 1) {
+            val viewItem: View =
+                inflater.inflate(R.layout.fragment_invitation_item, invitationsLayout, false)
+            val imageView: ImageView =
+                viewItem.findViewById(R.id.userProfilePictureInvitations) as ImageView
             val usernameView: TextView = viewItem.findViewById(R.id.usernameTextInvitations)
-            val jobTitle: TextView  = viewItem.findViewById(R.id.JobTitleInvitations)
-            val dateTitle: TextView  = viewItem.findViewById(R.id.DateTextInvitations)
+            val jobTitle: TextView = viewItem.findViewById(R.id.JobTitleInvitations)
+            val dateTitle: TextView = viewItem.findViewById(R.id.DateTextInvitations)
             val itemMap: ImageView = viewItem.findViewById(R.id.IconMapInvitations) as ImageView
-            val acceptButton: LinearLayout = viewItem.findViewById(R.id.linearLayoutAccept) as LinearLayout
-            val declineButton: LinearLayout = viewItem.findViewById(R.id.linearLayoutDecline) as LinearLayout
+            val acceptButton: LinearLayout =
+                viewItem.findViewById(R.id.linearLayoutAccept) as LinearLayout
+            val declineButton: LinearLayout =
+                viewItem.findViewById(R.id.linearLayoutDecline) as LinearLayout
 
-            itemMap.setOnClickListener{
+            itemMap.setOnClickListener {
                 Toast.makeText(requireContext(), "KLIK NA VIEW LOCATION!", Toast.LENGTH_LONG).show()
                 val action = InvitationsFragmentDirections.actionInvitationsToViewLocationOnMap()
                 findNavController().navigate(action)
@@ -99,10 +141,85 @@ class InvitationsFragment : Fragment() {
                 imageView.setImageResource(R.drawable.img_0950)
 
             usernameView.setText("Prijatelj" + i.toString())
-            jobTitle.setText("Posao"+i.toString())
+            jobTitle.setText("Posao" + i.toString())
             dateTitle.setText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
 
             invitationsLayout.addView(viewItem)
         }
+    }
+
+    private fun addFriendsRequestsToLinearLayout() {
+        //DODAVANJE FRIEND ITEM-A IZ LISTE PRIJAVLJENIH KORISNIKA
+        //DODAVANJE SLIKA IZ LISTE SLIKA ZA OVAJ JOB
+
+        if (usersDownloaded && friendRequestsDownloaded) {
+
+
+            var listaKorisnika: List<User> = userViewModel.users.value!!
+            var listaRequesta: List<friendRequest> = userViewModel.friendReqeusts.value!!
+
+
+            for (singleRequest in listaRequesta) {
+
+                if (singleRequest.requestTo.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
+
+
+                    val viewItem: View = inflater.inflate(
+                        R.layout.fragment_friend_request_item,
+                        invitationsLayout,
+                        false
+                    )
+                    val imageView: ImageView =
+                        viewItem.findViewById(R.id.userProfilePictureInvitations) as ImageView
+                    val usernameView: TextView = viewItem.findViewById(R.id.usernameTextInvitations)
+
+                    val acceptButton: LinearLayout =
+                        viewItem.findViewById(R.id.linearLayoutAccept) as LinearLayout
+                    val declineButton: LinearLayout =
+                        viewItem.findViewById(R.id.linearLayoutDecline) as LinearLayout
+
+                    acceptButton.setOnClickListener {
+                        Toast.makeText(requireContext(), "ACCEPT BUTTON!", Toast.LENGTH_LONG).show()
+                        acceptRequest(singleRequest, viewItem, invitationsLayout)
+                    }
+                    declineButton.setOnClickListener {
+                        Toast.makeText(requireContext(), "DECLINE BUTTON!", Toast.LENGTH_LONG)
+                            .show()
+                        declineRequest(singleRequest)
+                    }
+
+                    val issuedByUser: User? =
+                        listaKorisnika.filter { it.id.equals(singleRequest.issuedBy) }.firstOrNull()
+
+                    if (issuedByUser != null) {
+
+                        Glide.with(this).load(issuedByUser?.imageUrl).into(imageView)
+//                    if (i < 2)
+//                        imageView.setImageResource(R.drawable.img_0944)
+//                    else
+//                        imageView.setImageResource(R.drawable.img_0950)
+
+                        usernameView.setText(issuedByUser?.userName)//"Prijatelj" + i.toString())
+
+                        invitationsLayout.addView(viewItem)
+                    }
+                }
+            }
+        }
+
+    }
+
+    private fun declineRequest(singleRequest: friendRequest) {
+        FirebaseHelper.declineRequest(singleRequest, requireContext(), userViewModel)
+
+    }
+
+    private  fun acceptRequest(
+        singleRequest: friendRequest,
+        viewItem: View,
+        invitationsLayout: LinearLayout
+    ) {
+
+        FirebaseHelper.acceptRequest(singleRequest, requireContext(), userViewModel, viewItem, invitationsLayout)
     }
 }

@@ -9,17 +9,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import elfak.mosis.freelencelive.R
+import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.databinding.FragmentBottomNavBarBinding
+import elfak.mosis.freelencelive.model.fragmentViewModel
 
 
 class BottomNavBarFragment : Fragment() {
 
     private lateinit var binding: FragmentBottomNavBarBinding
     private lateinit var action: NavDirections
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,6 +36,14 @@ class BottomNavBarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentBottomNavBarBinding.inflate(layoutInflater)
+
+        val FragmentObserver = Observer<Fragment> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            setColorsOnMapClicked()
+        }
+        fragmentViewModel.fragment.observe(viewLifecycleOwner, FragmentObserver)
+
+
         return binding.root
 
     }

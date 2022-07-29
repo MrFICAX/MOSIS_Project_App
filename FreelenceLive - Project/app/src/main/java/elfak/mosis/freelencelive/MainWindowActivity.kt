@@ -1,5 +1,6 @@
 package elfak.mosis.freelencelive
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -24,9 +26,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.model.userViewModel
+import java.io.Serializable
 
 class MainWindowActivity : AppCompatActivity() {
 
@@ -93,6 +97,14 @@ class MainWindowActivity : AppCompatActivity() {
                     val action = StartPageFragmentDirections.actionStartpageToSettings()
                     Navigation.findNavController(findViewById(R.id.fragment_container)).navigate(action)
                     drawerLayout.close()
+                }
+                R.id.nav_logout -> {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    this.finish()
+                    drawerLayout.close()
+
+                    FirebaseAuth.getInstance().signOut()
                 }
 //                R.id.nav_slideshow -> {
 //                    Toast.makeText(this, "SLIDESHOW!", Toast.LENGTH_LONG).show()

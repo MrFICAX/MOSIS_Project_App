@@ -325,14 +325,14 @@
             app:expandedHintEnabled="true"
             app:hintAnimationEnabled="true"
             app:hintTextColor="@color/light_pink"
-            app:layout_constraintBottom_toTopOf="@+id/cancel_button"
+            app:layout_constraintBottom_toTopOf="@+id/leaveAComment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/horizScrlFriends"
             app:startIconDrawable="@drawable/edit_text">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/searchFriendsText"
+                android:id="@+id/commentText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/rectangle_search_shape"
@@ -347,13 +347,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/cancel_button"
+            android:id="@+id/leaveAComment"
             android:layout_width="213dp"
             android:layout_height="37dp"
             android:layout_centerHorizontal="true"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/rectangle_11_shape"
+            android:enabled="false"
 
             android:text="@string/leave_a_comment"
             android:textAlignment="center"

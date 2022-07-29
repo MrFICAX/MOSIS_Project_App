@@ -42,7 +42,7 @@ class RatingFragment : Fragment() {
         inflater = LayoutInflater.from(requireContext())
 
         binding.shapeableImageView.setOnClickListener{
-            val action = DashboardFragmentDirections.actionDashboardToStartpage()
+            val action = RatingFragmentDirections.actionRatingToStartPage()
             NavHostFragment.findNavController(this).navigate(action)
         }
 
