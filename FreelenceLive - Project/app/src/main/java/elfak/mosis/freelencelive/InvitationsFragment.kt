@@ -43,6 +43,13 @@ class InvitationsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (userViewModel.users.value?.isEmpty() == true) {
+            FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
+        }
+
+        if (userViewModel.friendReqeusts.value?.isEmpty() == true) {
+            FirebaseHelper.getAllFriendRequests(requireContext(), userViewModel)
+        }
     }
 
     override fun onCreateView(
@@ -52,23 +59,25 @@ class InvitationsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentInvitationsBinding.inflate(inflater)
 
-        if (userViewModel.users.value?.isEmpty() == true) {
-            FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
-        }
-
-        if (userViewModel.friendReqeusts.value?.isEmpty() == true) {
-            FirebaseHelper.getAllFriendRequests(requireContext(), userViewModel)
-        }
+//        if (userViewModel.users.value?.isEmpty() == true) {
+//            FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
+//        }
+//
+//        if (userViewModel.friendReqeusts.value?.isEmpty() == true) {
+//            FirebaseHelper.getAllFriendRequests(requireContext(), userViewModel)
+//        }
         if (userViewModel.invitations.value?.isEmpty() == true) {
             //FirebaseHelper.getAllInvitations(requireContext(), userViewModel)
         }
 
         val FriendsObserver = Observer<List<User>> { newValue ->
             //binding.buttonCreateJob.setText(newValue)
-            val lista: List<User> = newValue
-            usersDownloaded = true
 
-            addFriendsRequestsToLinearLayout()
+            if (!newValue.isEmpty()) {
+
+                usersDownloaded = true
+                addFriendsRequestsToLinearLayout()
+            }
 
         }
         userViewModel.users.observe(viewLifecycleOwner, FriendsObserver)
@@ -77,10 +86,11 @@ class InvitationsFragment : Fragment() {
             //binding.buttonCreateJob.setText(newValue)
 //            val lista: List<User> = newValue
 
-            friendRequestsDownloaded = true
-            addFriendsRequestsToLinearLayout()
+            //if (!newValue.isEmpty()) {
+                friendRequestsDownloaded = true
+                addFriendsRequestsToLinearLayout()
+            //}
 
-            //addFriendsRequestsToLinearLayout(lista, false, "")
 
         }
         userViewModel.friendReqeusts.observe(viewLifecycleOwner, FriendsRequestsObserver)
@@ -148,9 +158,11 @@ class InvitationsFragment : Fragment() {
         }
     }
 
-    private fun addFriendsRequestsToLinearLayout() {
+    public fun addFriendsRequestsToLinearLayout() {
         //DODAVANJE FRIEND ITEM-A IZ LISTE PRIJAVLJENIH KORISNIKA
         //DODAVANJE SLIKA IZ LISTE SLIKA ZA OVAJ JOB
+
+        invitationsLayout.removeAllViewsInLayout()
 
         if (usersDownloaded && friendRequestsDownloaded) {
 
@@ -185,7 +197,7 @@ class InvitationsFragment : Fragment() {
                     declineButton.setOnClickListener {
                         Toast.makeText(requireContext(), "DECLINE BUTTON!", Toast.LENGTH_LONG)
                             .show()
-                        declineRequest(singleRequest)
+                        declineRequest(singleRequest, viewItem, invitationsLayout)
                     }
 
                     val issuedByUser: User? =
@@ -209,17 +221,30 @@ class InvitationsFragment : Fragment() {
 
     }
 
-    private fun declineRequest(singleRequest: friendRequest) {
-        FirebaseHelper.declineRequest(singleRequest, requireContext(), userViewModel)
+    private fun declineRequest(
+        singleRequest: friendRequest,
+        viewItem: View,
+        invitationsLayout: LinearLayout
+    ) {
+        FirebaseHelper.declineRequest(
+            singleRequest, requireContext(), userViewModel, viewItem,
+            invitationsLayout
+        )
 
     }
 
-    private  fun acceptRequest(
+    private fun acceptRequest(
         singleRequest: friendRequest,
         viewItem: View,
         invitationsLayout: LinearLayout
     ) {
 
-        FirebaseHelper.acceptRequest(singleRequest, requireContext(), userViewModel, viewItem, invitationsLayout)
+        FirebaseHelper.acceptRequest(
+            singleRequest,
+            requireContext(),
+            userViewModel,
+            viewItem,
+            invitationsLayout
+        )
     }
 }

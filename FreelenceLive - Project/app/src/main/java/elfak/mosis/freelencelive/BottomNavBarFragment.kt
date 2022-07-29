@@ -23,7 +23,7 @@ import elfak.mosis.freelencelive.model.fragmentViewModel
 class BottomNavBarFragment : Fragment() {
 
     private lateinit var binding: FragmentBottomNavBarBinding
-    private lateinit var action: NavDirections
+    private var action: NavDirections? = null
     private val fragmentViewModel: fragmentViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,8 +59,8 @@ class BottomNavBarFragment : Fragment() {
     private fun setOnClickListeners() {
 
         val navController = requireActivity().findNavController(R.id.fragment_container)
-
         binding.navbarIconInvitations.setOnClickListener {
+            action = null
             setColorsOnInvitationsClicked();
             when (navController.currentDestination?.id) {
 
@@ -115,13 +115,17 @@ class BottomNavBarFragment : Fragment() {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = SettingsFragmentDirections.actionSettingsToInvitations()
                 }
-                else -> {}
+                else -> {
+                    action = null
+                }
             }
-            NavHostFragment.findNavController(this).navigate(action)
+            if (action != null)
+                NavHostFragment.findNavController(this).navigate(action!!)
 
         }
 
         binding.navbarIconMap.setOnClickListener {
+            action = null
             setColorsOnMapClicked();
             when (navController.currentDestination?.id) {
                 R.id.notificationsFragment -> {
@@ -175,10 +179,13 @@ class BottomNavBarFragment : Fragment() {
                 }
                 else -> {}
             }
-            NavHostFragment.findNavController(this).navigate(action)
+            if (action != null)
+                NavHostFragment.findNavController(this).navigate(action!!)
 
         }
         binding.navbarIconNotifications.setOnClickListener {
+            action = null
+
             setColorsOnNotificationsClicked();
             when (navController.currentDestination?.id) {
                 R.id.startPageFragment -> {
@@ -232,7 +239,8 @@ class BottomNavBarFragment : Fragment() {
                 }
                 else -> {}
             }
-            NavHostFragment.findNavController(this).navigate(action)
+            if (action != null)
+                NavHostFragment.findNavController(this).navigate(action!!)
 
         }
 

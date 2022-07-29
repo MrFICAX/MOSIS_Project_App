@@ -17,7 +17,8 @@
         android:theme="@style/Theme.FreelenceLive">
         <activity
             android:name=".MainWindowActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan">
 
         </activity>
         <activity

@@ -59,6 +59,16 @@ class userViewModel: ViewModel() {
         _selectedUser.value = selectedUser
     }
 
+    fun setPhotoUrlToUser(userId: String, imgUrl: String){
+
+        val user: User? = _users.value?.filter { it.id.equals(userId) }?.firstOrNull()
+        user?.imageUrl = imgUrl
+        val newListOfUsers: MutableList<User>? = _users.value?.filter { !it.id.equals(userId) } as MutableList<User>?
+        newListOfUsers?.add(user!!)
+        _users.value = newListOfUsers
+
+    }
+
 //POTREBNO TESTIRATI
     fun addNewEvent(newEvent: Event){
         _events.value = _events.value?.plus(newEvent)

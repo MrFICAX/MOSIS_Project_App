@@ -35,10 +35,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
-import elfak.mosis.freelencelive.MainWindowActivity
-import elfak.mosis.freelencelive.MyProfileFragment
+import elfak.mosis.freelencelive.*
 import elfak.mosis.freelencelive.R
-import elfak.mosis.freelencelive.SignUpFragmentDirections
 import elfak.mosis.freelencelive.data.Comment
 import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.data.friendRequest
@@ -445,7 +443,7 @@ object FirebaseHelper {
 
         cloudFirestore.collection("Profiles").get().addOnSuccessListener {
             val document = it.documents
-            val lista: ArrayList<User> = arrayListOf<User>()
+            val lista: MutableList<User> = mutableListOf<User>()
             document.forEach { user ->
                 if (!(userMe?.uid.equals(user.id))) {
 
@@ -476,10 +474,11 @@ object FirebaseHelper {
 
                     var hashMapa = user.data?.getValue("friendsList")
                     userTmp.friendsList = hashMapa as HashMap<String, Boolean>
+                    lista.add(userTmp)
 
                     storageRef.child("ProfileImages/${user.id}.png").downloadUrl.addOnSuccessListener {
-                        userTmp.imageUrl = it.toString()
-                        lista.add(userTmp)
+                        //userTmp.imageUrl = it.toString()
+                        userViewModel.setPhotoUrlToUser(userTmp.id, it.toString())
                     }
                         .addOnFailureListener {
                             lista.add(userTmp)
@@ -613,7 +612,13 @@ object FirebaseHelper {
     }
 
 //TESTIRATI
-    fun declineRequest(singleRequest: friendRequest, context: Context, userViewModel: userViewModel){
+    fun declineRequest(
+    singleRequest: friendRequest,
+    context: Context,
+    userViewModel: userViewModel,
+    viewItem: View,
+    invitationsLayout: LinearLayout
+){
         val newRef = cloudFirestore.collection("friendRequests").document(singleRequest.id)
             .delete().addOnSuccessListener{
                 Toast.makeText(context, "Request deleted! "+it.toString(), Toast.LENGTH_LONG).show()
@@ -623,6 +628,8 @@ object FirebaseHelper {
 
                 updatedListOfRequests?.minus(updatedRequest)
                 userViewModel.addFriendsRequestList(updatedListOfRequests!!)
+
+                //invitationsLayout.removeView(viewItem)
 
             }.addOnFailureListener{
                 Toast.makeText(context, "Request not deleted! "+it.toString(), Toast.LENGTH_LONG).show()
@@ -644,7 +651,14 @@ object FirebaseHelper {
         cloudFirestore.collection("friendRequests").document(singleRequest.id).delete().addOnSuccessListener {
 
             val hashMapRequestToUser: HashMap<String, Boolean> = hashMapOf(singleRequest.requestTo to true)
+            var tmpMapa : HashMap<String, Boolean> = userViewModel.user.value!!.friendsList
+            tmpMapa.put(singleRequest.issuedBy, true)
+
             val hashMapIssuedByUser = hashMapOf(singleRequest.issuedBy to true)
+            val tmpMapa2: HashMap<String, Boolean> =
+                userViewModel.users.value?.filter { it.id.equals(singleRequest.issuedBy) }
+                    ?.firstOrNull()!!.friendsList
+            tmpMapa2.put(singleRequest.requestTo, true)
 
             //hashMapRequestToUser.
 
@@ -653,26 +667,26 @@ object FirebaseHelper {
                 cloudFirestore.collection("Profiles")
                     .document(singleRequest.issuedBy)
                     .get().addOnSuccessListener {
-                        var hashMapa = it.data?.getValue("friendsList")
-                        var hashMap: HashMap<String, Boolean> = hashMapa as HashMap<String, Boolean>
-                        hashMapRequestToUser.plus(hashMap)
+//                        var hashMapa = it.data?.getValue("friendsList")
+//                        var hashMap: HashMap<String, Boolean> = hashMapa as HashMap<String, Boolean>
+//                        hashMapRequestToUser.plus(hashMap)
 
                     }
 
                 cloudFirestore.collection("Profiles")
                     .document(singleRequest.issuedBy)
-                    .update( "friendsList", hashMapRequestToUser as Map<String, Any>) //.set(hashMapRequestToUser, SetOptions.merge())
+                    .update( mapOf("friendsList" to tmpMapa2 )) //.set(hashMapRequestToUser, SetOptions.merge())
                     .addOnSuccessListener {
 
                         cloudFirestore.collection("Profiles")
                             .document(singleRequest.requestTo).get().addOnSuccessListener {
-                                var hashMapa = it.data?.getValue("friendsList")
-                                var hashMap: HashMap<String, Boolean> = hashMapa as HashMap<String, Boolean>
-                                hashMapIssuedByUser.plus(hashMap)
+//                                var hashMapa = it.data?.getValue("friendsList")
+//                                var hashMap: HashMap<String, Boolean> = hashMapa as HashMap<String, Boolean>
+//                                hashMapIssuedByUser.plus(hashMap)
                             }
 
                         cloudFirestore.collection("Profiles")
-                            .document(singleRequest.requestTo).update("friendsList", hashMapIssuedByUser as Map<String, Any>)
+                            .document(singleRequest.requestTo).update(mapOf("friendsList" to tmpMapa as Map<String, Any>))
 //                            .set(hashMapIssuedByUser, SetOptions.merge())
 
                         val updatedRequest: friendRequest? =
