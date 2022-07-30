@@ -39,7 +39,10 @@ class BottomNavBarFragment : Fragment() {
 
         val FragmentObserver = Observer<Fragment> { newValue ->
             //binding.buttonCreateJob.setText(newValue)
-            setColorsOnMapClicked()
+            if (newValue != null)
+                setColorsOnMapClicked()
+            else
+                setColorsOthersClicked()
         }
         fragmentViewModel.fragment.observe(viewLifecycleOwner, FragmentObserver)
 
@@ -47,6 +50,8 @@ class BottomNavBarFragment : Fragment() {
         return binding.root
 
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -289,6 +294,23 @@ class BottomNavBarFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.purple_200)
         );
     }
+
+    private fun setColorsOthersClicked() {
+        var slika: ImageView =  requireView().findViewById(R.id.navbar_icon_invitations)
+        DrawableCompat.setTint(slika.getDrawable(), ContextCompat.getColor(requireContext(), R.color.purple_200));
+
+//        binding.navbarTitleMap.setTextColor(R.color.purple_500)
+        slika =  requireView().findViewById(R.id.navbar_icon_map)
+        DrawableCompat.setTint(slika.getDrawable(), ContextCompat.getColor(requireContext(), R.color.purple_200));
+
+//        binding.navbarTitleNotifications.setTextColor(R.color.purple_200)
+        //binding.navbarIconNotifications.setColorFilter(R.color.purple_500)
+
+        slika = requireView().findViewById(R.id.navbar_icon_notifications)
+        DrawableCompat.setTint(
+            slika.getDrawable(),
+            ContextCompat.getColor(requireContext(), R.color.purple_200)
+        );    }
 
     private fun setColorsOnNotificationsClicked(){
 //        binding.navbarTitleInvitations.setTextColor(R.color.purple_200)

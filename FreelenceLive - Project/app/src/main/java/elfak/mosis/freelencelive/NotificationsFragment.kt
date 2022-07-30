@@ -11,10 +11,12 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.freelencelive.databinding.FragmentInvitationsBinding
 import elfak.mosis.freelencelive.databinding.FragmentNotificationsBinding
+import elfak.mosis.freelencelive.model.fragmentViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

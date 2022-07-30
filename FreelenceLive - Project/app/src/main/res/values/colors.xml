@@ -25,6 +25,7 @@
 	<color name="green">#FF00ff00</color>
 	<color name="red">#FFFF0000</color>
 	<color name="yellow">#FFFFFF00</color>
+	<color name="x">#11FFFFFF</color>
 
 	<color name="comment_username_color">#AAD9D9D9</color>
 

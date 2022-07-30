@@ -241,7 +241,7 @@
             android:layout_marginStart="112dp"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="4.5"
+            android:text="@string/no_score"
             android:textAlignment="center"
             android:textColor="@color/light_pink"
             android:textSize="28sp"
@@ -256,6 +256,23 @@
             android:progressTint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ScoreText" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rateButton"
+            android:layout_width="110dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/rectange_job_shape"
+            android:text="@string/rate"
+            android:textAlignment="center"
+            android:textColor="@color/light_pink"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.302"
+            app:layout_constraintStart_toEndOf="@+id/Rating" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

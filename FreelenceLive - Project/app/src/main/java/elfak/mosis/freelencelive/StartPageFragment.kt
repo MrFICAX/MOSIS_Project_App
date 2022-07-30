@@ -1,24 +1,18 @@
 package elfak.mosis.freelencelive
 
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.activityViewModels
-import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.databinding.FragmentStartPageBinding
 import elfak.mosis.freelencelive.dialogs.AskToJoinFragmentDialog
-import elfak.mosis.freelencelive.dialogs.InviteFriendFragmentDialog
 import elfak.mosis.freelencelive.dialogs.addEventFragmentDialog
-import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
 import elfak.mosis.freelencelive.model.fragmentViewModel
 
 class StartPageFragment : Fragment() {

@@ -50,10 +50,10 @@
         android:fitsSystemWindows="true"
         android:backgroundTint="@color/menuColor"
         app:itemTextAppearance="@style/MenuItems"
-        app:itemIconTint="@color/white"
+        app:itemIconTint="@color/light_pink"
         app:itemIconSize="30sp"
         app:itemVerticalPadding="15sp"
-        app:itemTextColor="@color/white"
+        app:itemTextColor="@color/light_pink"
         android:clipToPadding="false"
 
         app:headerLayout="@layout/nav_header_main"

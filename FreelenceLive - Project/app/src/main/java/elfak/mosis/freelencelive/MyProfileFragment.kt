@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentDashboardBinding
 import elfak.mosis.freelencelive.databinding.FragmentMyProfileBinding
+import elfak.mosis.freelencelive.model.fragmentViewModel
 import elfak.mosis.freelencelive.model.userViewModel
 
 
@@ -29,14 +30,17 @@ class MyProfileFragment : Fragment() {
 
     private val userViewModel: userViewModel by activityViewModels()
     lateinit var pd : ProgressDialog
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
 
     private var imageUri: Uri? = null
     private val pickImage = 100
     private lateinit var binding: FragmentMyProfileBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pd = ProgressDialog(context)
         pd.setCancelable(false)
+        fragmentViewModel.setFragment(null)
 
     }
 

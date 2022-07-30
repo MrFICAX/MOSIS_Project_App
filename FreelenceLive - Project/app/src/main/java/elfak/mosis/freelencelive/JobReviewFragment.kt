@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -22,6 +23,7 @@ import elfak.mosis.freelencelive.databinding.FragmentJobReviewBinding
 import elfak.mosis.freelencelive.dialogs.ChooseDateFragmentDialog
 import elfak.mosis.freelencelive.dialogs.ChooseTimeFragmentDialog
 import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
+import elfak.mosis.freelencelive.model.fragmentViewModel
 
 class JobReviewFragment : Fragment() {
     private val pickImage = 100
@@ -30,6 +32,7 @@ class JobReviewFragment : Fragment() {
     private var formCheck: BooleanArray = BooleanArray(7)
     private lateinit var binding: FragmentJobReviewBinding
     private var imageUri: Uri? = null
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
 
     var brojSlika = 0
 
@@ -39,9 +42,7 @@ class JobReviewFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
+        fragmentViewModel.setFragment(null)
     }
 
     override fun onCreateView(

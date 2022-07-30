@@ -15,11 +15,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import elfak.mosis.freelencelive.databinding.FragmentJobViewBinding
+import elfak.mosis.freelencelive.model.fragmentViewModel
 
 
 class JobViewFragment : Fragment() {
@@ -38,9 +40,11 @@ class JobViewFragment : Fragment() {
     lateinit var galleryView: LinearLayout // requireActivity().findViewById(R.id.gallery) //binding.gallery
     lateinit var friendsView: LinearLayout
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fragmentViewModel.setFragment(null)
 
     }
 

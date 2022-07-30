@@ -18,6 +18,7 @@ import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.data.friendRequest
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentInvitationsBinding
+import elfak.mosis.freelencelive.model.fragmentViewModel
 import elfak.mosis.freelencelive.model.userViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -36,7 +37,6 @@ class InvitationsFragment : Fragment() {
     private val userViewModel: userViewModel by activityViewModels()
     var usersDownloaded = false
     var friendRequestsDownloaded = false
-
 
     private lateinit var binding: FragmentInvitationsBinding
 

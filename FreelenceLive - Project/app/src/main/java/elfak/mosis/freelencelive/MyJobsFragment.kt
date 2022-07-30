@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavAction
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
@@ -19,6 +20,7 @@ import androidx.navigation.fragment.findNavController
 import elfak.mosis.freelencelive.databinding.FragmentMyJobsBinding
 import elfak.mosis.freelencelive.dialogs.AdvancedSearchFragmentDialog
 import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
+import elfak.mosis.freelencelive.model.fragmentViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -34,11 +36,14 @@ class MyJobsFragment : Fragment() {
     var brojJobsa = 10
     lateinit var jobsLayout: LinearLayout // requireActivity().findViewById(R.id.gallery) //binding.gallery
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
 
     private lateinit var binding: FragmentMyJobsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fragmentViewModel.setFragment(null)
+
     }
 
     override fun onCreateView(

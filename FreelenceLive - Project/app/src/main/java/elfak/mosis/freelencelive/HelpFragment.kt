@@ -5,15 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import elfak.mosis.freelencelive.databinding.FragmentHelpBinding
+import elfak.mosis.freelencelive.model.fragmentViewModel
 
 
 class HelpFragment : Fragment() {
 
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
+
     lateinit var binding: FragmentHelpBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fragmentViewModel.setFragment(null)
 
     }
 

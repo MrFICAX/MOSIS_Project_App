@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.ScrollingMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,25 +12,26 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.data.Comment
+import elfak.mosis.freelencelive.data.Rating
 import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentFriendsProfileBinding
+import elfak.mosis.freelencelive.model.fragmentViewModel
 import elfak.mosis.freelencelive.model.userViewModel
 
 
 class FriendsProfileFragment : Fragment() {
 
-    var brojKomentara = 10
     lateinit var CommentsLayout: LinearLayout // requireActivity().findViewById(R.id.gallery) //binding.gallery
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
     private val userViewModel: userViewModel by activityViewModels()
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
 
     lateinit var pd: ProgressDialog
 
@@ -39,6 +41,8 @@ class FriendsProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         pd = ProgressDialog(context)
         pd.setCancelable(false)
+        fragmentViewModel.setFragment(null)
+
     }
 
     override fun onCreateView(
@@ -55,39 +59,78 @@ class FriendsProfileFragment : Fragment() {
             binding.userNameText.setText(newValue.userName)
             binding.phoneNumberText.setText(newValue.phoneNumber)
             binding.EmailText.setText(newValue.email)
-            setRating()
+            //setRating()
         }
         userViewModel.selectedUser.observe(viewLifecycleOwner, FriendObserver)
 
         val CommentsObserver = Observer<List<Comment>> { newValue ->
             //binding.buttonCreateJob.setText(newValue)
-            val lista: List<Comment> = newValue
-            addCommentsToLinearLayout(lista)
+            val filtriranaLista: List<Comment> =
+                userViewModel.comments.value!!.filter { it.issuedFor.equals(userViewModel.selectedUser.value?.id) }
+                    .toList()//userViewModel.comments.value!!
+            addCommentsToLinearLayout(filtriranaLista)
 
         }
         userViewModel.comments.observe(viewLifecycleOwner, CommentsObserver)
 
+        val RatingsObserver = Observer<List<Rating>> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            val filtriranaLista: List<Rating> =
+                userViewModel.ratings.value!!.filter { it.issuedFor.equals(userViewModel.selectedUser.value?.id) }
+                    .toList()//userViewModel.comments.value!!
+            setRating(filtriranaLista)
 
-        val listaKomentara: List<Comment> = userViewModel.comments.value!!
+        }
+        userViewModel.ratings.observe(viewLifecycleOwner, RatingsObserver)
+
+
 
         if (userViewModel.users.value?.isEmpty() == true) {
-
             FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
         }
-        if(listaKomentara.filter { it.issuedFor.equals(userViewModel.selectedUser.value?.id) }.isEmpty())
-             userViewModel.selectedUser.value?.id?.let { FirebaseHelper.getAllComments(it, userViewModel, requireContext()) }
 
+        val listaKomentara: List<Comment> = userViewModel.comments.value!!
+        if (listaKomentara.filter { it.issuedFor.equals(userViewModel.selectedUser.value?.id) }
+                .isEmpty())
+            userViewModel.selectedUser.value?.id?.let {
+                FirebaseHelper.getAllCommentsForSingleUser(
+                    it,
+                    userViewModel,
+                    requireContext()
+                )
+            }
 
+        val listaRatinga: List<Rating> = userViewModel.ratings.value!!
+        if (listaRatinga.filter { it.issuedFor.equals(userViewModel.selectedUser.value?.id) }
+                .isEmpty())
+            userViewModel.selectedUser.value?.id?.let {
+                FirebaseHelper.getAllRatingsForSingleUser(
+                    it,
+                    userViewModel,
+                    requireContext()
+                )
+            }
         return binding.root
     }
 
-    private fun setRating() {
-        val totalScore = userViewModel.selectedUser.value?.totalScore?.toFloat()
-        val numOfRatings = userViewModel.selectedUser.value?.numOfRatings
-        val ratingResult = totalScore?.div(numOfRatings!!)
+    private fun setRating(lista: List<Rating>) {
 
-        binding.Rating.rating = ratingResult!!
-        binding.ScoreText.text = ratingResult.toString()!!
+        var total: Float = 0f
+        for (element in lista) {
+            total += element.score
+        }
+
+
+        val totalScore = total//userViewModel.selectedUser.value?.totalScore?.toFloat()
+        val numOfRatings = lista.size //userViewModel.selectedUser.value?.numOfRatings
+
+        var ratingResult = 0f
+
+        if (!numOfRatings!!.equals(0)) {
+            ratingResult = totalScore?.div(numOfRatings!!)!!
+            binding.Rating.rating = ratingResult!!
+            binding.ScoreText.text = ratingResult.toString()!!
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,7 +140,7 @@ class FriendsProfileFragment : Fragment() {
         inflater = LayoutInflater.from(requireContext())
 
         binding.shapeableImageView.setOnClickListener {
-            val action = DashboardFragmentDirections.actionDashboardToStartpage()
+            val action = FriendsProfileFragmentDirections.actionFriendsProfileToStartPage()
             NavHostFragment.findNavController(this).navigate(action)
         }
 
@@ -118,12 +161,33 @@ class FriendsProfileFragment : Fragment() {
 
         })
 
+        binding.rateButton.setOnClickListener {
+            rateSelectedUser()
+        }
+
         //addCommentsToLinearLayout(lista)
 
         binding.leaveAComment.setOnClickListener {
             PostAComment()
         }
 
+    }
+
+    private fun rateSelectedUser() {
+        val score: Float = binding.Rating.rating
+        val issuedFor: String = userViewModel.selectedUser.value?.id.toString()
+        val issuedBy: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
+
+        val newRating: Rating = Rating("", issuedBy, issuedFor, score)
+        pd.setMessage("Posting...")
+        pd.show()
+        FirebaseHelper.postRating(
+            newRating,
+            requireContext(),
+            userViewModel,
+            pd,
+            binding.commentText
+        )
     }
 
     private fun PostAComment() {
@@ -134,7 +198,13 @@ class FriendsProfileFragment : Fragment() {
         val newComment: Comment = Comment(issuedBy, issuedFor, text)
         pd.setMessage("Posting...")
         pd.show()
-        FirebaseHelper.postComment(newComment, requireContext(), userViewModel, pd)
+        FirebaseHelper.postComment(
+            newComment,
+            requireContext(),
+            userViewModel,
+            pd,
+            binding.commentText
+        )
 
 
     }
@@ -156,7 +226,7 @@ class FriendsProfileFragment : Fragment() {
                     ?.firstOrNull()
 
             if (userViewModel.user.value?.id.equals(singleComment.issuedBy))
-                issuedBy =  userViewModel.user.value
+                issuedBy = userViewModel.user.value
 
             Glide.with(this).load(issuedBy?.imageUrl).into(imageView)
 

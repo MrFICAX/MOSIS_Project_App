@@ -30,37 +30,36 @@
             app:srcCompat="@drawable/freelencelivelogo_4" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailLayout"
+            android:id="@+id/searchBaarLayout"
             android:layout_width="309dp"
-            android:layout_height="60dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
+            android:layout_height="58dp"
             android:hint="@string/search_job"
-            app:expandedHintEnabled="true"
-            app:hintAnimationEnabled="true"
-
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:endIconMode="clear_text"
             app:hintTextColor="@color/light_pink"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.96"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
             app:startIconDrawable="@drawable/ic_search">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editMobileNo"
+                android:id="@+id/searchBarText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/rectangle_search_shape"
-                android:drawablePadding="0dp"
-                android:importantForAutofill="no"
-                android:paddingStart="0dp"
-                android:paddingEnd="0dp"
-                android:textColor="@color/light_pink"
+                android:background="@drawable/rectange_job_title"
+                android:backgroundTint="@color/rectangle_10_color"
 
-                />
+                android:inputType="text"
+                android:textColor="@color/light_pink" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

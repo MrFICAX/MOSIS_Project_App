@@ -27,11 +27,11 @@ import elfak.mosis.freelencelive.model.userViewModel
 
 class FriendsFragment : Fragment() {
 
-    var brojKorisnika = 10
     lateinit var friendsLayout: LinearLayout // requireActivity().findViewById(R.id.gallery) //binding.gallery
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
     private val userViewModel: userViewModel by activityViewModels()
     lateinit var pd: ProgressDialog
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
 
 
     lateinit var binding: FragmentFriendsBinding
@@ -40,6 +40,7 @@ class FriendsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         pd = ProgressDialog(context)
         pd.setCancelable(false)
+        fragmentViewModel.setFragment(null)
 
     }
 
@@ -98,7 +99,7 @@ class FriendsFragment : Fragment() {
 
     private fun filterByString(listaKorisnika: List<User>, filterString: String): List<User>{
 
-        return listaKorisnika.filter { it.userName.startsWith(filterString) }
+        return listaKorisnika.filter { it.userName.contains(filterString) }
     }
 
     private fun addFriendsToLinearLayout(lista: List<User>, filterFlag: Boolean, filterString: String) {

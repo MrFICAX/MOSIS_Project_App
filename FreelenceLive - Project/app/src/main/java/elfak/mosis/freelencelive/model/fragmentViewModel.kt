@@ -12,7 +12,7 @@ class fragmentViewModel: ViewModel() {
     val fragment : LiveData<Fragment>
         get() = _fragment
 
-    fun setFragment(fragment: Fragment){
+    fun setFragment(fragment: Fragment?){
         _fragment.value = fragment
     }
 }

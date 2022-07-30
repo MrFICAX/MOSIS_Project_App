@@ -150,12 +150,4 @@ class MainWindowActivity : AppCompatActivity() {
         }
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if(toggle.onOptionsItemSelected(item)){
-//            return true
-//        }
-//
-//        return super.onOptionsItemSelected(item)
-//
-//    }
 }

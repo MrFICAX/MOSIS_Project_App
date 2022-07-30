@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import elfak.mosis.freelencelive.databinding.FragmentDashboardBinding
 import elfak.mosis.freelencelive.databinding.FragmentRatingBinding
+import elfak.mosis.freelencelive.model.fragmentViewModel
 import org.w3c.dom.Text
 
 class RatingFragment : Fragment() {
@@ -18,10 +20,12 @@ class RatingFragment : Fragment() {
     var brojRatings = 10
     lateinit var ratingLayout: LinearLayout // requireActivity().findViewById(R.id.gallery) //binding.gallery
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
 
     lateinit var binding: FragmentRatingBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fragmentViewModel.setFragment(null)
 
     }
 

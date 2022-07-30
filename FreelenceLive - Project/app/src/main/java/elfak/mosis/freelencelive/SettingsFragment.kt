@@ -7,11 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import elfak.mosis.freelencelive.databinding.FragmentSettingsBinding
+import elfak.mosis.freelencelive.model.fragmentViewModel
 
 
 class SettingsFragment : Fragment() {
+    private val fragmentViewModel: fragmentViewModel by activityViewModels()
 
     lateinit var binding: FragmentSettingsBinding
     var status: Boolean = false
@@ -19,6 +22,7 @@ class SettingsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fragmentViewModel.setFragment(null)
 
     }
 

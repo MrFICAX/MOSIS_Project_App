@@ -27,6 +27,9 @@ class userViewModel: ViewModel() {
     val friendReqeusts: LiveData<List<friendRequest>>
         get() = _friendReqeusts
 
+    private val _ratings: MutableLiveData<List<Rating>> = MutableLiveData(listOf())
+    val ratings: LiveData<List<Rating>>
+        get() = _ratings
 
     private val _comments: MutableLiveData<List<Comment>> = MutableLiveData(listOf())
     val comments: LiveData<List<Comment>>
@@ -40,12 +43,15 @@ class userViewModel: ViewModel() {
         _invitations.value = _invitations.value?.plus(newInvitation)
     }
 
-    fun addNewComment(newComment: Comment){
-        _comments.value = _comments.value?.plus(newComment)
-    }
+//    fun addNewComment(newComment: Comment){
+//        _comments.value = _comments.value?.plus(newComment)
+//    }
 
     fun addCommentList(lista: List<Comment>){
         _comments.value = lista
+    }
+    fun addRatingList(lista: List<Rating>){
+        _ratings.value = lista
     }
 
     fun addNewFriendRequest(newfriendRequest: friendRequest){

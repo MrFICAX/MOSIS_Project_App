@@ -119,6 +119,9 @@
     <string name="new_pass">New pass..</string>
     <string name="sent_friend_request">Sent friend request!</string>
     <string name="input_username">Input username..</string>
+    <string name="rate">RATE</string>
+    <string name="no_score">No score</string>
+    <string name="other">Other</string>
 
 
     <string-array name="feelings">

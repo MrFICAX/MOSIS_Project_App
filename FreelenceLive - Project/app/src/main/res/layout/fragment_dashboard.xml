@@ -84,7 +84,7 @@
         app:layout_constraintTop_toBottomOf="@+id/DashboardTitle">
 
         <TextView
-            android:id="@+id/ScoreText"
+            android:id="@+id/ScoreTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/overall_score"
@@ -98,31 +98,31 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/ScoreNumber"
+            android:id="@+id/ScoreText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="4.3"
+            android:text="@string/no_score"
             android:textColor="@color/light_pink"
             android:textSize="40sp"
             android:layout_marginStart="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ScoreText"
+            app:layout_constraintTop_toBottomOf="@+id/ScoreTitle"
             app:layout_constraintVertical_bias="0.0" />
 
         <RatingBar
             android:id="@+id/Rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:progressTint="@color/white"
             android:layout_margin="15dp"
             android:isIndicator="true"
+            android:progressTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ScoreNumber"
+            app:layout_constraintTop_toBottomOf="@+id/ScoreText"
             app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -144,7 +144,7 @@
             android:layout_marginStart="15dp"
             android:text="@string/comments"
             android:textColor="@color/light_pink"
-            android:textSize="46sp"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
