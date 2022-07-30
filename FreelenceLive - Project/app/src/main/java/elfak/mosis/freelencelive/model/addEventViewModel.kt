@@ -1,10 +1,11 @@
 package elfak.mosis.freelencelive.model
 
-import android.text.Editable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import elfak.mosis.freelencelive.data.Event
+import java.sql.Date
+import java.sql.Time
 
 class addEventViewModel :ViewModel() {
     private val _event = MutableLiveData<Event>()
@@ -35,7 +36,7 @@ class addEventViewModel :ViewModel() {
     }
 
     init{
-        _event.value = Event()
+        _event.value = Event("","","",0.0,0.0, Date(0, 0, 0), Time(0,0,0), hashMapOf())
         _event.value?.name = "posao"
         _longitude.value = "CLICK ME!"
     }

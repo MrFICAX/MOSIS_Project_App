@@ -122,6 +122,7 @@
     <string name="rate">RATE</string>
     <string name="no_score">No score</string>
     <string name="other">Other</string>
+    <string name="set">SET TIME</string>
 
 
     <string-array name="feelings">

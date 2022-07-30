@@ -25,10 +25,10 @@ class InvitationsRecyclerAdapter : RecyclerView.Adapter<InvitationsRecyclerAdapt
     val formattedDate = current.format(Dateformatter)
     val formattedTime = current.format(Timeformatter)
 
-    private var events = arrayOf(
-        Event("Cepanje drva", "Jovan", "3.2","5.2", formattedDate, formattedTime.toString()),
-        Event("Kosenje trave", "Jovan", "3.2","5.2", formattedDate, formattedTime.toString()),
-        Event("Selidba", "Jovan", "3.2","5.2", formattedDate, formattedTime.toString())
+    private var events = arrayOf<Event>(
+//        Event("Cepanje drva", "Jovan", "3.2","5.2", formattedDate, formattedTime.toString()),
+//        Event("Kosenje trave", "Jovan", "3.2","5.2", formattedDate, formattedTime.toString()),
+//        Event("Selidba", "Jovan", "3.2","5.2", formattedDate, formattedTime.toString())
     )
     override fun getItemCount(): Int {
         return events.size
@@ -41,7 +41,7 @@ class InvitationsRecyclerAdapter : RecyclerView.Adapter<InvitationsRecyclerAdapt
         holder.imageView.setImageResource(R.drawable.img_0944)
         holder.usernameView.text = events[position].organiser
         holder.jobTitle.text = events[position].name
-        holder.dateTitle.text = events[position].date
+        holder.dateTitle.text = events[position].date.toString()
     }
 
 

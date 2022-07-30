@@ -50,11 +50,7 @@ class MainWindowActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_window)
 
         val newUser: User = this.intent.getSerializableExtra("user") as User
-
         userViewModel.setNewUser(newUser)
-
-        Toast.makeText(this, newUser.userName, Toast.LENGTH_LONG).show()
-
 
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
 

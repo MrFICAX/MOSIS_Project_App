@@ -62,6 +62,10 @@ class StartPageFragment : Fragment() {
             val fragmentNovi = addEventFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
 
+//            fragmentNovi.dialog?.setOnDismissListener{
+//                dialog -> dialog.dismiss()
+//            }
+
 //            val fragmentNovi = InviteFriendFragmentDialog()
 //            fragmentNovi.show(parentFragmentManager, "customString")
 

@@ -90,8 +90,26 @@
         android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.896"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/date_picker" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/setTimeButton"
+        android:layout_width="219dp"
+        android:layout_height="36dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="84dp"
+        android:background="@drawable/rectange_job_shape"
+        android:text="@string/set"
+        android:textAlignment="center"
+        android:textColor="@color/pink"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.833"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/label"
@@ -121,6 +139,7 @@
         app:layout_constraintVertical_bias="0.025">
 
         <LinearLayout
+            android:id="@+id/friendsLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"

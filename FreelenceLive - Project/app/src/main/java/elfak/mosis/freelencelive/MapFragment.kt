@@ -242,7 +242,7 @@ class MapFragment : Fragment() {
 
         val startMarker1 = Marker(map)
         startMarker.position = startPoint
-        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+        //startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         startMarker.icon = getResources().getDrawable(R.drawable.job_icon)
         startMarker.setTitle("Start point");
 

@@ -52,11 +52,11 @@ class FriendsFragment : Fragment() {
         //return inflater.inflate(R.layout.fragment_friends, container, false)
         binding = FragmentFriendsBinding.inflate(inflater)
 
-        if (userViewModel.users.value?.isEmpty() == true){
-
+        if (userViewModel.users.value?.isEmpty() == true)
             FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
+
+        if (userViewModel.friendReqeusts.value?.isEmpty() == true)
             FirebaseHelper.getAllFriendRequests(requireContext(), userViewModel)
-        }
 
         val FriendsObserver = Observer<List<User>> { newValue ->
             //binding.buttonCreateJob.setText(newValue)

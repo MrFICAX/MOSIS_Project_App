@@ -38,10 +38,7 @@ import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.freelencelive.*
 import elfak.mosis.freelencelive.R
-import elfak.mosis.freelencelive.data.Comment
-import elfak.mosis.freelencelive.data.Rating
-import elfak.mosis.freelencelive.data.User
-import elfak.mosis.freelencelive.data.friendRequest
+import elfak.mosis.freelencelive.data.*
 import elfak.mosis.freelencelive.databinding.FragmentMyProfileBinding
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.model.addEventViewModel
@@ -572,46 +569,46 @@ object FirebaseHelper {
 
     }
 
-
-    fun probniCloudFirestore(context: Context) {
-
-        val docData = hashMapOf(
-            "stringExample" to "Hello world!",
-            "booleanExample" to true,
-            "numberExample" to 3.14159265,
-            "listExample" to arrayListOf(1, 2, 3),
-            "nullExample" to null
-        )
-
-        val nestedData = hashMapOf(
-            "a" to 5,
-            "b" to true
-        )
-
-        docData["objectExample"] = nestedData
-
-        val currUser = User(
-            "1",
-            "ficax00@gmail.com",
-            "Aa1234.",
-            "ficax99",
-            "Trajkovic",
-            "0616440562",
-            0,
-            0,
-            "",
-            hashMapOf<String, Boolean>()
-        )
-
-        cloudFirestore.collection("users").document("SFKdYaQ7ZwBsuGuUN13Y").delete()
-            .addOnSuccessListener {
-                Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
-            }
-
-    }
+//
+//    fun probniCloudFirestore(context: Context) {
+//
+//        val docData = hashMapOf(
+//            "stringExample" to "Hello world!",
+//            "booleanExample" to true,
+//            "numberExample" to 3.14159265,
+//            "listExample" to arrayListOf(1, 2, 3),
+//            "nullExample" to null
+//        )
+//
+//        val nestedData = hashMapOf(
+//            "a" to 5,
+//            "b" to true
+//        )
+//
+//        docData["objectExample"] = nestedData
+//
+//        val currUser = User(
+//            "1",
+//            "ficax00@gmail.com",
+//            "Aa1234.",
+//            "ficax99",
+//            "Trajkovic",
+//            "0616440562",
+//            0,
+//            0,
+//            "",
+//            hashMapOf<String, Boolean>()
+//        )
+//
+//        cloudFirestore.collection("users").document("SFKdYaQ7ZwBsuGuUN13Y").delete()
+//            .addOnSuccessListener {
+//                Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
+//            }
+//            .addOnFailureListener {
+//                Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+//            }
+//
+//    }
 
     //TESTIRATI
     fun declineRequest(
@@ -787,7 +784,8 @@ object FirebaseHelper {
                 Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
                 pd.dismiss()
 
-                var listaKomentara: MutableList<Comment> = (userViewModel.comments.value as MutableList<Comment>?)!!
+                var listaKomentara: MutableList<Comment> =
+                    (userViewModel.comments.value as MutableList<Comment>?)!!
                 listaKomentara.add(newComment)
                 userViewModel.addCommentList(listaKomentara)
                 commentText.text?.clear()
@@ -906,7 +904,7 @@ object FirebaseHelper {
                         }
                 }
 
-            }.addOnFailureListener{
+            }.addOnFailureListener {
                 Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
                 pd.dismiss()
             }
@@ -940,6 +938,28 @@ object FirebaseHelper {
                 userViewModel.addRatingList(lista)
             }.addOnFailureListener {
                 Toast.makeText(context, "Ratings not downloaded!", Toast.LENGTH_LONG).show()
+            }
+    }
+
+    fun createEvent(eventTmp: Event?, requireContext: Context, pd: ProgressDialog, userViewModel: userViewModel) {
+        val newRef = cloudFirestore.collection("events").document()
+        val id = newRef.id
+
+        eventTmp?.id =id
+        newRef.set(eventTmp!!)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
+
+//                var listaEventa: MutableList<Event> = userViewModel.events.value as MutableList<Event>
+//                listaEventa.add(eventTmp)
+//                userViewModel.addNewListOfEvents(listaEventa)
+
+                pd.dismiss()
+
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
+                pd.dismiss()
             }
     }
 

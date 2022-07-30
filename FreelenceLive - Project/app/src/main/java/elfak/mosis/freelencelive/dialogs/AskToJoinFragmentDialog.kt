@@ -63,9 +63,9 @@ class AskToJoinFragmentDialog : DialogFragment() {
 
             imageView.setOnClickListener {
                 //appViewModel.selectedUser = nizKorisnika[i]
-                val action = StartPageFragmentDirections.actionStartpageToFriendsProfile()
-                NavHostFragment.findNavController(this).navigate(action)
-                dialog?.dismiss()
+//                val action = StartPageFragmentDirections.actionStartpageToFriendsProfile()
+//                NavHostFragment.findNavController(this).navigate(action)
+//                dialog?.dismiss()
             }
 
             if (i < 2)

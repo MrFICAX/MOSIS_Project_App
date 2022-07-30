@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +20,8 @@ import com.google.firebase.storage.ktx.storage
 import elfak.mosis.freelencelive.data.Event
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import java.io.ByteArrayOutputStream
-import kotlin.math.log
+import java.sql.Date
+import java.sql.Time
 
 class TestDatabaseActivity : AppCompatActivity() {
 
@@ -96,7 +96,7 @@ class TestDatabaseActivity : AppCompatActivity() {
                 for (document in result) {
                     Log.d(TAG, "${document.id} => ${document.data}")
                     Toast.makeText(this, document.data.toString(), Toast.LENGTH_LONG).show()
-                    val event: Event = Event("", "","","","","")
+                    val event: Event = Event("","","",0.0,0.0, Date(0, 0, 0), Time(0,0,0), hashMapOf())
                     event.name = document.data["firstName"].toString()
                     event.organiser = document.data["lastName"].toString()
 
@@ -165,7 +165,7 @@ class TestDatabaseActivity : AppCompatActivity() {
 
     fun postEventToRealTimeDB(){
 
-        val event: Event = Event("Cepanje drva", "Marko", "3.14", "3.14", "12341234", "21431234")
+        val event: Event = Event("","Cepanje drva", "Marko", 3.14, 3.14, Date(0, 0, 0), Time(0, 0, 0),hashMapOf<String, Boolean>())
 
         val newRef:DatabaseReference = myRef.database.getReference("events")
         newRef.child("123").setValue(event)
@@ -196,7 +196,7 @@ class TestDatabaseActivity : AppCompatActivity() {
         //getDataFromCloudFirestore()
         //downloadFilesFromCloudStorage()
 
-        FirebaseHelper.probniCloudFirestore(this)
+        //FirebaseHelper.probniCloudFirestore(this)
 
 
         var tekst:String? = null;

@@ -4,16 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import elfak.mosis.freelencelive.data.*
+import java.sql.Time
+import java.time.LocalDateTime
+import java.util.*
 
 class userViewModel: ViewModel() {
 
-    private val _user = MutableLiveData<User>()
-    val user : LiveData<User>
-        get() = _user
+    private val _newEvent = MutableLiveData<Event>()
+    val newEvent: LiveData<Event>
+        get() = _newEvent
+
+    private val _selectedEvent = MutableLiveData<Event>()
+    val selectedEvent: LiveData<Event>
+        get() = _selectedEvent
 
     private val _events: MutableLiveData<List<Event>> = MutableLiveData(listOf())
     val events: LiveData<List<Event>>
         get() = _events
+
+    private val _user = MutableLiveData<User>()
+    val user : LiveData<User>
+        get() = _user
 
     private val _users: MutableLiveData<List<User>> = MutableLiveData(listOf())
     val users: LiveData<List<User>>
@@ -75,9 +86,8 @@ class userViewModel: ViewModel() {
 
     }
 
-//POTREBNO TESTIRATI
-    fun addNewEvent(newEvent: Event){
-        _events.value = _events.value?.plus(newEvent)
+    fun addNewListOfEvents(lista: List<Event>){
+        _events.value = lista
     }
 
     fun addInvitationList(lista: List<Invitation>){
@@ -99,8 +109,44 @@ class userViewModel: ViewModel() {
         _user.value = user
     }
 
-    init{
+    fun setNewEventDate(year: Int, month: Int, day: Int) {
+//        val newEvent: Event? = _newEvent.value
+//        newEvent?.date = Date(year, month, day)
+        _newEvent.value?.date = Date(year, month, day)
+    }
 
+    fun setNewEventTime(hour: Int, minute: Int) {
+//        val newEvent: Event? = _newEvent.value
+//        newEvent?.time = Time(hour, minute, 0)
+//        _newEvent.value = newEvent
+//
+        _newEvent.value?.time = Time(hour, minute, 0)
+    }
+
+    fun setNewEventName(name: String){
+
+        val newEvent: Event? = _newEvent.value
+        newEvent?.name = name
+        _newEvent.value = newEvent
+    }
+
+    fun setNewEventLocation(latitude: Double, longitude: Double){
+        val newEvent: Event? = _newEvent.value
+        newEvent?.latitude = latitude
+        newEvent?.longitude = longitude
+        _newEvent.value = newEvent
+    }
+
+    init{
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -1)
+        val yesterday = cal
+        var date = Date(yesterday.get(Calendar.YEAR), yesterday.get(Calendar.MONTH),
+            yesterday.get(Calendar.DAY_OF_MONTH))
+
+        val time1= LocalDateTime.now()
+        val time = Time(time1.hour, time1.minute, time1.second)
+        _newEvent.value = Event("","","",0.0,0.0, date, time, hashMapOf<String, Boolean>())
     }
 
 }

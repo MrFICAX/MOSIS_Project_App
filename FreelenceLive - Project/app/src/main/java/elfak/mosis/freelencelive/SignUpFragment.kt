@@ -48,7 +48,7 @@ class SignUpFragment : Fragment() {
         pd = ProgressDialog(context)
         pd.setCancelable(false)
 
-        imageBitmap = BitmapFactory.decodeResource(resources, R.drawable.profile)
+        imageBitmap = BitmapFactory.decodeResource(resources, R.drawable.kravatica)
     }
 
     fun setViews(){
