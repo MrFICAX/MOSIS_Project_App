@@ -36,7 +36,7 @@ class addEventViewModel :ViewModel() {
     }
 
     init{
-        _event.value = Event("","","",0.0,0.0, Date(0, 0, 0), Time(0,0,0), hashMapOf())
+        _event.value = Event("","",false, "",0.0,0.0, Date(0, 0, 0), hashMapOf(), hashMapOf())
         _event.value?.name = "posao"
         _longitude.value = "CLICK ME!"
     }

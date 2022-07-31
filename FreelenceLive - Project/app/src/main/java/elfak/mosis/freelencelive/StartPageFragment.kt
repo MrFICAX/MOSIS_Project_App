@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import elfak.mosis.freelencelive.databinding.FragmentStartPageBinding
 import elfak.mosis.freelencelive.dialogs.AskToJoinFragmentDialog
 import elfak.mosis.freelencelive.dialogs.addEventFragmentDialog
+import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
 import elfak.mosis.freelencelive.model.fragmentViewModel
 
 class StartPageFragment : Fragment() {
@@ -44,32 +45,13 @@ class StartPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.radius.setOnClickListener {
-            //Toast.makeText(context, "POZDRAV", Toast.LENGTH_LONG).show()
-
-//            val fragmentNovi = searchByRadiusFragmentDialog()
-//            fragmentNovi.show(parentFragmentManager, "customString")
-
-
-        //          val fragmentNovi = InviteFriendFragmentDialog()
-        //          fragmentNovi.show(parentFragmentManager, "customString")
-
-            val fragmentNovi = AskToJoinFragmentDialog()
+            val fragmentNovi = searchByRadiusFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
         }
 
         binding.fab.setOnClickListener {
-        //ISPRAVAN KOD JE U KOMENTARU
             val fragmentNovi = addEventFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
-
-//            fragmentNovi.dialog?.setOnDismissListener{
-//                dialog -> dialog.dismiss()
-//            }
-
-//            val fragmentNovi = InviteFriendFragmentDialog()
-//            fragmentNovi.show(parentFragmentManager, "customString")
-
-
         }
 
         binding.shapeableImageView.setOnClickListener{

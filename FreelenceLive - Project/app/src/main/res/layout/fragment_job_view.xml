@@ -85,13 +85,13 @@
 
         <TextView
             android:id="@+id/JobText"
-            android:layout_width="301dp"
+            android:layout_width="wrap_content"
             android:layout_height="77dp"
             android:gravity="center"
             android:text="Your Job title"
             android:textAlignment="center"
             android:textColor="@color/light_pink"
-            android:textSize="46sp"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

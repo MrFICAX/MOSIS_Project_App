@@ -27,6 +27,8 @@ import elfak.mosis.freelencelive.R as AndroidR
 import elfak.mosis.freelencelive.databinding.FragmentDialogAddEventBinding
 import elfak.mosis.freelencelive.model.addEventViewModel
 import elfak.mosis.freelencelive.model.userViewModel
+import java.sql.Time
+import java.time.LocalDateTime
 import java.util.*
 
 class addEventFragmentDialog : DialogFragment() {
@@ -58,7 +60,7 @@ class addEventFragmentDialog : DialogFragment() {
         val it = userViewModel.newEvent?.value
         binding.JobName.setText(userViewModel.newEvent?.value?.name)
 
-        var date : String? = it?.date.toString()
+        var date: String? = it?.date.toString()
         val lista = date?.split(" ")
         val dan = lista?.get(2)?.toInt()
 
@@ -71,20 +73,26 @@ class addEventFragmentDialog : DialogFragment() {
 
             val potentialDate: Date = Date(year, month, day)
             val today = Calendar.getInstance()
-            var date = Date(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
-                today.get(Calendar.DAY_OF_MONTH))
+            var date = Date(
+                today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH)
+            )
 
             val tmp = date.compareTo(potentialDate)
             when {
                 tmp > 0 -> {
-                    Toast.makeText(requireContext(), "Date should be in future!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Date should be in future!",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 }
                 tmp < 0 -> {
                     userViewModel.setNewEventDate(year, month, day)
                 }
                 else -> {
-                    print("Both dates are equal")
+                    userViewModel.setNewEventDate(year, month, day)
                 }
             }
 //            if (date.compareTo(potentialDate))
@@ -94,8 +102,8 @@ class addEventFragmentDialog : DialogFragment() {
 //            }
         }
 
-        binding.timePicker.hour = it.time?.hours!!
-        binding.timePicker.minute = it.time?.minutes!!
+        binding.timePicker.hour = it.date?.hours!!
+        binding.timePicker.minute = it.date?.minutes!!
 
         userViewModel.newEvent.observe(viewLifecycleOwner, Observer<Event> {
 //            Toast.makeText(requireContext(), it.date.toString()+" "+it.time.toString(),Toast.LENGTH_LONG).show()
@@ -106,7 +114,6 @@ class addEventFragmentDialog : DialogFragment() {
 //            ).show()
 //
 //            val today = Calendar.getInstance()
-
 
 
         })
@@ -200,12 +207,14 @@ class addEventFragmentDialog : DialogFragment() {
 
             val eventTmp: Event? = userViewModel.newEvent.value
             eventTmp?.organiser = userViewModel.user.value?.id!!
-            if (CheckIfFieldsAreFilledCorrectly(eventTmp)){
+            if (CheckIfFieldsAreFilledCorrectly(eventTmp)) {
                 pd.setMessage("POSTING...")
                 pd.show()
 
                 FirebaseHelper.createEvent(eventTmp, requireContext(), pd, userViewModel)
                 dialog?.dismiss()
+                userViewModel.setNewEvent()
+
             }
 
 //            Toast.makeText(
@@ -223,22 +232,25 @@ class addEventFragmentDialog : DialogFragment() {
             findNavController().navigate(action)
 
             dismiss()
-
         }
     }
 
     private fun CheckIfFieldsAreFilledCorrectly(eventTmp: Event?): Boolean {
 
         var flag = false
-        if(eventTmp?.name?.trim().toString().equals("")){
+        if (eventTmp?.name?.trim().toString().equals("")) {
             Toast.makeText(requireContext(), "Name of event not filled!", Toast.LENGTH_SHORT).show()
             return flag
         }
+        val time1 = LocalDateTime.now()
+        val time = Time(time1.hour, time1.minute, time1.second)
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE, -1)
+        //cal.add(Calendar.DATE, -1)
         val yesterday = cal
-        var date = Date(yesterday.get(Calendar.YEAR), yesterday.get(Calendar.MONTH),
-            yesterday.get(Calendar.DAY_OF_MONTH))
+        var date = Date(
+            yesterday.get(Calendar.YEAR), yesterday.get(Calendar.MONTH),
+            yesterday.get(Calendar.DAY_OF_MONTH), time1.hour, time1.minute
+        )
 //        if(!(eventTmp?.date?.after(date) == true)){
 //            Toast.makeText(requireContext(), "Date is not correct!", Toast.LENGTH_SHORT).show()
 //            return flag
@@ -253,10 +265,12 @@ class addEventFragmentDialog : DialogFragment() {
                 return flag
             }
             else -> {
+                Toast.makeText(requireContext(), "Date is not correct!", Toast.LENGTH_SHORT).show()
+                return flag
             }
         }
 
-        if(eventTmp.latitude.equals(0.0) && eventTmp.longitude.equals(0.0)){
+        if (eventTmp.latitude.equals(0.0) && eventTmp.longitude.equals(0.0)) {
 
             Toast.makeText(requireContext(), "Location is not correct!", Toast.LENGTH_SHORT).show()
             return flag
@@ -274,24 +288,36 @@ class addEventFragmentDialog : DialogFragment() {
 
         listaKorisnika = filterByFriends(listaKorisnika)
 
-        for(singleUser in listaKorisnika){
-            val viewItem: View = inflater.inflate(elfak.mosis.freelencelive.R.layout.user_item, friendsView, false)
-            val imageView: ImageView = viewItem.findViewById(elfak.mosis.freelencelive.R.id.imageView) as ImageView
+        for (singleUser in listaKorisnika) {
+            val viewItem: View =
+                inflater.inflate(elfak.mosis.freelencelive.R.layout.user_item, friendsView, false)
+            val imageView: ImageView =
+                viewItem.findViewById(elfak.mosis.freelencelive.R.id.imageView) as ImageView
 
             imageView.setOnClickListener {
                 //appViewModel.selectedUser = nizKorisnika[i]
 //                val action = StartPageFragmentDirections.actionStartpageToFriendsProfile()
 //                NavHostFragment.findNavController(this).navigate(action)
 //                dialog?.dismiss()
-                if(userViewModel.newEvent.value?.listOfUsers?.containsKey(singleUser.id) == true)
-                {
+                if (userViewModel.newEvent.value?.listOfUsers?.containsKey(singleUser.id) == true) {
+//                    userViewModel.newEvent.value?.listOfUsers?.remove(singleUser.id)
 
-                    userViewModel.newEvent.value?.listOfUsers?.remove(singleUser.id)
-                    imageView.setColorFilter(ContextCompat.getColor(requireContext(), elfak.mosis.freelencelive.R.color.transparent))
-                } else{
-
-                    userViewModel.newEvent.value?.listOfUsers?.put(singleUser.id, true)
-                    imageView.setColorFilter(ContextCompat.getColor(requireContext(), elfak.mosis.freelencelive.R.color.transparent_grey))
+                    userViewModel.setNewEventUserRemove(singleUser.id)
+                    imageView.setColorFilter(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            elfak.mosis.freelencelive.R.color.transparent
+                        )
+                    )
+                } else {
+//                    userViewModel.newEvent.value?.listOfUsers?.put(singleUser.id, true)
+                    userViewModel.setNewEventUserAdd(singleUser.id)
+                    imageView.setColorFilter(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            elfak.mosis.freelencelive.R.color.transparent_grey
+                        )
+                    )
                 }
             }
 
@@ -303,7 +329,8 @@ class addEventFragmentDialog : DialogFragment() {
 
             Glide.with(this).load(singleUser.imageUrl).into(imageView)
 
-            val textView: TextView = viewItem.findViewById(elfak.mosis.freelencelive.R.id.userNameText) as TextView
+            val textView: TextView =
+                viewItem.findViewById(elfak.mosis.freelencelive.R.id.userNameText) as TextView
             textView.setText(singleUser.userName)
 
             friendsView.addView(viewItem)

@@ -18,7 +18,6 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.freelencelive.data.Event
-import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import java.io.ByteArrayOutputStream
 import java.sql.Date
 import java.sql.Time
@@ -96,7 +95,7 @@ class TestDatabaseActivity : AppCompatActivity() {
                 for (document in result) {
                     Log.d(TAG, "${document.id} => ${document.data}")
                     Toast.makeText(this, document.data.toString(), Toast.LENGTH_LONG).show()
-                    val event: Event = Event("","","",0.0,0.0, Date(0, 0, 0), Time(0,0,0), hashMapOf())
+                    val event: Event = Event("","", false,"",0.0,0.0, Date(0, 0, 0), hashMapOf(), hashMapOf())
                     event.name = document.data["firstName"].toString()
                     event.organiser = document.data["lastName"].toString()
 
@@ -165,7 +164,7 @@ class TestDatabaseActivity : AppCompatActivity() {
 
     fun postEventToRealTimeDB(){
 
-        val event: Event = Event("","Cepanje drva", "Marko", 3.14, 3.14, Date(0, 0, 0), Time(0, 0, 0),hashMapOf<String, Boolean>())
+        val event: Event = Event("","Cepanje drva", false, "Marko", 3.14, 3.14, Date(0, 0, 0),hashMapOf<String, Boolean>(), hashMapOf() )
 
         val newRef:DatabaseReference = myRef.database.getReference("events")
         newRef.child("123").setValue(event)

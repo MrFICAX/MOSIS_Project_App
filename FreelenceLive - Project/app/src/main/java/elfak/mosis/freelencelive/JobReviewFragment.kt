@@ -1,11 +1,14 @@
 package elfak.mosis.freelencelive
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,14 +19,20 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import elfak.mosis.freelencelive.data.Event
+import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentJobReviewBinding
 import elfak.mosis.freelencelive.dialogs.ChooseDateFragmentDialog
 import elfak.mosis.freelencelive.dialogs.ChooseTimeFragmentDialog
 import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
 import elfak.mosis.freelencelive.model.fragmentViewModel
+import elfak.mosis.freelencelive.model.userViewModel
 
 class JobReviewFragment : Fragment() {
     private val pickImage = 100
@@ -33,6 +42,9 @@ class JobReviewFragment : Fragment() {
     private lateinit var binding: FragmentJobReviewBinding
     private var imageUri: Uri? = null
     private val fragmentViewModel: fragmentViewModel by activityViewModels()
+    private val userViewModel: userViewModel by activityViewModels()
+    lateinit var pd : ProgressDialog
+    private lateinit var currentJobName: String
 
     var brojSlika = 0
 
@@ -43,6 +55,8 @@ class JobReviewFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentViewModel.setFragment(null)
+        pd = ProgressDialog(context)
+        pd.setCancelable(false)
     }
 
     override fun onCreateView(
@@ -51,12 +65,43 @@ class JobReviewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentJobReviewBinding.inflate(inflater)
+        userViewModel.InitialSetSelectedEvent()
+        currentJobName = userViewModel.selectedEvent.value?.name.toString()
+
+        val EventObserver = Observer<Event> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            val event: Event = newValue
+            //addFriendsToLinearLayout(lista, false, "")
+            //addJobsToLinearLayout(lista)
+            //fillControls(event)
+        }
+        userViewModel.selectedEvent.observe(viewLifecycleOwner, EventObserver)
+
+
         return binding.root
         //return inflater.inflate(R.layout.fragment_job_review, container, false)
     }
 
+    private fun fillControls(event: Event) {
+        TODO("Not yet implemented")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.jobTitleText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                //addEventViewModel.setEventName(s.toString())
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                userViewModel.setSelectedEventName(s.toString())
+            }
+        })
 
         binding.datePicker.setOnClickListener{
             val fragmentNovi = ChooseDateFragmentDialog()
@@ -64,6 +109,11 @@ class JobReviewFragment : Fragment() {
         }
         binding.cancelButton.setOnClickListener{
             findNavController().popBackStack()
+        }
+
+        binding.ApplyChanges.setOnClickListener {
+
+            updateUserInDatabase()
         }
 
         binding.timePicker.setOnClickListener{
@@ -78,6 +128,12 @@ class JobReviewFragment : Fragment() {
         gallery =  requireActivity().findViewById(R.id.gallery) //binding.gallery
         inflater = LayoutInflater.from(requireContext())
 
+
+        fillViewsWithData(userViewModel.selectedEvent.value!!)
+        addPhotosOfThisEvent()
+    }
+
+    fun addPhotosOfThisEvent(){
         //DODAVANJE SLIKA IZ LISTE SLIKA ZA OVAJ JOB
         for(i in 0..brojSlika - 1){
             val viewItem: View = inflater.inflate(R.layout.photo_item, gallery, false)
@@ -97,6 +153,61 @@ class JobReviewFragment : Fragment() {
             brojSlika++
         }
         addNewPhoto()
+    }
+
+    fun fillViewsWithData(event: Event){
+
+        binding.jobTitleText.setText(event.name)
+        binding.organisatorUsername.setText(userViewModel.user.value?.userName)
+        binding.checkBox.isChecked = event.finished
+
+        Toast.makeText(requireContext(), event.date.toString(), Toast.LENGTH_SHORT).show()
+
+
+    }
+
+    fun CheckEmptyFields(): Boolean{
+        return (   binding.jobTitleText.text.toString().trim().isNotEmpty())
+    }
+
+    fun updateUserInDatabase(){
+        val inputJobTitle =  binding.jobTitleText.text.toString()
+
+        var mapa: HashMap<String, Any> = hashMapOf()
+        if(!inputJobTitle.equals(currentJobName))
+            mapa.put("name", inputJobTitle)
+
+        if(!binding.checkBox.isChecked.equals(userViewModel.selectedEvent.value?.finished))
+            mapa.put("finished", binding.checkBox.isChecked)
+
+        if(userViewModel.dateChanged){
+
+            var date: String? = userViewModel.selectedEvent.value?.date.toString()
+            val lista = date?.split(" ")
+            val dan = lista?.get(2)?.toInt()
+
+            val dateHashMap = hashMapOf<String, Int>(
+                "year" to userViewModel.selectedEvent.value?.date?.year!!,
+                "month" to userViewModel.selectedEvent.value?.date?.month!!,
+                "day" to dan!!,
+                "hours" to userViewModel.selectedEvent.value?.date?.hours!!,
+                "minutes" to userViewModel.selectedEvent.value?.date?.minutes!!
+            )
+            mapa.put("dateHashMap", dateHashMap)
+        }
+
+        if(mapa.isNotEmpty()){
+            pd.show()
+            pd.setMessage("Updating event..")
+            userViewModel.selectedEvent.value?.let { FirebaseHelper.updateEventData(it, mapa, pd, requireContext(), findNavController()) }
+
+        } else{
+            Toast.makeText(requireContext(), "You didn't edit any data!", Toast.LENGTH_SHORT).show()
+        }
+//        if(!inputLastName.equals(userViewModel.user.value?.lastName))
+//            mapa.put("lastName", inputLastName)
+//        if(!inputPhoneNumber.equals(userViewModel.user.value?.phoneNumber))
+//            mapa.put("phoneNumber", inputPhoneNumber)
 
     }
 

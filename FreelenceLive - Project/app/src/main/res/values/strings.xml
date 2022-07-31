@@ -123,6 +123,8 @@
     <string name="no_score">No score</string>
     <string name="other">Other</string>
     <string name="set">SET TIME</string>
+    <string name="jobs">Jobs</string>
+    <string name="informations">Informations</string>
 
 
     <string-array name="feelings">

@@ -22,6 +22,20 @@
         app:shapeAppearance="@style/photo"
         app:strokeWidth="5dp" />
 
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.736"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        app:srcCompat="@drawable/question"
+        app:strokeWidth="5dp" />
+
     <TextView
         android:id="@+id/userNameText"
         android:layout_width="match_parent"

@@ -13,7 +13,7 @@
                 <item
                     android:id="@+id/nav_myJobs"
                     android:icon="@drawable/work"
-                    android:title="@string/my_jobs" />
+                    android:title = "@string/jobs" />
                 <item
                     android:id="@+id/nav_myFriends"
                     android:icon="@drawable/people"
@@ -35,7 +35,7 @@
                 <item
                     android:id="@+id/nav_help"
                     android:icon="@drawable/info"
-                    android:title="Informations" />
+                    android:title="@string/informations" />
                 <item
                     android:id="@+id/tmp3"
                     android:title="" />

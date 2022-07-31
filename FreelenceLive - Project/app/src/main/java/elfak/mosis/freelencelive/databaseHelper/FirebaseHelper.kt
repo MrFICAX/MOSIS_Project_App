@@ -15,21 +15,16 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -41,12 +36,12 @@ import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.data.*
 import elfak.mosis.freelencelive.databinding.FragmentMyProfileBinding
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
-import elfak.mosis.freelencelive.model.addEventViewModel
 import elfak.mosis.freelencelive.model.userViewModel
 import java.io.ByteArrayOutputStream
 import java.io.Serializable
+import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 object FirebaseHelper {
@@ -941,18 +936,41 @@ object FirebaseHelper {
             }
     }
 
-    fun createEvent(eventTmp: Event?, requireContext: Context, pd: ProgressDialog, userViewModel: userViewModel) {
+    fun createEvent(
+        eventTmp: Event?,
+        requireContext: Context,
+        pd: ProgressDialog,
+        userViewModel: userViewModel
+    ) {
         val newRef = cloudFirestore.collection("events").document()
         val id = newRef.id
 
-        eventTmp?.id =id
+        var date: String? = eventTmp?.date.toString()
+        val lista = date?.split(" ")
+        val dan = lista?.get(2)?.toInt()
+
+        val dateHashMap = hashMapOf<String, Int>(
+            "year" to eventTmp?.date?.year!!,
+            "month" to eventTmp?.date?.month!!,
+            "day" to dan!!,
+            "hours" to eventTmp?.date?.hours!!,
+            "minutes" to eventTmp?.date?.minutes!!
+        )
+        eventTmp?.id = id
+        eventTmp.dateHashMap = dateHashMap
         newRef.set(eventTmp!!)
             .addOnSuccessListener {
                 Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
 
-//                var listaEventa: MutableList<Event> = userViewModel.events.value as MutableList<Event>
-//                listaEventa.add(eventTmp)
-//                userViewModel.addNewListOfEvents(listaEventa)
+//                var lista = userViewModel.events.value
+//                var novaLista = lista as MutableList<Event>
+//                novaLista.add(eventTmp)
+//                userViewModel.addEventList(novaLista)
+
+                var listaEventa: MutableList<Event> =
+                    (userViewModel.events.value as MutableList<Event>?)!!
+                listaEventa.add(eventTmp)
+                userViewModel.addEventList(listaEventa)
 
                 pd.dismiss()
 
@@ -961,6 +979,102 @@ object FirebaseHelper {
                 Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
                 pd.dismiss()
             }
+    }
+
+    fun getAllEvents(context: Context, userViewModel: userViewModel) {
+
+        cloudFirestore.collection("events").get().addOnSuccessListener {
+            val document = it.documents
+            val lista: ArrayList<Event> = arrayListOf<Event>()
+            document.forEach { singleRequestDocument ->
+
+                var eventTmp: Event = Event(
+                    "",
+                    "",
+                    false,
+                    "",
+                    0.0,
+                    0.0,
+                    Date(),
+                    hashMapOf(),
+                    hashMapOf()
+                )
+
+                //user = result.toObject<User>()
+                eventTmp.id = singleRequestDocument.data?.get("id").toString()
+                eventTmp.name = singleRequestDocument.data?.get("name").toString()
+                eventTmp.finished = singleRequestDocument.data?.get("finished") as Boolean
+
+                eventTmp.organiser = singleRequestDocument.data?.get("organiser").toString()
+                var tmpString: String = singleRequestDocument.data?.get("latitude").toString()
+                eventTmp.latitude = tmpString.toDouble()
+                tmpString = singleRequestDocument.data?.get("longitude").toString()
+                eventTmp.longitude = tmpString.toDouble()
+
+//                val tmpDate = singleRequestDocument.data?.get("date")
+//                //eventTmp.date = Date()
+//                val timestamp: com.google.firebase.Timestamp =
+//                    tmpDate as com.google.firebase.Timestamp
+//                val date: Date = getUTCdatetimeAsDate(timestamp)
+
+                 var dateHashMap = singleRequestDocument.data?.getValue("dateHashMap")
+                var hashMapaDate: HashMap<String, Int> = dateHashMap as HashMap<String, Int>
+                var month = hashMapaDate["month"]!!
+                var monthInt: Int? = month?.toInt()//?.minus(1)
+                var date: Date = Date(hashMapaDate.get("year")!!,
+                    monthInt!!, hashMapaDate["day"]!!, hashMapaDate["hours"]!!, hashMapaDate["minutes"]!!)
+
+                eventTmp.date = date //Date(timestamp.seconds * 1000)
+
+                //PARSIRANJE VREME NE RADII KAKO TREBA, RESENJE JE DA SE DATUM U BAZI PAMTI KAO STRING ILI KAO HASHMAP SA POLJIMA ZA SVAKU VREDNOST
+
+                var listOfUsersTmp = singleRequestDocument.data?.getValue("listOfUsers")
+                eventTmp.listOfUsers = listOfUsersTmp as HashMap<String, Boolean>
+
+                lista.add(eventTmp)
+
+            }
+            userViewModel.addEventList(lista)
+        }.addOnFailureListener {
+            Toast.makeText(context, "requests not downoloaded!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+
+    fun getUTCdatetimeAsDate(utcString: Timestamp): Date {
+        // note: doesn't check for null
+        return stringDateToDate(utcString)
+    }
+
+
+    fun stringDateToDate(StrDate: Timestamp): Date {
+        val sdf = SimpleDateFormat(DATE_FORMAT)
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC+2"))
+        val date = sdf.format(Date(StrDate.seconds * 1000))
+
+        var dateToReturn: Date = Date()
+        val dateFormat = SimpleDateFormat(DATE_FORMAT)
+        try {
+            dateToReturn = dateFormat.parse(date)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return dateToReturn
+    }
+
+    fun updateEventData(selectedEvent: Event, mapa: HashMap<String, Any>, pd: ProgressDialog, requireContext: Context, findNavController: NavController) {
+
+        cloudFirestore.collection("events").document(
+            selectedEvent.id
+        ).update(mapa as Map<String, Any>).addOnSuccessListener {
+            Toast.makeText(requireContext, "Data updated successfully!", Toast.LENGTH_LONG).show()
+            pd.dismiss()
+            findNavController.popBackStack()
+        }.addOnFailureListener {
+            Toast.makeText(requireContext, "Data not updated !", Toast.LENGTH_LONG).show()
+            pd.dismiss()
+        }
     }
 
 

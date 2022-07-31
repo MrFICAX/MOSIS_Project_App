@@ -124,7 +124,6 @@ class MyProfileFragment : Fragment() {
 
         FirebaseHelper.updateUserData(mapa, pd, requireContext(), findNavController())
 
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
