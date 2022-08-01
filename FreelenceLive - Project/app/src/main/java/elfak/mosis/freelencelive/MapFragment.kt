@@ -73,6 +73,9 @@ class MapFragment : Fragment() {
         if (userViewModel.users.value?.isEmpty() == true)
             FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
 
+        if (userViewModel.askToJoin.value?.isEmpty() == true)
+            FirebaseHelper.getAllAskToJoins(requireContext(), userViewModel)
+
         val FriendsObserver = Observer<List<User>> { newValue ->
             //binding.buttonCreateJob.setText(newValue)
             val lista: List<User> = newValue

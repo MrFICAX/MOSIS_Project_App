@@ -1,11 +1,11 @@
 package elfak.mosis.freelencelive.dialogs
 
+import android.app.ProgressDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +13,15 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
-import com.google.android.material.button.MaterialButton
-import elfak.mosis.freelencelive.HelpFragmentDirections
+import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.R
-import elfak.mosis.freelencelive.StartPageFragmentDirections
 import elfak.mosis.freelencelive.data.Event
 import elfak.mosis.freelencelive.data.User
+import elfak.mosis.freelencelive.data.askToJoin
+import elfak.mosis.freelencelive.data.friendRequest
+import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentDialogAskToJoinBinding
-import elfak.mosis.freelencelive.databinding.FragmentDialogInviteFriendBinding
 import elfak.mosis.freelencelive.model.userViewModel
 import java.util.HashMap
 
@@ -33,6 +32,7 @@ class AskToJoinFragmentDialog : DialogFragment() {
 
     lateinit var friendsView: LinearLayout
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
+    lateinit var pd: ProgressDialog
 
     lateinit var binding: FragmentDialogAskToJoinBinding
     private val userViewModel: userViewModel by activityViewModels()
@@ -41,7 +41,8 @@ class AskToJoinFragmentDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        pd = ProgressDialog(context)
+        pd.setCancelable(false)
     }
 
     override fun onCreateView(
@@ -65,6 +66,73 @@ class AskToJoinFragmentDialog : DialogFragment() {
 
         addFriendsToFriendsView()
         fillAllViewsWithData()
+
+        setButtonClickHandler()
+
+    }
+
+    private fun setButtonClickHandler() {
+
+
+        val button: Button = binding.buttonAsk
+
+        if (selectedEvent.organiser.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
+            button.setText("MY EVENT")
+            button.setBackgroundTintList(
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.yellow
+                    )
+                )
+            )
+        } else {
+            if (checkIfAskToJoinExists()) {
+                button.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.red
+                        )
+                    )
+                )
+                button.setText("REQUEST SENT")
+                button.isClickable = false
+            } else {
+                button.setOnClickListener {
+                    pd.setMessage("SENDING...")
+                    pd.show()
+                    sendAskToJoinRequest(button)
+                }
+            }
+        }
+
+    }
+
+    private fun checkIfAskToJoinExists(): Boolean {
+        var flag = false
+        val lista: List<askToJoin>? = userViewModel.askToJoin.value
+        lista?.forEach {
+            if (it.issuedBy.equals(FirebaseAuth.getInstance().currentUser?.uid) && it.joinToJob.equals(
+                    selectedEvent.id
+                )
+            ) {
+                return true
+            }
+        }
+        return flag
+    }
+
+    private fun sendAskToJoinRequest(button: Button) {
+
+        FirebaseHelper.sendAskToJoinRequest(
+            selectedEvent.id,
+            requireContext(),
+            pd,
+            button,
+            userViewModel,
+            requireContext()
+        )
     }
 
     private fun fillAllViewsWithData() {

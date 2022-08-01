@@ -1301,5 +1301,64 @@ object FirebaseHelper {
                 }
         }
 
+    fun sendAskToJoinRequest(eventid: String, requireContext: Context, pd: ProgressDialog, sendRequestButton: Button, userViewModel: userViewModel, context: Context) {
 
+        val newRef = cloudFirestore.collection("askToJoins").document()
+        val id = newRef.id
+
+        val newAskToJoin: askToJoin =
+            askToJoin(id, FirebaseAuth.getInstance().currentUser?.uid.toString(), eventid)
+
+
+        newRef.set(newAskToJoin)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
+                pd.dismiss()
+                sendRequestButton.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.red
+                        )
+                    )
+                )
+                sendRequestButton.setText("REQUEST SENT")
+                sendRequestButton.isClickable = false
+                userViewModel.addNewAskToJoin(newAskToJoin)
+
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                pd.dismiss()
+            }
     }
+
+    fun getAllAskToJoins(requireContext: Context, userViewModel: userViewModel) {
+
+        cloudFirestore.collection("askToJoins").get().addOnSuccessListener {
+            val document = it.documents
+            val lista: ArrayList<askToJoin> = arrayListOf<askToJoin>()
+            document.forEach { singleRequestDocument ->
+
+                var askToJoinTmp: askToJoin = askToJoin(
+                    "",
+                    "",
+                    ""
+                )
+
+                //user = result.toObject<User>()
+                askToJoinTmp.id = singleRequestDocument.data?.get("id").toString()
+                askToJoinTmp.issuedBy = singleRequestDocument.data?.get("issuedBy").toString()
+                askToJoinTmp.joinToJob = singleRequestDocument.data?.get("joinToJob").toString()
+
+                lista.add(askToJoinTmp)
+
+            }
+            userViewModel.addAskToJoinList(lista)
+        }.addOnFailureListener {
+            Toast.makeText(requireContext, "Requests not downloaded!", Toast.LENGTH_LONG).show()
+        }
+    }
+
+
+}

@@ -43,6 +43,10 @@ class userViewModel : ViewModel() {
     val friendReqeusts: LiveData<List<friendRequest>>
         get() = _friendReqeusts
 
+    private val _askToJoin: MutableLiveData<List<askToJoin>> = MutableLiveData(listOf())
+    val askToJoin: LiveData<List<askToJoin>>
+        get() = _askToJoin
+
     private val _ratings: MutableLiveData<List<Rating>> = MutableLiveData(listOf())
     val ratings: LiveData<List<Rating>>
         get() = _ratings
@@ -83,8 +87,16 @@ class userViewModel : ViewModel() {
         _friendReqeusts.value = _friendReqeusts.value?.plus(newfriendRequest)
     }
 
+    fun addNewAskToJoin(newAskToJoin: askToJoin) {
+        _askToJoin.value = _askToJoin.value?.plus(listOf(newAskToJoin))
+    }
+
     fun addFriendsRequestList(lista: List<friendRequest>) {
         _friendReqeusts.value = lista
+    }
+
+    fun addAskToJoinList(lista: List<askToJoin>) {
+        _askToJoin.value = lista
     }
 
     fun setSelectedUser(selectedUser: User) {
