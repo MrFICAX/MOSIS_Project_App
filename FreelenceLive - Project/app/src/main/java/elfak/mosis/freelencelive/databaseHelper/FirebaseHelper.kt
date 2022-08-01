@@ -6,15 +6,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
@@ -37,6 +40,7 @@ import elfak.mosis.freelencelive.data.*
 import elfak.mosis.freelencelive.databinding.FragmentMyProfileBinding
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.model.userViewModel
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.Serializable
 import java.text.ParseException
@@ -207,7 +211,7 @@ object FirebaseHelper {
                         firstName,
                         lastName,
                         phoneNumber,
-                        0,
+                        0f,
                         0,
                         "",
                         hashMapOf<String, Boolean>()
@@ -323,7 +327,7 @@ object FirebaseHelper {
                             "",
                             "",
                             "",
-                            0,
+                            0f,
                             0,
                             "",
                             hashMapOf<String, Boolean>()
@@ -339,7 +343,7 @@ object FirebaseHelper {
                         var tmpString: String = result.data?.get("numOfRatings").toString()
                         userTmp.numOfRatings = tmpString.toInt()
                         tmpString = result.data?.get("totalScore").toString()
-                        userTmp.totalScore = tmpString.toInt()
+                        userTmp.totalScore = tmpString.toFloat()
 
                         var lista = result.data?.getValue("friendsList")
                         userTmp.friendsList = lista as HashMap<String, Boolean>
@@ -448,7 +452,7 @@ object FirebaseHelper {
                         "",
                         "",
                         "",
-                        0,
+                        0f,
                         0,
                         "",
                         hashMapOf<String, Boolean>()
@@ -464,7 +468,7 @@ object FirebaseHelper {
                     var tmpString: String = user.data?.get("numOfRatings").toString()
                     userTmp.numOfRatings = tmpString.toInt()
                     tmpString = user.data?.get("totalScore").toString()
-                    userTmp.totalScore = tmpString.toInt()
+                    userTmp.totalScore = tmpString.toFloat()
 
                     var hashMapa = user.data?.getValue("friendsList")
                     userTmp.friendsList = hashMapa as HashMap<String, Boolean>
@@ -564,46 +568,46 @@ object FirebaseHelper {
 
     }
 
-//
-//    fun probniCloudFirestore(context: Context) {
-//
-//        val docData = hashMapOf(
-//            "stringExample" to "Hello world!",
-//            "booleanExample" to true,
-//            "numberExample" to 3.14159265,
-//            "listExample" to arrayListOf(1, 2, 3),
-//            "nullExample" to null
-//        )
-//
-//        val nestedData = hashMapOf(
-//            "a" to 5,
-//            "b" to true
-//        )
-//
-//        docData["objectExample"] = nestedData
-//
-//        val currUser = User(
-//            "1",
-//            "ficax00@gmail.com",
-//            "Aa1234.",
-//            "ficax99",
-//            "Trajkovic",
-//            "0616440562",
-//            0,
-//            0,
-//            "",
-//            hashMapOf<String, Boolean>()
-//        )
-//
-//        cloudFirestore.collection("users").document("SFKdYaQ7ZwBsuGuUN13Y").delete()
-//            .addOnSuccessListener {
-//                Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
-//            }
-//            .addOnFailureListener {
-//                Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
-//            }
-//
-//    }
+
+    fun probniCloudFirestore(context: Context) {
+
+        val docData = hashMapOf(
+            "stringExample" to "Hello world!",
+            "booleanExample" to true,
+            "numberExample" to 3.14159265,
+            "listExample" to arrayListOf(1, 2, 3),
+            "nullExample" to null
+        )
+
+        val nestedData = hashMapOf(
+            "a" to 5,
+            "b" to true
+        )
+
+        docData["objectExample"] = nestedData
+
+        val currUser = User(
+            "1",
+            "ficax00@gmail.com",
+            "Aa1234.",
+            "ficax99",
+            "Trajkovic",
+            "0616440562",
+            0f,
+            0,
+            "",
+            hashMapOf<String, Boolean>()
+        )
+
+        cloudFirestore.collection("users").document("SFKdYaQ7ZwBsuGuUN13Y").delete()
+            .addOnSuccessListener {
+                Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+            }
+
+    }
 
     //TESTIRATI
     fun declineRequest(
@@ -626,8 +630,6 @@ object FirebaseHelper {
 
                 updatedListOfRequests?.minus(updatedRequest)
                 userViewModel.addFriendsRequestList(updatedListOfRequests!!)
-
-                //invitationsLayout.removeView(viewItem)
 
             }.addOnFailureListener {
                 Toast.makeText(context, "Request not deleted! " + it.toString(), Toast.LENGTH_LONG)
@@ -660,8 +662,6 @@ object FirebaseHelper {
                         userViewModel.users.value?.filter { it.id.equals(singleRequest.issuedBy) }
                             ?.firstOrNull()!!.friendsList
                     tmpMapa2.put(singleRequest.requestTo, true)
-
-                    //hashMapRequestToUser.
 
                     try {
 
@@ -763,253 +763,337 @@ object FirebaseHelper {
         }
     }
 
-    fun postComment(
-        newComment: Comment,
-        requireContext: Context,
-        userViewModel: userViewModel,
-        pd: ProgressDialog,
-        commentText: TextInputEditText
+
+    fun acceptJobInvitation(
+        event: Event, userViewModel: userViewModel,
+        viewItem: View,
+        invitationsLayout: LinearLayout,
+        requireContext: Context
     ) {
+        val meId = FirebaseAuth.getInstance().currentUser?.uid
 
-        val newRef = cloudFirestore.collection("comments").document()
-        val id = newRef.id
+        var currentEvent: Event = userViewModel.events.value!!.filter { it.id.equals(event.id) }.firstOrNull()!!
 
-        newRef.set(newComment)
-            .addOnSuccessListener {
-                Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
-                pd.dismiss()
+        var tmpMapa: MutableMap<String, String> = currentEvent.listOfUsers as MutableMap<String, String>
+        tmpMapa.set(meId.toString(), "true")
 
-                var listaKomentara: MutableList<Comment> =
-                    (userViewModel.comments.value as MutableList<Comment>?)!!
-                listaKomentara.add(newComment)
-                userViewModel.addCommentList(listaKomentara)
-                commentText.text?.clear()
-            }
-            .addOnFailureListener {
-                Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
-                pd.dismiss()
+
+        cloudFirestore.collection("events")
+            .document(event.id)
+            .update(mapOf("listOfUsers" to tmpMapa as Map<String, Any>)).addOnSuccessListener {
+
+                Toast.makeText(requireContext, "Event updated", Toast.LENGTH_SHORT).show()
+                userViewModel.updateJob(event, meId)
+
+                //invitationsLayout.removeView(viewItem)
+
+            }.addOnFailureListener{
+
+                Toast.makeText(requireContext, "Event not updated", Toast.LENGTH_SHORT).show()
+
             }
     }
 
-    fun getAllCommentsForSingleUser(
-        userId: String,
-        userViewModel: userViewModel,
-        context: Context
-    ) {
 
-        cloudFirestore.collection("comments").whereEqualTo("issuedFor", userId).get()
-            .addOnSuccessListener {
-                val comments = it.documents
-                val lista: ArrayList<Comment> = arrayListOf<Comment>()
-                comments.forEach { singleRequestDocument ->
 
-                    var commentTmp: Comment = Comment(
-                        "",
-                        "",
-                        ""
-                    )
 
-                    //user = result.toObject<User>()
-                    commentTmp.text = singleRequestDocument.data?.get("text").toString()
-                    commentTmp.issuedBy = singleRequestDocument.data?.get("issuedBy").toString()
-                    commentTmp.issuedFor = singleRequestDocument.data?.get("issuedFor").toString()
+        fun postComment(
+            newComment: Comment,
+            requireContext: Context,
+            userViewModel: userViewModel,
+            pd: ProgressDialog,
+            commentText: TextInputEditText
+        ) {
 
-                    lista.add(commentTmp)
+            val newRef = cloudFirestore.collection("comments").document()
+            val id = newRef.id
 
+            newRef.set(newComment)
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
+                    pd.dismiss()
+
+                    var listaKomentara: MutableList<Comment> =
+                        (userViewModel.comments.value as MutableList<Comment>?)!!
+                    listaKomentara.add(newComment)
+                    userViewModel.addCommentList(listaKomentara)
+                    commentText.text?.clear()
                 }
-                userViewModel.addCommentList(lista)
-            }.addOnFailureListener {
-                Toast.makeText(context, "comments not downoloaded!", Toast.LENGTH_LONG).show()
-            }
-    }
-
-    fun postRating(
-        newRating: Rating,
-        requireContext: Context,
-        userViewModel: userViewModel,
-        pd: ProgressDialog,
-        commentText: TextInputEditText
-    ) {
-        val newRef = cloudFirestore.collection("ratings").document()
-        val id = newRef.id
-        newRating.id = id
-
-        val checkRef = cloudFirestore.collection("ratings")
-            .whereEqualTo("issuedBy", FirebaseAuth.getInstance().currentUser?.uid)
-            .whereEqualTo("issuedFor", newRating.issuedFor).get().addOnSuccessListener {
-
-                var ratings = it.documents.firstOrNull()
-                if (ratings != null) {
-
-                    var ratingTmp: Rating = Rating("", "", "", 0f)
-                    newRating.id = ratings?.data?.get("id").toString()
-                    cloudFirestore.collection("ratings").document(newRating.id)
-                        .update("score", newRating.score)
-                        .addOnSuccessListener {
-                            Toast.makeText(
-                                requireContext,
-                                "Sucessful updated data",
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
-                            pd.dismiss()
-
-                            val updatedRating: Rating? =
-                                userViewModel.ratings.value?.filter { it.id.equals(newRating.id) }
-                                    ?.firstOrNull()
-
-                            updatedRating?.score = newRating.score
-
-                            val updatedList: MutableList<Rating>? =
-                                userViewModel.ratings.value?.filter { !(it.id.equals(newRating.id)) } as MutableList<Rating>?
-
-
-                            updatedList?.add(updatedRating!!)
-                            userViewModel.addRatingList(updatedList!!)
-
-                        }.addOnFailureListener {
-                            Toast.makeText(
-                                requireContext,
-                                "Not sucessful updated data",
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
-                            pd.dismiss()
-                        }
-                } else {
-                    newRef.set(newRating)
-                        .addOnSuccessListener {
-                            Toast.makeText(
-                                requireContext,
-                                "Sucessful added data",
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
-                            pd.dismiss()
-
-                            var listaRatinga: MutableList<Rating> =
-                                (userViewModel.ratings.value as MutableList<Rating>?)!!
-                            listaRatinga.add(newRating)
-                            userViewModel.addRatingList(listaRatinga)
-                            //commentText.text?.clear()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
-                            pd.dismiss()
-                        }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
+                    pd.dismiss()
                 }
+        }
 
-            }.addOnFailureListener {
-                Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
-                pd.dismiss()
-            }
-    }
+        fun getAllCommentsForSingleUser(
+            userId: String,
+            userViewModel: userViewModel,
+            context: Context
+        ) {
 
-    fun getAllRatingsForSingleUser(userId: String, userViewModel: userViewModel, context: Context) {
+            cloudFirestore.collection("comments").whereEqualTo("issuedFor", userId).get()
+                .addOnSuccessListener {
+                    val comments = it.documents
+                    val lista: ArrayList<Comment> = arrayListOf<Comment>()
+                    comments.forEach { singleRequestDocument ->
 
-        cloudFirestore.collection("ratings").whereEqualTo("issuedFor", userId).get()
-            .addOnSuccessListener {
-                val ratings = it.documents
-                val lista: ArrayList<Rating> = arrayListOf<Rating>()
-                ratings.forEach { singleRequestDocument ->
+                        var commentTmp: Comment = Comment(
+                            "",
+                            "",
+                            ""
+                        )
 
-                    var ratingTmp: Rating = Rating(
-                        "",
-                        "",
-                        "",
-                        0f
-                    )
+                        //user = result.toObject<User>()
+                        commentTmp.text = singleRequestDocument.data?.get("text").toString()
+                        commentTmp.issuedBy = singleRequestDocument.data?.get("issuedBy").toString()
+                        commentTmp.issuedFor =
+                            singleRequestDocument.data?.get("issuedFor").toString()
 
-                    //user = result.toObject<User>()
-                    ratingTmp.id = singleRequestDocument.data?.get("id").toString()
-                    val score = singleRequestDocument.data?.get("score").toString()
-                    ratingTmp.score = score.toFloat()
-                    ratingTmp.issuedBy = singleRequestDocument.data?.get("issuedBy").toString()
-                    ratingTmp.issuedFor = singleRequestDocument.data?.get("issuedFor").toString()
+                        lista.add(commentTmp)
 
-                    lista.add(ratingTmp)
-
+                    }
+                    userViewModel.addCommentList(lista)
+                }.addOnFailureListener {
+                    Toast.makeText(context, "comments not downoloaded!", Toast.LENGTH_LONG).show()
                 }
-                userViewModel.addRatingList(lista)
-            }.addOnFailureListener {
-                Toast.makeText(context, "Ratings not downloaded!", Toast.LENGTH_LONG).show()
-            }
-    }
+        }
 
-    fun createEvent(
-        eventTmp: Event?,
-        requireContext: Context,
-        pd: ProgressDialog,
-        userViewModel: userViewModel
-    ) {
-        val newRef = cloudFirestore.collection("events").document()
-        val id = newRef.id
+        fun postRating(
+            newRating: Rating,
+            requireContext: Context,
+            userViewModel: userViewModel,
+            pd: ProgressDialog,
+            commentText: TextInputEditText
+        ) {
+            val newRef = cloudFirestore.collection("ratings").document()
+            val id = newRef.id
+            newRating.id = id
 
-        var date: String? = eventTmp?.date.toString()
-        val lista = date?.split(" ")
-        val dan = lista?.get(2)?.toInt()
+            val checkRef = cloudFirestore.collection("ratings")
+                .whereEqualTo("issuedBy", FirebaseAuth.getInstance().currentUser?.uid)
+                .whereEqualTo("issuedFor", newRating.issuedFor).get().addOnSuccessListener {
 
-        val dateHashMap = hashMapOf<String, Int>(
-            "year" to eventTmp?.date?.year!!,
-            "month" to eventTmp?.date?.month!!,
-            "day" to dan!!,
-            "hours" to eventTmp?.date?.hours!!,
-            "minutes" to eventTmp?.date?.minutes!!
-        )
-        eventTmp?.id = id
-        eventTmp.dateHashMap = dateHashMap
-        newRef.set(eventTmp!!)
-            .addOnSuccessListener {
-                Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
+                    var ratings = it.documents.firstOrNull()
+                    if (ratings != null) {
+
+                        var ratingTmp: Rating = Rating("", "", "", 0f)
+                        newRating.id = ratings?.data?.get("id").toString()
+                        cloudFirestore.collection("ratings").document(newRating.id)
+                            .update("score", newRating.score)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    requireContext,
+                                    "Sucessful updated data",
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+                                pd.dismiss()
+
+                                val updatedRating: Rating? =
+                                    userViewModel.ratings.value?.filter { it.id.equals(newRating.id) }
+                                        ?.firstOrNull()
+
+                                updatedRating?.score = newRating.score
+
+                                val updatedList: MutableList<Rating>? =
+                                    userViewModel.ratings.value?.filter { !(it.id.equals(newRating.id)) } as MutableList<Rating>?
+
+
+                                updatedList?.add(updatedRating!!)
+                                userViewModel.addRatingList(updatedList!!)
+
+                            }.addOnFailureListener {
+                                Toast.makeText(
+                                    requireContext,
+                                    "Not sucessful updated data",
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+                                pd.dismiss()
+                            }
+                    } else {
+                        newRef.set(newRating)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    requireContext,
+                                    "Sucessful added data",
+                                    Toast.LENGTH_LONG
+                                )
+                                    .show()
+                                pd.dismiss()
+
+                                var listaRatinga: MutableList<Rating> =
+                                    (userViewModel.ratings.value as MutableList<Rating>?)!!
+                                listaRatinga.add(newRating)
+
+                                userViewModel.addRatingList(listaRatinga)
+                                //commentText.text?.clear()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG)
+                                    .show()
+                                pd.dismiss()
+                            }
+                    }
+
+                }.addOnFailureListener {
+                    Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
+                    pd.dismiss()
+                }
+        }
+
+        fun getAllRatingsForSingleUser(
+            userId: String,
+            userViewModel: userViewModel,
+            context: Context
+        ) {
+
+            cloudFirestore.collection("ratings").whereEqualTo("issuedFor", userId).get()
+                .addOnSuccessListener {
+                    val ratings = it.documents
+                    val lista: ArrayList<Rating> = arrayListOf<Rating>()
+                    ratings.forEach { singleRequestDocument ->
+
+                        var ratingTmp: Rating = Rating(
+                            "",
+                            "",
+                            "",
+                            0f
+                        )
+
+                        //user = result.toObject<User>()
+                        ratingTmp.id = singleRequestDocument.data?.get("id").toString()
+                        val score = singleRequestDocument.data?.get("score").toString()
+                        ratingTmp.score = score.toFloat()
+                        ratingTmp.issuedBy = singleRequestDocument.data?.get("issuedBy").toString()
+                        ratingTmp.issuedFor =
+                            singleRequestDocument.data?.get("issuedFor").toString()
+
+                        lista.add(ratingTmp)
+
+                    }
+
+                    var listaRatinga: MutableList<Rating> =
+                        (userViewModel.ratings.value as MutableList<Rating>?)!!
+
+                    listaRatinga = listaRatinga.plus(lista) as MutableList<Rating>
+//                listaRatinga = (listaRatinga + lista) as MutableList<Rating>
+
+                    userViewModel.addRatingList(listaRatinga)
+
+                    //userViewModel.addRatingList(lista)
+                }.addOnFailureListener {
+                    Toast.makeText(context, "Ratings not downloaded!", Toast.LENGTH_LONG).show()
+                }
+        }
+
+        fun getAllRatings(userViewModel: userViewModel, context: Context) {
+
+            cloudFirestore.collection("ratings").get()
+                .addOnSuccessListener {
+                    val ratings = it.documents
+                    val lista: ArrayList<Rating> = arrayListOf<Rating>()
+                    ratings.forEach { singleRequestDocument ->
+
+                        var ratingTmp: Rating = Rating(
+                            "",
+                            "",
+                            "",
+                            0f
+                        )
+
+                        //user = result.toObject<User>()
+                        ratingTmp.id = singleRequestDocument.data?.get("id").toString()
+                        val score = singleRequestDocument.data?.get("score").toString()
+                        ratingTmp.score = score.toFloat()
+                        ratingTmp.issuedBy = singleRequestDocument.data?.get("issuedBy").toString()
+                        ratingTmp.issuedFor =
+                            singleRequestDocument.data?.get("issuedFor").toString()
+
+                        lista.add(ratingTmp)
+
+                    }
+                    userViewModel.addRatingList(lista)
+                }.addOnFailureListener {
+                    Toast.makeText(context, "Ratings not downloaded!", Toast.LENGTH_LONG).show()
+                }
+        }
+
+        fun createEvent(
+            eventTmp: Event?,
+            requireContext: Context,
+            pd: ProgressDialog,
+            userViewModel: userViewModel
+        ) {
+            val newRef = cloudFirestore.collection("events").document()
+            val id = newRef.id
+
+            var date: String? = eventTmp?.date.toString()
+            val lista = date?.split(" ")
+            val dan = lista?.get(2)?.toInt()
+
+            val dateHashMap = hashMapOf<String, Int>(
+                "year" to eventTmp?.date?.year!!,
+                "month" to eventTmp?.date?.month!!,
+                "day" to dan!!,
+                "hours" to eventTmp?.date?.hours!!,
+                "minutes" to eventTmp?.date?.minutes!!
+            )
+            eventTmp?.id = id
+            eventTmp.dateHashMap = dateHashMap
+            newRef.set(eventTmp!!)
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
 
 //                var lista = userViewModel.events.value
 //                var novaLista = lista as MutableList<Event>
 //                novaLista.add(eventTmp)
 //                userViewModel.addEventList(novaLista)
 
-                var listaEventa: MutableList<Event> =
-                    (userViewModel.events.value as MutableList<Event>?)!!
-                listaEventa.add(eventTmp)
-                userViewModel.addEventList(listaEventa)
+                    var listaEventa: MutableList<Event> =
+                        (userViewModel.events.value as MutableList<Event>?)!!
+                    listaEventa.add(eventTmp)
+                    userViewModel.addEventList(listaEventa)
 
-                pd.dismiss()
+                    pd.dismiss()
 
-            }
-            .addOnFailureListener {
-                Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
-                pd.dismiss()
-            }
-    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext, it.toString(), Toast.LENGTH_LONG).show()
+                    pd.dismiss()
+                }
+        }
 
-    fun getAllEvents(context: Context, userViewModel: userViewModel) {
+        fun getAllEvents(context: Context, userViewModel: userViewModel) {
 
-        cloudFirestore.collection("events").get().addOnSuccessListener {
-            val document = it.documents
-            val lista: ArrayList<Event> = arrayListOf<Event>()
-            document.forEach { singleRequestDocument ->
+            cloudFirestore.collection("events").get().addOnSuccessListener {
+                val document = it.documents
+                val lista: ArrayList<Event> = arrayListOf<Event>()
+                document.forEach { singleRequestDocument ->
 
-                var eventTmp: Event = Event(
-                    "",
-                    "",
-                    false,
-                    "",
-                    0.0,
-                    0.0,
-                    Date(),
-                    hashMapOf(),
-                    hashMapOf()
-                )
+                    var eventTmp: Event = Event(
+                        "",
+                        "",
+                        false,
+                        "",
+                        0.0,
+                        0.0,
+                        Date(),
+                        hashMapOf(),
+                        hashMapOf(),
+                        mutableListOf()
+                    )
 
-                //user = result.toObject<User>()
-                eventTmp.id = singleRequestDocument.data?.get("id").toString()
-                eventTmp.name = singleRequestDocument.data?.get("name").toString()
-                eventTmp.finished = singleRequestDocument.data?.get("finished") as Boolean
+                    //user = result.toObject<User>()
+                    eventTmp.id = singleRequestDocument.data?.get("id").toString()
+                    eventTmp.name = singleRequestDocument.data?.get("name").toString()
+                    eventTmp.finished = singleRequestDocument.data?.get("finished") as Boolean
 
-                eventTmp.organiser = singleRequestDocument.data?.get("organiser").toString()
-                var tmpString: String = singleRequestDocument.data?.get("latitude").toString()
-                eventTmp.latitude = tmpString.toDouble()
-                tmpString = singleRequestDocument.data?.get("longitude").toString()
-                eventTmp.longitude = tmpString.toDouble()
+                    eventTmp.organiser = singleRequestDocument.data?.get("organiser").toString()
+                    var tmpString: String = singleRequestDocument.data?.get("latitude").toString()
+                    eventTmp.latitude = tmpString.toDouble()
+                    tmpString = singleRequestDocument.data?.get("longitude").toString()
+                    eventTmp.longitude = tmpString.toDouble()
 
 //                val tmpDate = singleRequestDocument.data?.get("date")
 //                //eventTmp.date = Date()
@@ -1017,65 +1101,205 @@ object FirebaseHelper {
 //                    tmpDate as com.google.firebase.Timestamp
 //                val date: Date = getUTCdatetimeAsDate(timestamp)
 
-                 var dateHashMap = singleRequestDocument.data?.getValue("dateHashMap")
-                var hashMapaDate: HashMap<String, Int> = dateHashMap as HashMap<String, Int>
-                var month = hashMapaDate["month"]!!
-                var monthInt: Int? = month?.toInt()//?.minus(1)
-                var date: Date = Date(hashMapaDate.get("year")!!,
-                    monthInt!!, hashMapaDate["day"]!!, hashMapaDate["hours"]!!, hashMapaDate["minutes"]!!)
+                    val dateHashMap = singleRequestDocument.data?.getValue("dateHashMap")
+                    val hashMapaDate: HashMap<String, Int> = dateHashMap as HashMap<String, Int>
+                    var month = hashMapaDate["month"]!!
+                    var monthInt: Int? = month?.toInt()//?.minus(1)
+                    var date: Date = Date(
+                        hashMapaDate.get("year")!!,
+                        monthInt!!,
+                        hashMapaDate["day"]!!,
+                        hashMapaDate["hours"]!!,
+                        hashMapaDate["minutes"]!!
+                    )
 
-                eventTmp.date = date //Date(timestamp.seconds * 1000)
+                    eventTmp.date = date //Date(timestamp.seconds * 1000)
 
-                //PARSIRANJE VREME NE RADII KAKO TREBA, RESENJE JE DA SE DATUM U BAZI PAMTI KAO STRING ILI KAO HASHMAP SA POLJIMA ZA SVAKU VREDNOST
+                    //PARSIRANJE VREME NE RADII KAKO TREBA, RESENJE JE DA SE DATUM U BAZI PAMTI KAO STRING ILI KAO HASHMAP SA POLJIMA ZA SVAKU VREDNOST
 
-                var listOfUsersTmp = singleRequestDocument.data?.getValue("listOfUsers")
-                eventTmp.listOfUsers = listOfUsersTmp as HashMap<String, Boolean>
+                    var listOfUsersTmp = singleRequestDocument.data?.getValue("listOfUsers")
+                    eventTmp.listOfUsers = listOfUsersTmp as HashMap<String, Boolean>
 
-                lista.add(eventTmp)
+                    lista.add(eventTmp)
 
+                }
+                userViewModel.addEventList(lista)
+            }.addOnFailureListener {
+                Toast.makeText(context, "requests not downoloaded!", Toast.LENGTH_LONG).show()
             }
-            userViewModel.addEventList(lista)
-        }.addOnFailureListener {
-            Toast.makeText(context, "requests not downoloaded!", Toast.LENGTH_LONG).show()
         }
-    }
 
-    const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
+        const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
 
-    fun getUTCdatetimeAsDate(utcString: Timestamp): Date {
-        // note: doesn't check for null
-        return stringDateToDate(utcString)
-    }
-
-
-    fun stringDateToDate(StrDate: Timestamp): Date {
-        val sdf = SimpleDateFormat(DATE_FORMAT)
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC+2"))
-        val date = sdf.format(Date(StrDate.seconds * 1000))
-
-        var dateToReturn: Date = Date()
-        val dateFormat = SimpleDateFormat(DATE_FORMAT)
-        try {
-            dateToReturn = dateFormat.parse(date)
-        } catch (e: ParseException) {
-            e.printStackTrace()
+        fun getUTCdatetimeAsDate(utcString: Timestamp): Date {
+            // note: doesn't check for null
+            return stringDateToDate(utcString)
         }
-        return dateToReturn
-    }
 
-    fun updateEventData(selectedEvent: Event, mapa: HashMap<String, Any>, pd: ProgressDialog, requireContext: Context, findNavController: NavController) {
 
-        cloudFirestore.collection("events").document(
-            selectedEvent.id
-        ).update(mapa as Map<String, Any>).addOnSuccessListener {
-            Toast.makeText(requireContext, "Data updated successfully!", Toast.LENGTH_LONG).show()
-            pd.dismiss()
-            findNavController.popBackStack()
-        }.addOnFailureListener {
-            Toast.makeText(requireContext, "Data not updated !", Toast.LENGTH_LONG).show()
-            pd.dismiss()
+        fun stringDateToDate(StrDate: Timestamp): Date {
+            val sdf = SimpleDateFormat(DATE_FORMAT)
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC+2"))
+            val date = sdf.format(Date(StrDate.seconds * 1000))
+
+            var dateToReturn: Date = Date()
+            val dateFormat = SimpleDateFormat(DATE_FORMAT)
+            try {
+                dateToReturn = dateFormat.parse(date)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            return dateToReturn
         }
+
+        fun updateEventData(
+            selectedEvent: Event,
+            mapa: HashMap<String, Any>,
+            pd: ProgressDialog,
+            requireContext: Context,
+            findNavController: NavController
+        ) {
+
+            cloudFirestore.collection("events").document(
+                selectedEvent.id
+            ).update(mapa as Map<String, Any>).addOnSuccessListener {
+                Toast.makeText(requireContext, "Data updated successfully!", Toast.LENGTH_LONG)
+                    .show()
+                pd.dismiss()
+                findNavController.popBackStack()
+            }.addOnFailureListener {
+                Toast.makeText(requireContext, "Data not updated !", Toast.LENGTH_LONG).show()
+                pd.dismiss()
+            }
+        }
+
+        fun addPhotosToDatabase(
+            selectedEvent: Event,
+            photosListTmp: MutableList<Bitmap>,
+            requireContext: Context,
+            findNavController: NavController
+        ) {
+
+            photosListTmp.forEach { element ->
+
+                val baos = ByteArrayOutputStream()
+                element.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+                val data = baos.toByteArray()
+
+                //storageRef.child("EventImages").child("${selectedEvent.id}").child(UUID.randomUUID().toString())
+
+                val mountainImagesRef =
+                    storageRef.child("EventImages").child(selectedEvent.id)
+                        .child(UUID.randomUUID().toString() + ".png")
+                uploadTask = mountainImagesRef.putBytes(data)
+                uploadTask.addOnFailureListener {
+                    // Handle unsuccessful uploads
+                    Log.d("PictureFail", "This is a picture upload failure")
+                }.addOnSuccessListener { taskSnapshot ->
+
+                    Toast.makeText(requireContext, taskSnapshot.toString(), Toast.LENGTH_SHORT)
+                        .show()
+                }.addOnFailureListener {
+                    Toast.makeText(requireContext, it.toString(), Toast.LENGTH_SHORT).show()
+
+                }
+            }
+        }
+
+        fun deleteSinglePhotoForSelectedEventFromDatabase(
+            viewItem: View,
+            photo: String,
+            selectedEvent: Event,
+            requireContext: Context,
+            gsPhotosList: List<String>,
+            userViewModel: userViewModel
+        ) {
+
+            val listOfPhotos: MutableList<String> = mutableListOf()
+            gsPhotosList.forEach { element ->
+                val StringList: List<String> = element.split("/")
+                listOfPhotos.add(StringList.lastOrNull()?.split(".")?.firstOrNull()!!)
+            }
+
+            val itemToDelete = listOfPhotos.filter { photo.contains(it.toString()) }.firstOrNull()
+
+
+            val desertRef =
+                storageRef.child("EventImages/${selectedEvent.id}/" + itemToDelete + ".png")
+
+            desertRef.delete().addOnSuccessListener {
+                Toast.makeText(requireContext, "File deleted successfully!", Toast.LENGTH_SHORT)
+                    .show()
+                (viewItem.getParent() as ViewGroup).removeView(viewItem)
+                userViewModel.deletePhotoFromSelectedEvent(photo)
+            }.addOnFailureListener {
+
+                Toast.makeText(requireContext, it.toString(), Toast.LENGTH_SHORT).show()
+            }
+
+
+        }
+
+        fun getPhotosForSingleEventFromDatabase(
+            selectedEvent: Event,
+            requireContext: Context,
+            userViewModel: userViewModel
+        ) {
+
+            val photosListTmp: MutableList<Bitmap> = mutableListOf()
+            val photosListStringTmp: MutableList<String> = mutableListOf()
+            val photosListGSStringTmp: MutableList<String> = mutableListOf()
+
+
+            val mountainImagesRef =
+                storageRef.child("EventImages").child(selectedEvent.id).listAll()
+                    .addOnSuccessListener {
+
+//                it.items.forEach { item ->
+////                    val inst = FirebaseStorage.getInstance()
+////                    val imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(item.toString())
+////                    imageRef.getBytes(10 * 1024 * 1024).addOnSuccessListener {
+////                        val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+////                        photosListTmp.add(bitmap)
+////                    }.addOnFailureListener {
+////                       Log.d("1", it.toString())
+////                    }
+//                    var downloadUrl = item.downloadUrl
+//                    photosListStringTmp.add(downloadUrl.toString())
+//
+//                }
+//                it.items.forEach { item ->
+//                    val FIVE_MEGABYTE: Long = 5 * 1024 * 1024
+//
+//                    item.getBytes(FIVE_MEGABYTE).addOnSuccessListener {
+//
+//                        val arrayInputStream = ByteArrayInputStream(it as ByteArray?)
+//                        val bitmap = BitmapFactory.decodeStream(arrayInputStream)
+//                        photosListTmp.add(bitmap)
+//
+//                    }.addOnFailureListener{
+//                        Toast.makeText(requireContext, it.toString(), Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+                        // photosListStringTmp = it.items
+                        it.items.forEach { item ->
+                            photosListGSStringTmp.add(item.toString())
+                            val gsReference =
+                                FirebaseStorage.getInstance().getReferenceFromUrl(item.toString())
+                            gsReference.downloadUrl.addOnSuccessListener {
+                                val string = it.toString()
+                                userViewModel.setPhotoUrlToSelectedEvent(string.toString())
+
+                            }
+                        }
+                        userViewModel.setSelectedEventGSPhotos(photosListGSStringTmp)
+//
+//                userViewModel.setSelectedEventPhotos(photosListStringTmp)
+
+                    }.addOnFailureListener {
+                    // Uh-oh, an error occurred!
+                }
+        }
+
+
     }
-
-
-}

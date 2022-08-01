@@ -67,7 +67,7 @@ class AskToJoinFragmentDialog : DialogFragment() {
         fillAllViewsWithData()
     }
 
-    private fun fillAllViewsWithData(){
+    private fun fillAllViewsWithData() {
         binding.jobTitleText.setText(userViewModel.selectedEvent.value?.name)
 
         var date: String? = selectedEvent?.date.toString()
@@ -108,9 +108,16 @@ class AskToJoinFragmentDialog : DialogFragment() {
             val userTmp =
                 userViewModel.users.value?.filter { it.id.equals(keyValue.key) }?.firstOrNull()
             userTmp?.let { listaKorisnika.add(it) }
+
+            if (userViewModel.user.value?.id.equals(keyValue.key)) {
+                userViewModel.user.value?.let { listaKorisnika.add(it) }
+            }
         }
 
-        for(singleUser in listaKorisnika){
+
+
+
+        for (singleUser in listaKorisnika) {
             val viewItem: View = inflater.inflate(R.layout.user_item, friendsView, false)
             val imageView: ImageView = viewItem.findViewById(R.id.imageView) as ImageView
             val imageView2: ImageView = viewItem.findViewById(R.id.imageView2) as ImageView
@@ -119,11 +126,10 @@ class AskToJoinFragmentDialog : DialogFragment() {
             val IsAccepted = hashMapFriends[singleUser.id].toString()
             Log.d("IsAccepted", IsAccepted.toString())
 
-            if (IsAccepted.equals("true"))
-            {
+            if (IsAccepted.equals("true")) {
                 imageView2.setImageResource(R.drawable.accept)
 
-            } else{
+            } else {
                 imageView2.setImageResource(R.drawable.question)
 
             }

@@ -66,6 +66,14 @@ class FriendsFragment : Fragment() {
         }
         userViewModel.users.observe(viewLifecycleOwner, FriendsObserver)
 
+        val RequestObserver = Observer<List<friendRequest>> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            //val lista: List<User> = newValue
+            addFriendsToLinearLayout(userViewModel.users.value!!, false, "")
+
+        }
+        userViewModel.friendReqeusts.observe(viewLifecycleOwner, RequestObserver)
+
 
 
         return binding.root

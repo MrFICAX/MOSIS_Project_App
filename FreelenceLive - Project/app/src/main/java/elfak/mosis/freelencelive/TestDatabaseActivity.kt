@@ -95,7 +95,7 @@ class TestDatabaseActivity : AppCompatActivity() {
                 for (document in result) {
                     Log.d(TAG, "${document.id} => ${document.data}")
                     Toast.makeText(this, document.data.toString(), Toast.LENGTH_LONG).show()
-                    val event: Event = Event("","", false,"",0.0,0.0, Date(0, 0, 0), hashMapOf(), hashMapOf())
+                    val event: Event = Event("","", false,"",0.0,0.0, Date(0, 0, 0), hashMapOf(), hashMapOf(), mutableListOf())
                     event.name = document.data["firstName"].toString()
                     event.organiser = document.data["lastName"].toString()
 
@@ -164,7 +164,7 @@ class TestDatabaseActivity : AppCompatActivity() {
 
     fun postEventToRealTimeDB(){
 
-        val event: Event = Event("","Cepanje drva", false, "Marko", 3.14, 3.14, Date(0, 0, 0),hashMapOf<String, Boolean>(), hashMapOf() )
+        val event: Event = Event("","Cepanje drva", false, "Marko", 3.14, 3.14, Date(0, 0, 0),hashMapOf<String, Boolean>(), hashMapOf(), mutableListOf() )
 
         val newRef:DatabaseReference = myRef.database.getReference("events")
         newRef.child("123").setValue(event)

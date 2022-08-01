@@ -1,11 +1,8 @@
 package elfak.mosis.freelencelive
 
-import android.R.attr.button
 import android.app.ProgressDialog
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -14,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -75,6 +71,23 @@ class JobViewFragment : Fragment() {
         if (userViewModel.friendReqeusts.value?.isEmpty() == true)
             FirebaseHelper.getAllFriendRequests(requireContext(), userViewModel)
 
+        FirebaseHelper.getPhotosForSingleEventFromDatabase(
+            userViewModel.selectedEvent.value!!,
+            requireContext(),
+            userViewModel
+        )
+
+        val EventObserver = Observer<Event> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            val event: Event = newValue
+            //addFriendsToLinearLayout(lista, false, "")
+            //addJobsToLinearLayout(lista)
+            //fillControls(event)
+            addPhotosToGalleryView(event.photosList)
+        }
+        userViewModel.selectedEvent.observe(viewLifecycleOwner, EventObserver)
+
+
         val friendRequestObserver = Observer<List<friendRequest>> { newValue ->
 //            //binding.buttonCreateJob.setText(newValue)
 //            val lista: List<User> = newValue
@@ -103,7 +116,7 @@ class JobViewFragment : Fragment() {
             NavHostFragment.findNavController(this).navigate(action)
         }
 
-        addPhotosToGalleryView()
+        //addPhotosToGalleryView(event.photosList)
         addFriendsToFriendsView()
         setClickListeners()
 
@@ -142,7 +155,7 @@ class JobViewFragment : Fragment() {
         binding.dateText.setText(dateString)
         binding.timeText.setText(timeString)
 
-        addPhotosToGalleryView()
+        //addPhotosToGalleryView(event.photosList)
         addFriendsToFriendsView()
 
 
@@ -268,22 +281,24 @@ class JobViewFragment : Fragment() {
         )
     }
 
-    private fun addPhotosToGalleryView() {
+    private fun addPhotosToGalleryView(photosList: MutableList<String>) {
         //DODAVANJE SLIKA IZ LISTE SLIKA ZA OVAJ JOB
-        for (i in 0..brojSlika - 1) {
+
+        galleryView.removeAllViewsInLayout()
+        galleryView.removeAllViews()
+
+        for (photo in photosList) {
             val viewItem: View = inflater.inflate(R.layout.photo_item, galleryView, false)
             val fab: FloatingActionButton = viewItem.findViewById(R.id.fab)
             fab.isVisible = false
 
             val imageView: ImageView = viewItem.findViewById(R.id.imageView) as ImageView
-            if (i < 2)
-                imageView.setImageResource(R.drawable.img_0944)
-            else
-                imageView.setImageResource(R.drawable.img_0950)
+            Glide.with(this).load(photo).into(imageView)
+            imageView.setImageResource(R.drawable.no_photos)
 
             galleryView.addView(viewItem)
         }
-        if (brojSlika == 0) {
+        if (photosList.isEmpty()) {
             addPhotoIfNoPhotosInGallery()
         }
     }

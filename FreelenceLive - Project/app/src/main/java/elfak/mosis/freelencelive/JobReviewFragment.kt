@@ -24,13 +24,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.data.Event
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentJobReviewBinding
 import elfak.mosis.freelencelive.dialogs.ChooseDateFragmentDialog
 import elfak.mosis.freelencelive.dialogs.ChooseTimeFragmentDialog
-import elfak.mosis.freelencelive.dialogs.searchByRadiusFragmentDialog
 import elfak.mosis.freelencelive.model.fragmentViewModel
 import elfak.mosis.freelencelive.model.userViewModel
 
@@ -43,8 +41,10 @@ class JobReviewFragment : Fragment() {
     private var imageUri: Uri? = null
     private val fragmentViewModel: fragmentViewModel by activityViewModels()
     private val userViewModel: userViewModel by activityViewModels()
-    lateinit var pd : ProgressDialog
+    lateinit var pd: ProgressDialog
     private lateinit var currentJobName: String
+    private lateinit var photosListTmp: MutableList<Bitmap>
+
 
     var brojSlika = 0
 
@@ -64,8 +64,19 @@ class JobReviewFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        photosListTmp = mutableListOf()
+
+        //if (userViewModel.selectedEvent.value?.photosList?.isEmpty() == true)
+            FirebaseHelper.getPhotosForSingleEventFromDatabase(
+                userViewModel.selectedEvent.value!!,
+                requireContext(),
+                userViewModel
+            )
+
+
         binding = FragmentJobReviewBinding.inflate(inflater)
         userViewModel.InitialSetSelectedEvent()
+
         currentJobName = userViewModel.selectedEvent.value?.name.toString()
 
         val EventObserver = Observer<Event> { newValue ->
@@ -74,16 +85,13 @@ class JobReviewFragment : Fragment() {
             //addFriendsToLinearLayout(lista, false, "")
             //addJobsToLinearLayout(lista)
             //fillControls(event)
+            addPhotosOfThisEvent(event.photosList)
         }
         userViewModel.selectedEvent.observe(viewLifecycleOwner, EventObserver)
 
 
         return binding.root
         //return inflater.inflate(R.layout.fragment_job_review, container, false)
-    }
-
-    private fun fillControls(event: Event) {
-        TODO("Not yet implemented")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,59 +111,125 @@ class JobReviewFragment : Fragment() {
             }
         })
 
-        binding.datePicker.setOnClickListener{
+        binding.datePicker.setOnClickListener {
             val fragmentNovi = ChooseDateFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
         }
-        binding.cancelButton.setOnClickListener{
-            findNavController().popBackStack()
+        binding.cancelButton.setOnClickListener {
+            //findNavController().popBackStack()
+            navigateBackToJobFragment()
         }
 
         binding.ApplyChanges.setOnClickListener {
 
+            addPhotosToDb()
             updateUserInDatabase()
+            navigateBackToJobFragment()
         }
 
-        binding.timePicker.setOnClickListener{
+        binding.timePicker.setOnClickListener {
             val fragmentNovi = ChooseTimeFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
         }
-        binding.shapeableImageView.setOnClickListener{
+        binding.shapeableImageView.setOnClickListener {
             val action = JobReviewFragmentDirections.actionJobReviewToStartpage()
             NavHostFragment.findNavController(this).navigate(action)
         }
 
-        gallery =  requireActivity().findViewById(R.id.gallery) //binding.gallery
+        gallery = requireActivity().findViewById(R.id.gallery) //binding.gallery
+        gallery.removeAllViews()
+        gallery.removeAllViewsInLayout()
+
         inflater = LayoutInflater.from(requireContext())
 
 
         fillViewsWithData(userViewModel.selectedEvent.value!!)
-        addPhotosOfThisEvent()
+        // addPhotosOfThisEvent(event.photosList)
     }
 
-    fun addPhotosOfThisEvent(){
+    private fun navigateBackToJobFragment(){
+        userViewModel.deletePhotosOfSelectedEvent()
+        val action = JobReviewFragmentDirections.actionJobReviewToJobs()
+        findNavController().navigate(action)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    private fun addPhotosToDb() {
+
+        if (photosListTmp.isNotEmpty()) {
+            Toast.makeText(requireContext(), "Photos uploading..", Toast.LENGTH_SHORT).show()
+            FirebaseHelper.addPhotosToDatabase(
+                userViewModel.selectedEvent.value!!,
+                photosListTmp,
+                requireContext(),
+                findNavController()
+            )
+        }
+    }
+
+    fun addPhotosOfThisEvent(photosList: MutableList<String>) {
         //DODAVANJE SLIKA IZ LISTE SLIKA ZA OVAJ JOB
-        for(i in 0..brojSlika - 1){
+
+        gallery.removeAllViewsInLayout()
+        gallery.removeAllViews()
+
+        for (photo in photosList) {
             val viewItem: View = inflater.inflate(R.layout.photo_item, gallery, false)
+            val imageView: ImageView = viewItem.findViewById(R.id.imageView) as ImageView
             val fab: FloatingActionButton = viewItem.findViewById(R.id.fab)
             fab.setOnClickListener {
                 //BRISANJE SLIKE IZ LISTE SLIKA ZA OVAJ JOB
-                (viewItem.getParent() as ViewGroup).removeView(viewItem)
-                brojSlika--
+                FirebaseHelper.deleteSinglePhotoForSelectedEventFromDatabase(
+                    viewItem,
+                    photo,
+                    userViewModel.selectedEvent.value!!,
+                    requireContext(),
+                    userViewModel.gsPhotosList.value!!,
+                    userViewModel
+                )
+
             }
 
-            val imageView:ImageView = viewItem.findViewById(R.id.imageView) as ImageView
-            if (i < 2)
-                imageView.setImageResource(R.drawable.img_0944)
-            else
-                imageView.setImageResource(R.drawable.img_0950)
+
+            Glide.with(this).load(photo).into(imageView)
+            imageView.setImageResource(R.drawable.no_photos)
             gallery.addView(viewItem)
-            brojSlika++
+
         }
         addNewPhoto()
     }
 
-    fun fillViewsWithData(event: Event){
+    private fun addNewPhoto() {
+        val viewItem = inflater.inflate(R.layout.photo_item, gallery, false)
+        val imageView: ImageView = viewItem.findViewById(R.id.imageView) as ImageView
+        //imageView.setImageResource(R.drawable.add_photo)
+        imageView.setImageResource(android.R.drawable.ic_input_add)
+        //imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.purple_500), android.graphics.PorterDuff.Mode.SRC_IN)
+        imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.purple_500));
+        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(160, 160);
+        imageView.setLayoutParams(params)
+        imageView.minimumWidth = 100
+        imageView.setBackgroundColor(R.color.menuColor)
+        imageView.setBackgroundResource(R.drawable.rectangle_11_shape)
+        val fab: FloatingActionButton = viewItem.findViewById(R.id.fab)
+        fab.isVisible = false
+        //imageView.background = R.drawable.rectangle_10_shape.toDrawable()
+        imageView.setOnClickListener {
+            Toast.makeText(context, "POZDRAV CLIKC!", Toast.LENGTH_LONG).show()
+            OpenGalleryToAddPhoto()
+        }
+        gallery.addView(viewItem)
+    }
+
+    private fun OpenGalleryToAddPhoto() {
+        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(gallery, pickImage)
+    }
+
+    fun fillViewsWithData(event: Event) {
 
         binding.jobTitleText.setText(event.name)
         binding.organisatorUsername.setText(userViewModel.user.value?.userName)
@@ -166,21 +240,21 @@ class JobReviewFragment : Fragment() {
 
     }
 
-    fun CheckEmptyFields(): Boolean{
-        return (   binding.jobTitleText.text.toString().trim().isNotEmpty())
+    fun CheckEmptyFields(): Boolean {
+        return (binding.jobTitleText.text.toString().trim().isNotEmpty())
     }
 
-    fun updateUserInDatabase(){
-        val inputJobTitle =  binding.jobTitleText.text.toString()
+    fun updateUserInDatabase() {
+        val inputJobTitle = binding.jobTitleText.text.toString()
 
         var mapa: HashMap<String, Any> = hashMapOf()
-        if(!inputJobTitle.equals(currentJobName))
+        if (!inputJobTitle.equals(currentJobName))
             mapa.put("name", inputJobTitle)
 
-        if(!binding.checkBox.isChecked.equals(userViewModel.selectedEvent.value?.finished))
+        if (!binding.checkBox.isChecked.equals(userViewModel.selectedEvent.value?.finished))
             mapa.put("finished", binding.checkBox.isChecked)
 
-        if(userViewModel.dateChanged){
+        if (userViewModel.dateChanged) {
 
             var date: String? = userViewModel.selectedEvent.value?.date.toString()
             val lista = date?.split(" ")
@@ -196,47 +270,22 @@ class JobReviewFragment : Fragment() {
             mapa.put("dateHashMap", dateHashMap)
         }
 
-        if(mapa.isNotEmpty()){
+        if (mapa.isNotEmpty()) {
             pd.show()
             pd.setMessage("Updating event..")
-            userViewModel.selectedEvent.value?.let { FirebaseHelper.updateEventData(it, mapa, pd, requireContext(), findNavController()) }
+            userViewModel.selectedEvent.value?.let {
+                FirebaseHelper.updateEventData(
+                    it,
+                    mapa,
+                    pd,
+                    requireContext(),
+                    findNavController()
+                )
+            }
 
-        } else{
+        } else {
             Toast.makeText(requireContext(), "You didn't edit any data!", Toast.LENGTH_SHORT).show()
         }
-//        if(!inputLastName.equals(userViewModel.user.value?.lastName))
-//            mapa.put("lastName", inputLastName)
-//        if(!inputPhoneNumber.equals(userViewModel.user.value?.phoneNumber))
-//            mapa.put("phoneNumber", inputPhoneNumber)
-
-    }
-
-
-    private fun addNewPhoto(){
-        val viewItem = inflater.inflate(R.layout.photo_item, gallery, false)
-        val imageView:ImageView = viewItem.findViewById(R.id.imageView) as ImageView
-        //imageView.setImageResource(R.drawable.add_photo)
-        imageView.setImageResource(android.R.drawable.ic_input_add)
-        //imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.purple_500), android.graphics.PorterDuff.Mode.SRC_IN)
-        imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.purple_500));
-        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(160, 160);
-        imageView.setLayoutParams(params)
-        imageView.minimumWidth = 100
-        imageView.setBackgroundColor(R.color.menuColor)
-        imageView.setBackgroundResource(R.drawable.rectangle_11_shape)
-        val fab: FloatingActionButton = viewItem.findViewById(R.id.fab)
-        fab.isVisible = false
-        //imageView.background = R.drawable.rectangle_10_shape.toDrawable()
-        imageView.setOnClickListener{
-            Toast.makeText(context, "POZDRAV CLIKC!", Toast.LENGTH_LONG).show()
-            OpenGalleryToAddPhoto()
-        }
-        gallery.addView(viewItem)
-    }
-
-    private fun OpenGalleryToAddPhoto() {
-        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        startActivityForResult(gallery, pickImage)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -256,11 +305,15 @@ class JobReviewFragment : Fragment() {
             fab.setOnClickListener {
                 //BRISANJE SLIKE IZ LISTE SLIKA ZA OVAJ JOB
                 (viewItem.getParent() as ViewGroup).removeView(viewItem)
-                brojSlika--
             }
-            val imageView:ImageView = viewItem.findViewById(R.id.imageView) as ImageView
+            val imageView: ImageView = viewItem.findViewById(R.id.imageView) as ImageView
             //imageView.setImageResource(R.drawable.add_photo)
             //imageView.setImageResource(android.R.drawable.ic_input_add)
+
+            val bitmap =
+                MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
+            photosListTmp.add(bitmap)
+
             imageView.setImageURI(imageUri)
             //imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.purple_500), android.graphics.PorterDuff.Mode.SRC_IN)
             //imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.purple_500));
@@ -268,8 +321,9 @@ class JobReviewFragment : Fragment() {
             //imageView.setBackgroundColor(R.color.menuColor)
             imageView.setBackgroundResource(R.drawable.rectangle_11_shape)
 
-            gallery.addView(viewItem, brojSlika)
-            brojSlika++
+
+            //userViewModel.setPhotoUrlToSelectedEvent(imageUri!!.toString())
+            gallery.addView(viewItem, userViewModel.selectedEvent.value?.photosList?.size!!)
 
         }
     }

@@ -1,5 +1,6 @@
 package elfak.mosis.freelencelive.model
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -53,6 +54,10 @@ class userViewModel : ViewModel() {
     private val _invitations: MutableLiveData<List<Invitation>> = MutableLiveData(listOf())
     val invitations: LiveData<List<Invitation>>
         get() = _invitations
+
+    private var _gsPhotosList: MutableLiveData<List<String>> = MutableLiveData(listOf())
+    val gsPhotosList: LiveData<List<String>>
+        get() = _gsPhotosList
 
     fun addNewInvitation(newInvitation: Invitation) {
         _invitations.value = _invitations.value?.plus(newInvitation)
@@ -201,7 +206,7 @@ class userViewModel : ViewModel() {
 
         _newEvent.value = Event(
             "", "", false, "", 0.0, 0.0, date, hashMapOf<String, Boolean>(),
-            hashMapOf<String, Int>()
+            hashMapOf<String, Int>(), mutableListOf()
         )
     }
 
@@ -209,6 +214,47 @@ class userViewModel : ViewModel() {
         val selectedEvent: Event? = _selectedEvent.value
         selectedEvent?.name = name
         _selectedEvent.value = selectedEvent
+    }
+
+    fun setSelectedEventGSPhotos(photosListGSTmp: MutableList<String>) {
+       _gsPhotosList.value = photosListGSTmp
+    }
+
+    fun deletePhotoFromSelectedEvent(photoString: String){
+        val photoList = _selectedEvent.value?.photosList?.filter { !it.equals(photoString) }
+        _selectedEvent.value?.photosList = photoList as MutableList<String>
+
+    }
+
+    fun setPhotoUrlToSelectedEvent( imgUrl: String) {
+
+//        val user: User? = _users.value?.filter { it.id.equals(userId) }?.firstOrNull()
+//        user?.imageUrl = imgUrl
+//
+        val selectedEvent: Event? = _selectedEvent.value
+        selectedEvent?.photosList?.add(imgUrl)
+        _selectedEvent.value = selectedEvent
+
+//        val newListOfUsers: MutableList<User>? =
+//            _users.value?.filter { !it.id.equals(userId) } as MutableList<User>?
+//        newListOfUsers?.add(user!!)
+//        _users.value = newListOfUsers
+
+    }
+
+    fun deletePhotosOfSelectedEvent(){
+
+        _selectedEvent.value?.photosList = mutableListOf()
+    }
+
+    fun updateJob(event: Event, meId: String?) {
+        val clickedEvent: Event? = _events.value?.filter { it.id.equals(event.id) }?.firstOrNull()
+        //clickedEvent?.listOfUsers?.set(meId.toString(), true)
+
+        val newListOfEvents: MutableList<Event>? =
+            _events.value?.filter { !it.id.equals(event.id) } as MutableList<Event>?
+        newListOfEvents?.add(clickedEvent!!)
+        _events.value = newListOfEvents
     }
 
 

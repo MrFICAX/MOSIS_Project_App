@@ -135,6 +135,9 @@
         <action
             android:id="@+id/action_jobReview_to_notifications"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_jobReview_to_Jobs"
+            app:destination="@id/myJobsFragment" />
     </fragment>
     <fragment
         android:id="@+id/jobViewFragment"
@@ -195,6 +198,9 @@
         <action
             android:id="@+id/action_rating_to_notifications"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_rating_to_friendsProfile"
+            app:destination="@id/friendsProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/friendsFragment"

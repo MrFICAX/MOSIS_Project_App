@@ -10,7 +10,7 @@ data class User(
     var firstName: String,
     var lastName: String,
     var phoneNumber: String,
-    var totalScore: Int,
+    var totalScore: Float,
     var numOfRatings: Int,
     var imageUrl: String,
     var friendsList: HashMap<String,Boolean>
