@@ -160,6 +160,12 @@ class AskToJoinFragmentDialog : DialogFragment() {
         binding.dateText.setText(dateString)
         binding.timeText.setText(timeString)
 
+        val issuedByUser: User? =
+            userViewModel.users.value?.filter { it.id.equals(selectedEvent.organiser) }
+                ?.firstOrNull()
+            binding.organisedByText.setText(issuedByUser?.userName)
+        if (selectedEvent.organiser.equals(FirebaseAuth.getInstance().currentUser?.uid))
+            binding.organisedByTitle.setText("")
     }
 
     private fun addFriendsToFriendsView() {

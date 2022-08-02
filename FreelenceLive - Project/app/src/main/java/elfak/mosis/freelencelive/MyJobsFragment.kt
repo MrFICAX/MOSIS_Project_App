@@ -60,6 +60,7 @@ class MyJobsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        userViewModel.restartAdvancedSearch()
         if (userViewModel.users.value?.isEmpty() == true)
             FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
 
@@ -79,9 +80,16 @@ class MyJobsFragment : Fragment() {
             //val lista: List<User> = newValue
             userViewModel.events.value?.let { addJobsToLinearLayout(it) }
 
-
         }
         userViewModel.users.observe(viewLifecycleOwner, FriendsObserver)
+
+        val searchFieldsSetAdvancedSearchObserver = Observer<List<Boolean>> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            if (userViewModel.events.value?.isNotEmpty() == true) {
+                writeFilteredEventsOverlays(userViewModel.events.value!!, newValue)
+            }
+        }
+        userViewModel.searchFieldsSetAdvancedSearch.observe(viewLifecycleOwner, searchFieldsSetAdvancedSearchObserver)
 
 
         // Inflate the layout for this fragment
@@ -89,6 +97,60 @@ class MyJobsFragment : Fragment() {
         return binding.root
         //return inflater.inflate(R.layout.fragment_my_jobs, container, false)
     }
+
+    private fun filterByStringEventName(listaEventa: List<Event>, filterString: String): List<Event> {
+
+        return listaEventa.filter { it.name.contains(filterString) }
+    }
+
+    private fun filterByStringEventOrganiserName(listaEventa: List<Event>, filterString: String): List<Event> {
+        val listaKorisnika: List<User>? = userViewModel.users.value
+
+        var tmpLista: MutableList<Event> = mutableListOf()
+
+        listaEventa.forEach { event ->
+            val issuedByUser: User? = listaKorisnika?.filter { it.id.equals(event.organiser) }?.firstOrNull()
+            if (issuedByUser != null)
+                tmpLista.add(event)
+        }
+        return tmpLista
+    }
+
+    private fun filterByFinished(listaEventa: List<Event>, value: Boolean): List<Event> {
+        return listaEventa.filter { it.finished.equals(value) }
+    }
+
+    private fun filterByMyJobs(listaEventa: List<Event>, value: Boolean): List<Event> {
+        return listaEventa.filter { it.organiser.equals(FirebaseAuth.getInstance().currentUser?.uid) }
+    }
+
+    private fun writeFilteredEventsOverlays(lista: List<Event>, listOfBooleans: List<Boolean>?) {
+
+        var listOfFilteredEvents: List<Event> = lista
+        if (listOfBooleans?.get(0) == true)
+            listOfFilteredEvents = filterByStringEventName(
+                listOfFilteredEvents,
+                userViewModel.searchBarEventNameAdvancedSearch.value!!
+            )
+        if (listOfBooleans?.get(1) == true) {
+            listOfFilteredEvents = filterByStringEventOrganiserName(
+                listOfFilteredEvents,
+                userViewModel.searchBarEventOrganiserNameAdvancedSearch.value!!
+            )
+        }
+        if (listOfBooleans?.get(2) == true) {
+            listOfFilteredEvents = filterByFinished(listOfFilteredEvents, userViewModel.searchBarEventFinishedAdvancedSearch.value!!)
+        }
+        if (listOfBooleans?.get(3) == true) {
+            listOfFilteredEvents = filterByMyJobs(listOfFilteredEvents, userViewModel.searchBarEventFinishedAdvancedSearch.value!!)
+        }
+
+        addJobsToLinearLayout(listOfFilteredEvents)
+
+
+    }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

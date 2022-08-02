@@ -22,6 +22,152 @@ import java.io.ByteArrayOutputStream
 import java.sql.Date
 import java.sql.Time
 
+
+//    private fun setOnMapClickOverlay() {
+//        var receive = object: MapEventsReceiver {
+//            override fun singleTapConfirmedHelper(p: GeoPoint):Boolean {
+////                var lon = p.longitude.toString()
+////                var lat = p.latitude.toString()
+////                locationViewModel.setLocation(lon, lat)
+////                findNavController().popBackStack()
+//                return true
+//            }
+//
+//            override fun longPressHelper(p: GeoPoint?): Boolean {
+//                return false
+//            }
+//        }
+//        var overlayEvents = MapEventsOverlay(receive)
+//        map.overlays.add(overlayEvents)
+//    }
+
+//    private fun setMyLocationOverlay(){
+////        myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(activity), map)
+////        myLocationOverlay.enableMyLocation()
+////        map.overlays.add(myLocationOverlay)
+//
+//        //KOMPAS
+////        var mCompassOverlay =
+////            CompassOverlay(context, InternalCompassOrientationProvider(context), map)
+////        mCompassOverlay.enableCompass()
+////        map.getOverlays().add(mCompassOverlay)
+//
+//        //LATITUDE I LONGITUDE LINIJE NA MAPI SA VREDNOSTIMA
+////        val overlay = LatLonGridlineOverlay2()
+////        map.getOverlays().add(overlay)
+//
+//        //POKRETI ZA ROTIRANJE
+//        var mRotationGestureOverlay = RotationGestureOverlay(context, map)
+//        mRotationGestureOverlay.setEnabled(true)
+//        map.setMultiTouchControls(true)
+//        map.getOverlays().add(mRotationGestureOverlay)
+//
+//        //SCALE BAR NA VRHU ZA VELICINU NA MAPI
+//        val context = getActivity();
+//        val dm = context?.getResources()?.getDisplayMetrics();
+//        var mScaleBarOverlay = ScaleBarOverlay(map)
+//        mScaleBarOverlay.setCentred(true);
+////play around with these values to get the location on screen in the right place for your application
+//        if (dm != null) {
+//            mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10)
+//        };
+//        map.getOverlays().add(mScaleBarOverlay);
+//
+//        //MiniMAPA u donjem desnom uglu
+////        var mMinimapOverlay = MinimapOverlay(context, map.getTileRequestCompleteHandler())
+////        mMinimapOverlay.setWidth(dm!!.widthPixels / 5)
+////        mMinimapOverlay.setHeight(dm!!.heightPixels / 5)
+////        map.getOverlays().add(mMinimapOverlay)
+//
+//
+//        //DODAVANJE IKONICE NA MAPU SA KLIK LISTENER - OM
+//        val items = ArrayList<OverlayItem>()
+//
+//           val item = OverlayItem(
+//                "Title",
+//                "Description",
+//                "PVOO JE RSFD ASPROIV",
+//
+//                GeoPoint(43.3209, 21.8958)
+//            )
+//        item.setMarker(this.getResources().getDrawable(R.drawable.world_map))
+//        items.add(item) // Lat/Lon decimal degrees
+//        items.add(
+//            OverlayItem(
+//                "Filip",
+//                "Trajkovic",
+//                "PVOO JE RSFD ASPROIV",
+//                GeoPoint(43.2209, 21.8958)
+//            )
+//        ) // Lat/Lon decimal degrees
+//
+//        //the overlay
+//        val mOverlay = ItemizedOverlayWithFocus(items,
+//            object : OnItemGestureListener<OverlayItem?> {
+//                override fun onItemSingleTapUp(index: Int, item: OverlayItem?): Boolean {
+//                    //do something
+//                    return true
+//                }
+//
+//                override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
+//                    return false
+//                }
+//            }, context
+//        )
+//        mOverlay.setFocusItemsOnTap(true)
+//        map.getOverlays().add(mOverlay)
+//
+//
+//        //CUSTOM MARKERI NA MAPI
+//        val startMarker = Marker(map)
+//        startMarker.position = startPoint
+//        startMarker.icon = getResources().getDrawable(R.drawable.ic_launcher_foreground)
+//        startMarker.setTitle("Start point");
+//        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+//        //map.overlays.add(startMarker)
+//
+//
+////        val markerView = (requireContext().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.marker_user_on_map, null)
+////        val imageView = markerView.findViewById<ImageView>(R.id.imageView)
+////        imageView.setImageResource(R.drawable.img_0944)
+////
+////        val cardView = markerView.findViewById<CardView>(R.id.cardView)
+////
+////        val bitmap = Bitmap.createScaledBitmap(viewToBitmap(cardView)!!, cardView.width, cardView.height, false)
+////        val smallMarker = BitmapDescriptorFactory.fromBitmap(bitmap)
+//
+//
+////        val probniMarker = Marker(map)
+////        startMarker.position = startPoint
+////        startMarker.setTitle("Start point");
+////        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+////        map.overlays.add(startMarker)
+//
+//        val markerView = (requireContext().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.marker_user_on_map, null)
+//        val imageView = markerView.findViewById<ImageView>(R.id.imageView)
+//        imageView.setImageResource(R.drawable.img_0944)
+//        val cardView = markerView.findViewById<CardView>(R.id.cardView)
+//
+//        val startMarker1 = Marker(map)
+//        startMarker.position = startPoint
+//        //startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+//        startMarker.icon = getResources().getDrawable(R.drawable.job_icon)
+//        startMarker.setTitle("Start point");
+//
+//        startMarker.setOnMarkerClickListener { _, _ ->
+//
+//            val fragmentNovi = AskToJoinFragmentDialog()
+//            fragmentNovi.show(parentFragmentManager, "customString")
+//            true
+//        }
+//        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+//        map.overlays.add(startMarker)
+//
+//        map.invalidate();
+//
+//
+//    }
+
 class TestDatabaseActivity : AppCompatActivity() {
 
     private val TAG = "101"

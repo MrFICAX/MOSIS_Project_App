@@ -101,13 +101,13 @@ class InvitationsFragment : Fragment() {
             //binding.buttonCreateJob.setText(newValue)
 //            val lista: List<User> = newValue
 
-            //if (!newValue.isEmpty()) {
-            friendRequestsDownloaded = true
-            invitationsLayout.removeAllViewsInLayout()
-            userViewModel.events.value?.let { addInvitationsToLinearLayout(it) }
-            addFriendsRequestsToLinearLayout()
+            if (!newValue.isEmpty()) {
+                friendRequestsDownloaded = true
+                invitationsLayout.removeAllViewsInLayout()
+                userViewModel.events.value?.let { addInvitationsToLinearLayout(it) }
+                addFriendsRequestsToLinearLayout()
 
-            //}
+            }
 
 
         }
@@ -182,7 +182,7 @@ class InvitationsFragment : Fragment() {
                 }
                 acceptButton.setOnClickListener {
                     Toast.makeText(requireContext(), "ACCEPT BUTTON!", Toast.LENGTH_LONG).show()
-                    acceptInvitation(singleEvent, userViewModel, viewItem, invitationsLayout )
+                    acceptInvitation(singleEvent, userViewModel, viewItem, invitationsLayout)
 
                 }
                 declineButton.setOnClickListener {

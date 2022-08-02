@@ -63,6 +63,145 @@ class userViewModel : ViewModel() {
     val gsPhotosList: LiveData<List<String>>
         get() = _gsPhotosList
 
+    private val _searchBarEventName = MutableLiveData<String>("")
+    val searchBarEventName: LiveData<String>
+        get() = _searchBarEventName
+
+    private val _searchByRadius = MutableLiveData<Double>(0.0)
+    val searchByRadius: LiveData<Double>
+        get() = _searchByRadius
+
+    private val _searchFieldsSet: MutableLiveData<MutableList<Boolean>> =
+        MutableLiveData(mutableListOf(false, false))
+    val searchFieldsSet: LiveData<MutableList<Boolean>>
+        get() = _searchFieldsSet
+
+    fun setSearchBarEventName(input: String) {
+        _searchBarEventName.value = input
+
+        if (input.trim().isNotEmpty()) {
+
+            var booleanList: MutableList<Boolean>? = searchFieldsSet.value
+            booleanList?.set(0, true)
+            _searchFieldsSet.value = booleanList
+        } else {
+            var booleanList: MutableList<Boolean>? = searchFieldsSet.value
+            booleanList?.set(0, false)
+            _searchFieldsSet.value = booleanList
+        }
+    }
+
+    fun setRadiusValue(value: Double) {
+        _searchByRadius.value = value
+        if (value.equals(0f)) {
+            var booleanList: MutableList<Boolean>? = searchFieldsSet.value
+            booleanList?.set(1, false)
+            _searchFieldsSet.value = booleanList
+        } else {
+            var booleanList: MutableList<Boolean>? = searchFieldsSet.value
+            booleanList?.set(1, true)
+            _searchFieldsSet.value = booleanList
+        }
+    }
+
+    fun restartSearch() {
+        var booleanList: MutableList<Boolean>? = searchFieldsSet.value
+        booleanList?.set(0, false)
+        booleanList?.set(1, false)
+        _searchFieldsSet.value = booleanList
+    }
+
+    private val _searchBarEventNameAdvancedSearch = MutableLiveData<String>("")
+    val searchBarEventNameAdvancedSearch: LiveData<String>
+        get() = _searchBarEventNameAdvancedSearch
+
+    private val _searchBarEventOrganiserNameAdvancedSearch = MutableLiveData<String>("")
+    val searchBarEventOrganiserNameAdvancedSearch: LiveData<String>
+        get() = _searchBarEventOrganiserNameAdvancedSearch
+
+    private val _searchBarEventFinishedAdvancedSearch = MutableLiveData<Boolean>(false)
+    val searchBarEventFinishedAdvancedSearch: LiveData<Boolean>
+        get() = _searchBarEventFinishedAdvancedSearch
+
+    private val _searchBarEventMyJobAdvancedSearch = MutableLiveData<Boolean>(false)
+    val searchBarEventMyJobAdvancedSearch: LiveData<Boolean>
+        get() = _searchBarEventMyJobAdvancedSearch
+
+    private val _searchFieldsSetAdvancedSearch: MutableLiveData<MutableList<Boolean>> = MutableLiveData(mutableListOf(false, false, false, false))
+    val searchFieldsSetAdvancedSearch: LiveData<MutableList<Boolean>>
+        get() = _searchFieldsSetAdvancedSearch
+
+    fun setSearchBarEventNameAdvancedSearch(input: String) {
+        _searchBarEventNameAdvancedSearch.value = input
+
+        if (input.trim().isNotEmpty()) {
+
+            var booleanList: MutableList<Boolean>? = _searchFieldsSetAdvancedSearch.value
+            booleanList?.set(0, true)
+            _searchFieldsSetAdvancedSearch.value = booleanList
+        } else {
+            var booleanList: MutableList<Boolean>? = _searchFieldsSetAdvancedSearch.value
+            booleanList?.set(0, false)
+            _searchFieldsSetAdvancedSearch.value = booleanList
+        }
+    }
+
+    fun setSearchBarEventOrganiserNameAdvancedSearch(input: String) {
+        _searchBarEventOrganiserNameAdvancedSearch.value = input
+
+        if (input.trim().isNotEmpty()) {
+
+            var booleanList: MutableList<Boolean>? = _searchFieldsSetAdvancedSearch.value
+            booleanList?.set(1, true)
+            _searchFieldsSetAdvancedSearch.value = booleanList
+        } else {
+            var booleanList: MutableList<Boolean>? = _searchFieldsSetAdvancedSearch.value
+            booleanList?.set(1, false)
+            _searchFieldsSetAdvancedSearch.value = booleanList
+        }
+    }
+
+    fun setSearchBarEventFinishedAdvancedSearch(input: Boolean) {
+        _searchBarEventFinishedAdvancedSearch.value = input
+
+        if (input) {
+            var booleanList: MutableList<Boolean>? = _searchFieldsSetAdvancedSearch.value
+            booleanList?.set(2, true)
+            _searchFieldsSetAdvancedSearch.value = booleanList
+        } else {
+            var booleanList: MutableList<Boolean>? = _searchFieldsSetAdvancedSearch.value
+            booleanList?.set(2, false)
+            _searchFieldsSetAdvancedSearch.value = booleanList
+        }
+    }
+
+    fun setSearchBarEventMyJobAdvancedSearch(input: Boolean) {
+        _searchBarEventMyJobAdvancedSearch.value = input
+
+        if (input) {
+            var booleanList: MutableList<Boolean>? = _searchFieldsSetAdvancedSearch.value
+            booleanList?.set(3, true)
+            _searchFieldsSetAdvancedSearch.value = booleanList
+        } else {
+            var booleanList: MutableList<Boolean>? = _searchFieldsSetAdvancedSearch.value
+            booleanList?.set(3, false)
+            _searchFieldsSetAdvancedSearch.value = booleanList
+        }
+    }
+
+    fun restartAdvancedSearch() {
+        var booleanList: MutableList<Boolean>? = _searchFieldsSetAdvancedSearch.value
+        booleanList?.set(0, false)
+        setSearchBarEventNameAdvancedSearch("")
+        booleanList?.set(1, false)
+        setSearchBarEventOrganiserNameAdvancedSearch("")
+        booleanList?.set(2, false)
+        setSearchBarEventFinishedAdvancedSearch(false)
+        booleanList?.set(3, false)
+        setSearchBarEventMyJobAdvancedSearch(false)
+        _searchFieldsSetAdvancedSearch.value = booleanList
+    }
+
     fun addNewInvitation(newInvitation: Invitation) {
         _invitations.value = _invitations.value?.plus(newInvitation)
     }
@@ -195,7 +334,7 @@ class userViewModel : ViewModel() {
 
     }
 
-    fun InitialSetSelectedEvent(){
+    fun InitialSetSelectedEvent() {
         _dateChanged = false
     }
 
@@ -229,16 +368,16 @@ class userViewModel : ViewModel() {
     }
 
     fun setSelectedEventGSPhotos(photosListGSTmp: MutableList<String>) {
-       _gsPhotosList.value = photosListGSTmp
+        _gsPhotosList.value = photosListGSTmp
     }
 
-    fun deletePhotoFromSelectedEvent(photoString: String){
+    fun deletePhotoFromSelectedEvent(photoString: String) {
         val photoList = _selectedEvent.value?.photosList?.filter { !it.equals(photoString) }
         _selectedEvent.value?.photosList = photoList as MutableList<String>
 
     }
 
-    fun setPhotoUrlToSelectedEvent( imgUrl: String) {
+    fun setPhotoUrlToSelectedEvent(imgUrl: String) {
 
 //        val user: User? = _users.value?.filter { it.id.equals(userId) }?.firstOrNull()
 //        user?.imageUrl = imgUrl
@@ -254,7 +393,7 @@ class userViewModel : ViewModel() {
 
     }
 
-    fun deletePhotosOfSelectedEvent(){
+    fun deletePhotosOfSelectedEvent() {
 
         _selectedEvent.value?.photosList = mutableListOf()
     }
@@ -269,9 +408,20 @@ class userViewModel : ViewModel() {
         _events.value = newListOfEvents
     }
 
+    fun addNewUserToJob(event: Event, userId: String?) {
+        val clickedEvent: Event? = _events.value?.filter { it.id.equals(event.id) }?.firstOrNull()
+        //clickedEvent?.listOfUsers?.put(userId.toString(), true)
+
+        val newListOfEvents: MutableList<Event>? =
+            _events.value?.filter { !it.id.equals(event.id) } as MutableList<Event>?
+        newListOfEvents?.add(clickedEvent!!)
+        _events.value = newListOfEvents
+    }
+
 
     init {
         setNewEvent()
+        _ratings.value = mutableListOf()
     }
 
 }

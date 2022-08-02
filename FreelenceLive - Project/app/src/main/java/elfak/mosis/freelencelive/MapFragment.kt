@@ -1,41 +1,28 @@
 package elfak.mosis.freelencelive
 
 import android.content.Context
-import android.content.Context.LAYOUT_INFLATER_SERVICE
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.cardview.widget.CardView
-import androidx.compose.ui.graphics.Canvas
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import elfak.mosis.freelencelive.data.Event
 import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentMapBinding
 import elfak.mosis.freelencelive.dialogs.AskToJoinFragmentDialog
-import elfak.mosis.freelencelive.dialogs.InviteFriendFragmentDialog
 import elfak.mosis.freelencelive.model.userViewModel
 import org.osmdroid.config.Configuration
-import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
-import org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
@@ -70,6 +57,7 @@ class MapFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        userViewModel.restartSearch()
         if (userViewModel.users.value?.isEmpty() == true)
             FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
 
@@ -94,6 +82,14 @@ class MapFragment : Fragment() {
             writeAllEventsOverlays(lista)
         }
         userViewModel.events.observe(viewLifecycleOwner, EventsObserver)
+
+        val searchFieldsSetObserver = Observer<List<Boolean>> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            if (userViewModel.events.value?.isNotEmpty() == true) {
+                writeFilteredEventsOverlays(userViewModel.events.value!!, newValue)
+            }
+        }
+        userViewModel.searchFieldsSet.observe(viewLifecycleOwner, searchFieldsSetObserver)
 
 
         binding = FragmentMapBinding.inflate(layoutInflater)
@@ -135,10 +131,9 @@ class MapFragment : Fragment() {
         val startPoint = GeoPoint(43.3209, 21.8958)
         map.controller.setCenter(startPoint)
 
-//        myLocationOverlay.enableMyLocation()
-//        myLocationOverlay.enableFollowLocation()
-//        map.controller.setCenter(myLocationOverlay.myLocation)
-//        map.overlays.add(myLocationOverlay)
+        //myLocationOverlay.enableFollowLocation()
+        myLocationOverlay.enableFollowLocation()
+        map.controller.setCenter(myLocationOverlay.myLocation)
 
         setBasicMapOverlays()
 
@@ -154,151 +149,6 @@ class MapFragment : Fragment() {
         map.onPause()
     }
 
-//    private fun setOnMapClickOverlay() {
-//        var receive = object: MapEventsReceiver {
-//            override fun singleTapConfirmedHelper(p: GeoPoint):Boolean {
-////                var lon = p.longitude.toString()
-////                var lat = p.latitude.toString()
-////                locationViewModel.setLocation(lon, lat)
-////                findNavController().popBackStack()
-//                return true
-//            }
-//
-//            override fun longPressHelper(p: GeoPoint?): Boolean {
-//                return false
-//            }
-//        }
-//        var overlayEvents = MapEventsOverlay(receive)
-//        map.overlays.add(overlayEvents)
-//    }
-
-//    private fun setMyLocationOverlay(){
-////        myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(activity), map)
-////        myLocationOverlay.enableMyLocation()
-////        map.overlays.add(myLocationOverlay)
-//
-//        //KOMPAS
-////        var mCompassOverlay =
-////            CompassOverlay(context, InternalCompassOrientationProvider(context), map)
-////        mCompassOverlay.enableCompass()
-////        map.getOverlays().add(mCompassOverlay)
-//
-//        //LATITUDE I LONGITUDE LINIJE NA MAPI SA VREDNOSTIMA
-////        val overlay = LatLonGridlineOverlay2()
-////        map.getOverlays().add(overlay)
-//
-//        //POKRETI ZA ROTIRANJE
-//        var mRotationGestureOverlay = RotationGestureOverlay(context, map)
-//        mRotationGestureOverlay.setEnabled(true)
-//        map.setMultiTouchControls(true)
-//        map.getOverlays().add(mRotationGestureOverlay)
-//
-//        //SCALE BAR NA VRHU ZA VELICINU NA MAPI
-//        val context = getActivity();
-//        val dm = context?.getResources()?.getDisplayMetrics();
-//        var mScaleBarOverlay = ScaleBarOverlay(map)
-//        mScaleBarOverlay.setCentred(true);
-////play around with these values to get the location on screen in the right place for your application
-//        if (dm != null) {
-//            mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10)
-//        };
-//        map.getOverlays().add(mScaleBarOverlay);
-//
-//        //MiniMAPA u donjem desnom uglu
-////        var mMinimapOverlay = MinimapOverlay(context, map.getTileRequestCompleteHandler())
-////        mMinimapOverlay.setWidth(dm!!.widthPixels / 5)
-////        mMinimapOverlay.setHeight(dm!!.heightPixels / 5)
-////        map.getOverlays().add(mMinimapOverlay)
-//
-//
-//        //DODAVANJE IKONICE NA MAPU SA KLIK LISTENER - OM
-//        val items = ArrayList<OverlayItem>()
-//
-//           val item = OverlayItem(
-//                "Title",
-//                "Description",
-//                "PVOO JE RSFD ASPROIV",
-//
-//                GeoPoint(43.3209, 21.8958)
-//            )
-//        item.setMarker(this.getResources().getDrawable(R.drawable.world_map))
-//        items.add(item) // Lat/Lon decimal degrees
-//        items.add(
-//            OverlayItem(
-//                "Filip",
-//                "Trajkovic",
-//                "PVOO JE RSFD ASPROIV",
-//                GeoPoint(43.2209, 21.8958)
-//            )
-//        ) // Lat/Lon decimal degrees
-//
-//        //the overlay
-//        val mOverlay = ItemizedOverlayWithFocus(items,
-//            object : OnItemGestureListener<OverlayItem?> {
-//                override fun onItemSingleTapUp(index: Int, item: OverlayItem?): Boolean {
-//                    //do something
-//                    return true
-//                }
-//
-//                override fun onItemLongPress(index: Int, item: OverlayItem?): Boolean {
-//                    return false
-//                }
-//            }, context
-//        )
-//        mOverlay.setFocusItemsOnTap(true)
-//        map.getOverlays().add(mOverlay)
-//
-//
-//        //CUSTOM MARKERI NA MAPI
-//        val startMarker = Marker(map)
-//        startMarker.position = startPoint
-//        startMarker.icon = getResources().getDrawable(R.drawable.ic_launcher_foreground)
-//        startMarker.setTitle("Start point");
-//        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-//        //map.overlays.add(startMarker)
-//
-//
-////        val markerView = (requireContext().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.marker_user_on_map, null)
-////        val imageView = markerView.findViewById<ImageView>(R.id.imageView)
-////        imageView.setImageResource(R.drawable.img_0944)
-////
-////        val cardView = markerView.findViewById<CardView>(R.id.cardView)
-////
-////        val bitmap = Bitmap.createScaledBitmap(viewToBitmap(cardView)!!, cardView.width, cardView.height, false)
-////        val smallMarker = BitmapDescriptorFactory.fromBitmap(bitmap)
-//
-//
-////        val probniMarker = Marker(map)
-////        startMarker.position = startPoint
-////        startMarker.setTitle("Start point");
-////        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-////        map.overlays.add(startMarker)
-//
-//        val markerView = (requireContext().getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.marker_user_on_map, null)
-//        val imageView = markerView.findViewById<ImageView>(R.id.imageView)
-//        imageView.setImageResource(R.drawable.img_0944)
-//        val cardView = markerView.findViewById<CardView>(R.id.cardView)
-//
-//        val startMarker1 = Marker(map)
-//        startMarker.position = startPoint
-//        //startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-//        startMarker.icon = getResources().getDrawable(R.drawable.job_icon)
-//        startMarker.setTitle("Start point");
-//
-//        startMarker.setOnMarkerClickListener { _, _ ->
-//
-//            val fragmentNovi = AskToJoinFragmentDialog()
-//            fragmentNovi.show(parentFragmentManager, "customString")
-//            true
-//        }
-//        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-//        map.overlays.add(startMarker)
-//
-//        map.invalidate();
-//
-//
-//    }
-
     private fun setBasicMapOverlays() {
         setMyLocationOverlay()
         setRotationGesturesOverlay()
@@ -311,10 +161,18 @@ class MapFragment : Fragment() {
 //        map.overlays.add(myLocationOverlay)
 
         myLocationOverlay.enableMyLocation()
-        myLocationOverlay.enableFollowLocation()
-        myLocationOverlay.setDirectionArrow( BitmapFactory.decodeResource(resources, R.drawable.my_location), BitmapFactory.decodeResource(resources, R.drawable.my_location) );
-        myLocationOverlay.setPersonIcon(BitmapFactory.decodeResource(resources, R.drawable.my_location))
-        map.controller.setCenter(myLocationOverlay.myLocation)
+        myLocationOverlay.setDirectionArrow(
+            BitmapFactory.decodeResource(
+                resources,
+                R.drawable.my_location
+            ), BitmapFactory.decodeResource(resources, R.drawable.my_location)
+        );
+        myLocationOverlay.setPersonIcon(
+            BitmapFactory.decodeResource(
+                resources,
+                R.drawable.my_location
+            )
+        )
         map.overlays.add(myLocationOverlay)
     }
 
@@ -341,11 +199,69 @@ class MapFragment : Fragment() {
     private fun writeAllEventsOverlays(lista: List<Event>) {
 
         map.overlays.removeAll(map.overlays)
+
         setBasicMapOverlays()
 
         lista.forEach { element ->
             writeEventOverlay(element)
         }
+    }
+
+    private fun filterByRadius(listaEventa: List<Event>, inputRadius: Double): List<Event> {
+        val myLocation: GeoPoint = myLocationOverlay.myLocation
+
+        var tmpLista: MutableList<Event> = mutableListOf()
+        var distance: Double
+        listaEventa.forEach {
+            distance = myLocation.distanceToAsDouble(GeoPoint(it.latitude, it.longitude));
+            if (distance < inputRadius)
+                tmpLista.add(it)
+        }
+        return tmpLista
+    }
+
+    private fun filterByString(listaEventa: List<Event>, filterString: String): List<Event> {
+
+        return listaEventa.filter { it.name.contains(filterString) }
+    }
+
+    private fun writeFilteredEventsOverlays(lista: List<Event>, listOfBooleans: List<Boolean>) {
+
+        map.overlays.removeAll(map.overlays)
+        myLocationOverlay.disableFollowLocation()
+
+        setBasicMapOverlays()
+        var listaKorisnika: List<Event> = lista
+        if (listOfBooleans.get(0))
+            listaKorisnika = filterByString(
+                listaKorisnika,
+                userViewModel.searchBarEventName.value!!
+            )
+        if (listOfBooleans.get(1)) {
+            listaKorisnika = filterByRadius(listaKorisnika, userViewModel.searchByRadius.value!!)
+            //writeCircleAroudMarker()
+        }
+
+        listaKorisnika.forEach { element ->
+            writeEventOverlay(element)
+        }
+    }
+
+    private fun writeCircleAroudMarker() {
+        val oPolygon = Polygon(map);
+        val radius: Double = 161.0;
+        var circlePoints: MutableList<GeoPoint> = mutableListOf<GeoPoint>();
+
+        val myLocation: GeoPoint = myLocationOverlay.myLocation
+        for (i in 0..360){
+            circlePoints.add(GeoPoint(myLocation.latitude , myLocation.longitude ).destinationPoint(radius, i.toDouble()));
+
+        }
+
+        oPolygon.setPoints(circlePoints);
+        map.overlays.add(oPolygon)
+        map.invalidate()
+
     }
 
     private fun writeEventOverlay(event: Event) {

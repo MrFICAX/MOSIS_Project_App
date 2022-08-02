@@ -2,6 +2,7 @@ package elfak.mosis.freelencelive
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -165,6 +166,9 @@ class SetLocationFragment : Fragment() {
 
         myLocationOverlay.enableMyLocation()
         myLocationOverlay.enableFollowLocation()
+        myLocationOverlay.setDirectionArrow( BitmapFactory.decodeResource(resources, R.drawable.my_location), BitmapFactory.decodeResource(resources, R.drawable.my_location) );
+        myLocationOverlay.setPersonIcon(BitmapFactory.decodeResource(resources, R.drawable.my_location))
+
         map.controller.setCenter(myLocationOverlay.myLocation)
         map.overlays.add(myLocationOverlay)
     }

@@ -79,7 +79,6 @@
         android:id="@+id/horizScrlFriends"
         android:layout_width="409dp"
         android:layout_height="611dp"
-        android:background="@color/white"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

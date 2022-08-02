@@ -301,18 +301,21 @@ class JobReviewFragment : Fragment() {
             imageUri = data?.data
             val viewItem = inflater.inflate(R.layout.photo_item, gallery, false)
 
+            val bitmap =
+                MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
+            photosListTmp.add(bitmap)
+
             val fab: FloatingActionButton = viewItem.findViewById(R.id.fab)
             fab.setOnClickListener {
                 //BRISANJE SLIKE IZ LISTE SLIKA ZA OVAJ JOB
                 (viewItem.getParent() as ViewGroup).removeView(viewItem)
+                photosListTmp.remove(bitmap)
             }
             val imageView: ImageView = viewItem.findViewById(R.id.imageView) as ImageView
             //imageView.setImageResource(R.drawable.add_photo)
             //imageView.setImageResource(android.R.drawable.ic_input_add)
 
-            val bitmap =
-                MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
-            photosListTmp.add(bitmap)
+
 
             imageView.setImageURI(imageUri)
             //imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.purple_500), android.graphics.PorterDuff.Mode.SRC_IN)

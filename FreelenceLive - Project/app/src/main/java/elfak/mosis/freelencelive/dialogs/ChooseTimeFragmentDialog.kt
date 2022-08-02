@@ -14,13 +14,12 @@ import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.databinding.FragmentDialogChooseDateBinding
 import elfak.mosis.freelencelive.databinding.FragmentDialogChooseTimeBinding
 import elfak.mosis.freelencelive.model.userViewModel
-
+import elfak.mosis.freelencelive.data.Event
 
 class ChooseTimeFragmentDialog : DialogFragment() {
     private lateinit var binding: FragmentDialogChooseTimeBinding
     private val userViewModel: userViewModel by activityViewModels()
-    val selectedEvent = userViewModel.selectedEvent?.value
-
+    private lateinit var selectedEvent: Event
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +32,7 @@ class ChooseTimeFragmentDialog : DialogFragment() {
         // Inflate the layout for this fragment
         binding = FragmentDialogChooseTimeBinding.inflate(inflater)
         dialog?.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        selectedEvent = userViewModel.selectedEvent?.value!!
 
 
         binding.timePicker.hour = selectedEvent?.date?.hours!!
@@ -42,7 +42,7 @@ class ChooseTimeFragmentDialog : DialogFragment() {
             var hour = binding.timePicker.hour
             var minute = binding.timePicker.minute
 
-            if( hour.equals(selectedEvent.date.hours) && minute.equals(selectedEvent.date.minutes)){
+            if( hour.equals(selectedEvent?.date?.hours) && minute.equals(selectedEvent?.date?.minutes)){
                 Toast.makeText(requireContext(), "You didn't change anything!", Toast.LENGTH_SHORT).show()
             } else{
                 userViewModel.setSelectedEventTime(hour, minute)
