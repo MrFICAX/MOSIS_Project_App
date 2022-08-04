@@ -28,6 +28,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -37,6 +38,7 @@ import com.google.firebase.storage.ktx.storage
 import elfak.mosis.freelencelive.*
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.data.*
+import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper.realtimeReference
 import elfak.mosis.freelencelive.databinding.FragmentMyProfileBinding
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.model.userViewModel
@@ -973,9 +975,10 @@ object FirebaseHelper {
 
                 }
 
-                var listaRatinga: MutableList<Rating>? = userViewModel.ratings.value as MutableList<Rating>?
+                var listaRatinga: MutableList<Rating>? =
+                    userViewModel.ratings.value as MutableList<Rating>?
 
-                if( listaRatinga.isNullOrEmpty()){
+                if (listaRatinga.isNullOrEmpty()) {
                     listaRatinga = mutableListOf()
                     listaRatinga = listaRatinga.plus(lista) as MutableList<Rating>
                 } else
@@ -1439,10 +1442,18 @@ object FirebaseHelper {
 
 
                                 val updatedAskToJoin: askToJoin? =
-                                    userViewModel.askToJoin.value?.filter { it.id.equals(singleAskToJoin.id) }
+                                    userViewModel.askToJoin.value?.filter {
+                                        it.id.equals(
+                                            singleAskToJoin.id
+                                        )
+                                    }
                                         ?.firstOrNull()
                                 var updatedListOfRequests: List<askToJoin>? =
-                                    userViewModel.askToJoin.value?.filter { !it.id.equals(singleAskToJoin.id) }
+                                    userViewModel.askToJoin.value?.filter {
+                                        !it.id.equals(
+                                            singleAskToJoin.id
+                                        )
+                                    }
 
                                 updatedListOfRequests =
                                     (updatedListOfRequests?.minus(updatedAskToJoin) as List<askToJoin>?)!!
@@ -1450,7 +1461,11 @@ object FirebaseHelper {
 
 
                                 val updatedEvent: Event? =
-                                    userViewModel.events.value?.filter { it.id.equals(singleAskToJoin.joinToJob) }
+                                    userViewModel.events.value?.filter {
+                                        it.id.equals(
+                                            singleAskToJoin.joinToJob
+                                        )
+                                    }
                                         ?.firstOrNull()
 
 //                                updatedEvent?.listOfUsers?.put(singleAskToJoin.issuedBy, "true")
@@ -1489,5 +1504,41 @@ object FirebaseHelper {
             Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show()
 
         }
+    }
+
+    fun postMyLocation(myLocation: org.osmdroid.util.GeoPoint) {
+
+        val userMap = mapOf(
+            "lat" to myLocation?.latitude,
+            "lon" to myLocation?.longitude
+        )
+
+        realtimeDatabase.getReference("map").child("users")
+            .child(Firebase.auth.currentUser!!.uid).setValue(userMap)
+    }
+
+    fun geUserLocationsData(sharedViewModel: userViewModel) {
+
+        val dataRef = realtimeDatabase.getReference("map")
+        dataRef.child("users").get().addOnSuccessListener {
+            val temp: HashMap<Any, Any> = it.value as HashMap<Any, Any>
+
+            val userLocations: MutableList<UserLocation> = mutableListOf()
+
+            temp.forEach { entry ->
+                if (!entry.key.toString().equals(FirebaseAuth.getInstance().currentUser?.uid)) {
+
+                    val eventMap = entry.value as HashMap<String, Any>
+                    val event = UserLocation(
+                        entry.key.toString(),
+                        eventMap["lat"] as Double,
+                        eventMap["lon"] as Double
+                    )
+                    userLocations.add(event)
+                }
+            }
+            sharedViewModel.addUserLocationsList(userLocations)
+        }
+
     }
 }

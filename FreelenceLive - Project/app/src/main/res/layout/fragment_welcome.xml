@@ -20,12 +20,16 @@
             android:id="@+id/polygon_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/polygon_1"
+            android:contentDescription="@string/polygon_1"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/polygon_1"
-            android:background="@drawable/polygon_1" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/freelencelivelogo_1"
@@ -34,6 +38,9 @@
             android:layout_marginStart="175dp"
             android:layout_marginTop="0dp"
             android:contentDescription="@string/freelencelivelogo_1"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:src="@drawable/freelencelivelogo_1" />
 
         <TextView
@@ -52,6 +59,9 @@
             android:id="@+id/all_you_need_to_find_a_job_"
             android:layout_width="180.5dp"
             android:layout_height="527.5dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="23dp"
             android:layout_marginLeft="23dp"
             android:layout_marginTop="395dp"
             android:layout_marginRight="650dp"
@@ -65,7 +75,12 @@
             android:layout_width="332dp"
             android:layout_height="95dp"
             android:layout_marginStart="30dp"
+            android:layout_marginEnd="50dp"
             android:layout_marginTop="783dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/rectangle_9_shape"
             android:text="@string/begin_a_journey_string"
             android:textColor="@color/white"

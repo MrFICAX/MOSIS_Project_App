@@ -10,13 +10,23 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.R
+import elfak.mosis.freelencelive.data.Event
+import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.databinding.FragmentDialogInviteFriendBinding
+import elfak.mosis.freelencelive.model.userViewModel
 
 
 class InviteFriendFragmentDialog : DialogFragment() {
 
+
+    private val userViewModel: userViewModel by activityViewModels()
+    private var selectedUser: User? = null
+    private var listaMyJobsa: List<Event>? = null
     lateinit var binding: FragmentDialogInviteFriendBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,21 +48,37 @@ class InviteFriendFragmentDialog : DialogFragment() {
 
         Toast.makeText(requireContext(), "POZDRAV IZ DIALOG FRAGMENTA!", Toast.LENGTH_LONG).show()
 
-        val nizPoslova = listOf<String>("Posao 0", "Posao 1", "Posao 2", "Posao 3", "Posao 4")
+        selectedUser = userViewModel.selectedUser.value
+        binding.userNameText.setText(selectedUser?.userName)
+
+        Glide.with(this).load(selectedUser?.imageUrl).into(binding.imageCameraBackground)
+
+        listaMyJobsa =
+            userViewModel.events.value?.filter { it.organiser.equals(FirebaseAuth.getInstance().currentUser?.uid) }
+
+        val listaEventsString: MutableList<String> = mutableListOf()
+        listaMyJobsa?.forEach {
+            listaEventsString.add(it.name)
+        }
+
+        val nizPoslova =
+            listaEventsString// listOf<String>("Posao 0", "Posao 1", "Posao 2", "Posao 3", "Posao 4")
         //val feelings = resources.getStringArray(R.array.feelings)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, nizPoslova)
 
         binding.autoCompleteTextView.setAdapter(arrayAdapter)
         binding.autoCompleteTextView.setDropDownBackgroundDrawable(ColorDrawable(R.color.light_pink))
 
+
+
         binding.buttonInvite.setOnClickListener {
 
-            if (binding.autoCompleteTextView.text.isNotEmpty()){
+            if (binding.autoCompleteTextView.text.isNotEmpty()) {
 
+                Toast.makeText(requireContext(), binding.autoCompleteTextView.text, Toast.LENGTH_LONG).show()
                 //KOD ZA SLANJE INVITE-A PRIJATELJU
                 dialog?.dismiss()
-            } else
-            {
+            } else {
                 Toast.makeText(requireContext(), "No option selected!", Toast.LENGTH_LONG).show()
             }
         }
@@ -61,8 +87,14 @@ class InviteFriendFragmentDialog : DialogFragment() {
     override fun onResume() {
         super.onResume()
 
-        val nizPoslova = listOf<String>("Posao 0", "Posao 1", "Posao 2", "Posao 3", "Posao 4", "Posao 0", "Posao 1", "Posao 2", "Posao 3", "Posao 4")
-        //val feelings = resources.getStringArray(R.array.feelings)
+        val listaEventsString: MutableList<String> = mutableListOf()
+        listaMyJobsa?.forEach {
+            listaEventsString.add(it.name)
+        }
+
+        val nizPoslova =
+            listaEventsString// listOf<String>("Posao 0", "Posao 1", "Posao 2", "Posao 3", "Posao 4")
+
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, nizPoslova)
 
         binding.autoCompleteTextView.setAdapter(arrayAdapter)

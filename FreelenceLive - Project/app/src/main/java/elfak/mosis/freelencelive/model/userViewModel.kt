@@ -35,6 +35,11 @@ class userViewModel : ViewModel() {
     val users: LiveData<List<User>>
         get() = _users
 
+    private val _userLocations: MutableLiveData<List<UserLocation>> = MutableLiveData(listOf())
+    val userLocations: LiveData<List<UserLocation>>
+        get() = _userLocations
+
+
     private val _selectedUser = MutableLiveData<User>()
     val selectedUser: LiveData<User>
         get() = _selectedUser
@@ -209,6 +214,10 @@ class userViewModel : ViewModel() {
 //    fun addNewComment(newComment: Comment){
 //        _comments.value = _comments.value?.plus(newComment)
 //    }
+
+    fun addUserLocationsList(lista: List<UserLocation>) {
+        _userLocations.value = lista
+    }
 
     fun addEventList(lista: List<Event>) {
         _events.value = lista
