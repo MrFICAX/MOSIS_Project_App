@@ -109,7 +109,7 @@ class SignUpFragment : Fragment() {
         })
 
         //otvaranje kamere
-        binding.openCamera.setOnClickListener {
+        binding.imageCameraBackground.setOnClickListener {
             dispatchTakePictureIntent()
         }
 
@@ -212,13 +212,11 @@ class SignUpFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK ){//&& data != null && data.data != null) {
             imageBitmap = data?.extras?.get("data") as Bitmap
-            binding.openCamera.setImageBitmap(null)
             binding.imageCameraBackground.setImageBitmap(imageBitmap)
             //imageView.setImageBitmap(imageBitmap)
         }
         if (resultCode == RESULT_OK && requestCode == pickImage && data != null && data.data != null) {
             imageUri = data?.data
-            binding.openCamera.setImageBitmap(null)
             imageBitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
             //use the bitmap as you like
             binding.imageCameraBackground.setImageBitmap(imageBitmap);

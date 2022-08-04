@@ -1,92 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeScreenFragment">
 
-    <RelativeLayout android:id="@+id/content_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+    <View
+        android:id="@+id/rectangle_10"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:background="@drawable/rectangle_10_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-            <View
-                android:id="@+id/_bg__welcome_2_ek2"
-                android:layout_width="428dp"
-                android:layout_height="926dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:background="@drawable/_bg__welcome_2_ek2_shape" />
+    <ImageView
+        android:id="@+id/freelencelivelogo_1"
+        android:layout_width="246dp"
+        android:layout_height="235dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/freelencelivelogo_1"
+        android:src="@drawable/freelencelivelogo_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/rectangle_10"
-            android:layout_width="430dp"
-            android:layout_height="570dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="398dp"
-            android:background="@drawable/rectangle_10_shape" />
+    <TextView
+        android:id="@+id/freelencelive"
+        android:layout_width="408.98dp"
+        android:layout_height="115.9dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="212dp"
+        android:text="@string/freelencelive_string"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="55sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/freelencelivelogo_1"
-            android:layout_width="246dp"
-            android:layout_height="235dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"
-            android:contentDescription="@string/freelencelivelogo_1"
-            android:src="@drawable/freelencelivelogo_1" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonLogin"
+        android:layout_width="227dp"
+        android:layout_height="104dp"
+        android:layout_marginBottom="188dp"
+        android:background="@drawable/rectangle_9_shape"
+        android:text="@string/log_in"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/pink"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/freelencelive"
-            android:layout_width="408.98dp"
-            android:layout_height="115.9dp"
-            android:layout_marginTop="276dp"
-            android:layout_centerHorizontal="true"
-            android:text="@string/freelencelive_string"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="48sp"
-            android:textStyle="bold" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSignUp"
+        android:layout_width="217dp"
+        android:layout_height="105dp"
+        android:layout_marginBottom="56dp"
+        android:background="@drawable/rectangle_11_shape"
+        android:text="@string/sign_up"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/pink"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.824"
+        app:layout_constraintStart_toStartOf="parent" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonLogin"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="607dp"
-                android:layout_width="227dp"
-                android:layout_height="104dp"
-                android:background="@drawable/rectangle_9_shape"
-                android:text="@string/log_in"
-                android:textColor="@color/white"
-                android:textSize="36sp"
-                android:textStyle="bold"
-                app:backgroundTint="@color/pink"
-                />
+    <TextView
+        android:id="@+id/begin_your_journey_by_logging_in_or_signing_up_"
+        android:layout_width="408dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="52dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/begin_your_journey_by_logging_in_or_signing_up__string"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/freelencelive" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonSignUp"
-                android:background="@drawable/rectangle_11_shape"
-                android:layout_marginStart="175dp"
-                android:layout_marginTop="738dp"
-                android:layout_width="217dp"
-                android:layout_height="105dp"
-                android:text="@string/sign_up"
-                android:textColor="@color/white"
-                android:textSize="36sp"
-                android:textStyle="bold"
-                app:backgroundTint="@color/pink"/>
-
-        <TextView
-            android:id="@+id/begin_your_journey_by_logging_in_or_signing_up_"
-            android:layout_width="408dp"
-            android:layout_height="199dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="442dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/begin_your_journey_by_logging_in_or_signing_up__string"
-            android:textColor="@color/white"
-            android:textSize="40sp"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

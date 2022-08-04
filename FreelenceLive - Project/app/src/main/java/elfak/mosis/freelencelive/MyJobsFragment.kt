@@ -123,7 +123,7 @@ class MyJobsFragment : Fragment() {
                     tmpLista.add(event)
                 }
             } else {
-              
+
                 val issuedByUser: User? =
                     listaKorisnika?.filter { it.id.equals(event.organiser) }?.firstOrNull()
                 if (issuedByUser?.userName?.contains(filterString) == true)

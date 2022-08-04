@@ -29,7 +29,7 @@
     <string name="freelencelivelogo_1">freelencelivelogo_1</string>
     <string name="log_in">LOG IN</string>
     <string name="sign_up">SIGN UP</string>
-    <string name="begin_your_journey_by_logging_in_or_signing_up__string">Begin your journey by logging in or signing up!</string>
+    <string name="begin_your_journey_by_logging_in_or_signing_up__string">Begin your journey\n by logging in\n or\n signing up!</string>
     <string name="polygon_1">polygon_1</string>
     <string name="all_you_need_to_find_a_job__string">All you need to find a job.</string>
     <string name="begin_a_journey_string">BEGIN A JOURNEY</string>
