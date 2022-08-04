@@ -1,5 +1,6 @@
 package elfak.mosis.freelencelive
 
+import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
@@ -20,8 +21,6 @@ import elfak.mosis.freelencelive.data.friendRequest
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentInvitationsBinding
 import elfak.mosis.freelencelive.model.userViewModel
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class InvitationsFragment : Fragment() {
 
@@ -30,6 +29,7 @@ class InvitationsFragment : Fragment() {
     private lateinit var imageBitmap: Bitmap
     private var formCheck: BooleanArray = BooleanArray(7)
     private var imageUri: Uri? = null
+    lateinit var pd: ProgressDialog
 
     var brojInvitationsa = 3
     lateinit var invitationsLayout: LinearLayout // requireActivity().findViewById(R.id.gallery) //binding.gallery
@@ -42,6 +42,8 @@ class InvitationsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        pd = ProgressDialog(context)
+        pd.setCancelable(false)
 
         if (userViewModel.users.value?.isEmpty() == true) {
             FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
@@ -181,12 +183,15 @@ class InvitationsFragment : Fragment() {
                     findNavController().navigate(action)
                 }
                 acceptButton.setOnClickListener {
-                    Toast.makeText(requireContext(), "ACCEPT BUTTON!", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(requireContext(), "ACCEPT BUTTON!", Toast.LENGTH_LONG).show()
+                    pd.show()
                     acceptInvitation(singleEvent, userViewModel, viewItem, invitationsLayout)
 
                 }
                 declineButton.setOnClickListener {
-                    Toast.makeText(requireContext(), "DECLINE BUTTON!", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(requireContext(), "DECLINE BUTTON!", Toast.LENGTH_LONG).show()
+                    pd.show()
+                    declineInvitation(singleEvent, userViewModel, viewItem, invitationsLayout)
                 }
 
                 jobTitle.setText(singleEvent.name)
@@ -211,7 +216,7 @@ class InvitationsFragment : Fragment() {
 //                noviMinute = "0"+minute
 //            }
                 val dateString: String =
-                    day.toString() + "/" + month + "/" + year.toString() + hour + ":" + minute + "h"
+                    day.toString() + "/" + month + "/" + year.toString() + " " + hour + ":" + minute + "h"
                 dateTitle.setText(dateString)
 
                 invitationsLayout.addView(viewItem)
@@ -319,6 +324,23 @@ class InvitationsFragment : Fragment() {
         FirebaseHelper.acceptJobInvitation(
             event,
             userViewModel,
+            pd,
+            viewItem,
+            invitationsLayout,
+            requireContext()
+        )
+    }
+
+    private fun declineInvitation(
+        singleEvent: Event,
+        userViewModel: userViewModel,
+        viewItem: View,
+        invitationsLayout: LinearLayout
+    ) {
+        FirebaseHelper.declineJobInvitation(
+            singleEvent,
+            userViewModel,
+            pd,
             viewItem,
             invitationsLayout,
             requireContext()

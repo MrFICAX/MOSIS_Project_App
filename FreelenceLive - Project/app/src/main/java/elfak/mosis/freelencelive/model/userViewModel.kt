@@ -1,6 +1,7 @@
 package elfak.mosis.freelencelive.model
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,10 @@ class userViewModel : ViewModel() {
     private val _newEvent = MutableLiveData<Event>()
     val newEvent: LiveData<Event>
         get() = _newEvent
+
+    private val _backGroundServiceActivated = MutableLiveData<Boolean>()
+    val backGroundServiceActivated: LiveData<Boolean>
+        get() = _backGroundServiceActivated
 
     private var _dateChanged: Boolean = false
     val dateChanged: Boolean
@@ -81,6 +86,10 @@ class userViewModel : ViewModel() {
     val searchFieldsSet: LiveData<MutableList<Boolean>>
         get() = _searchFieldsSet
 
+
+    fun setBackGroundService(flag: Boolean){
+        _backGroundServiceActivated.value = flag
+    }
     fun setSearchBarEventName(input: String) {
         _searchBarEventName.value = input
 
@@ -98,7 +107,7 @@ class userViewModel : ViewModel() {
 
     fun setRadiusValue(value: Double) {
         _searchByRadius.value = value
-        if (value.equals(0f)) {
+        if (value.equals(0.0)) {
             var booleanList: MutableList<Boolean>? = searchFieldsSet.value
             booleanList?.set(1, false)
             _searchFieldsSet.value = booleanList
@@ -425,6 +434,42 @@ class userViewModel : ViewModel() {
             _events.value?.filter { !it.id.equals(event.id) } as MutableList<Event>?
         newListOfEvents?.add(clickedEvent!!)
         _events.value = newListOfEvents
+    }
+
+    fun addNewInvitedUserToJob(event: Event, issuedBy: String?) {
+        val clickedEvent: Event? = _events.value?.filter { it.id.equals(event.id) }?.firstOrNull()
+
+//        clickedEvent.listOfUsers.put(issuedBy!!, false)
+        val newListOfEvents: MutableList<Event>? = _events.value?.filter { !it.id.equals(event.id) } as MutableList<Event>?
+        newListOfEvents?.add(clickedEvent!!)
+        _events.value = newListOfEvents
+    }
+
+    fun updateEvent(id: String, eventTmp: Event) {
+        var clickedEvent: Event?
+
+        clickedEvent = eventTmp
+        val newListOfEvents: MutableList<Event>? =
+            _events.value?.filter { !it.id.equals(id) } as MutableList<Event>?
+        newListOfEvents?.add(clickedEvent!!)
+        _events.value = newListOfEvents
+
+        if (selectedEvent.value?.id.equals(id))
+            _selectedEvent.value = eventTmp
+    }
+
+    fun updateUser(id: String, userTmp: User) {
+        try {
+            var updatedUser: User?
+
+            updatedUser = userTmp
+            val newListOfEvents: MutableList<User>? =
+                _users.value?.filter { !it.id.equals(id) } as MutableList<User>?
+            newListOfEvents?.add(updatedUser!!)
+            _users.value = newListOfEvents
+        }catch (e: Exception){
+            Log.d("greska", e.toString())
+        }
     }
 
 

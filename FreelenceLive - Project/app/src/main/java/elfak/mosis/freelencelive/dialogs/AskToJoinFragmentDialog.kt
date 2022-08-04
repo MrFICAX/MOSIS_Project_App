@@ -1,6 +1,7 @@
 package elfak.mosis.freelencelive.dialogs
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,13 +14,13 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.data.Event
 import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.data.askToJoin
-import elfak.mosis.freelencelive.data.friendRequest
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentDialogAskToJoinBinding
 import elfak.mosis.freelencelive.model.userViewModel
@@ -62,10 +63,19 @@ class AskToJoinFragmentDialog : DialogFragment() {
 
         selectedEvent = userViewModel.selectedEvent.value!!
 
+        val EventsObserver = Observer<Event>{
+
+            selectedEvent = it
+            addFriendsToFriendsView()
+            fillAllViewsWithData()
+
+        }
+
+        userViewModel.selectedEvent.observe(viewLifecycleOwner, EventsObserver)
+
+
         inflater = LayoutInflater.from(requireContext())
 
-        addFriendsToFriendsView()
-        fillAllViewsWithData()
 
         setButtonClickHandler()
 
@@ -98,7 +108,22 @@ class AskToJoinFragmentDialog : DialogFragment() {
                 )
                 button.setText("REQUEST SENT")
                 button.isClickable = false
-            } else {
+            } else { if (checkIfYouAreAlreadyAccepted()){
+                button.setText("I can't come!")
+                button.setBackgroundTintList(
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.green
+                        )
+                    )
+                )
+                button.setOnClickListener{
+                    pd.setMessage("SENDING...")
+                    pd.show()
+                    declineInvitation(selectedEvent, userViewModel)
+                }
+            } else
                 button.setOnClickListener {
                     pd.setMessage("SENDING...")
                     pd.show()
@@ -107,6 +132,20 @@ class AskToJoinFragmentDialog : DialogFragment() {
             }
         }
 
+    }
+
+    private fun declineInvitation(
+        singleEvent: Event,
+        userViewModel: userViewModel
+    ) {
+        FirebaseHelper.declineJobInvitation(
+            singleEvent,
+            userViewModel,
+            pd,
+            null,
+            null,
+            requireContext()
+        )
     }
 
     private fun checkIfAskToJoinExists(): Boolean {
@@ -120,6 +159,18 @@ class AskToJoinFragmentDialog : DialogFragment() {
                 return true
             }
         }
+        return flag
+    }
+
+    private fun checkIfYouAreAlreadyAccepted(): Boolean {
+        var myUserId :String = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        var flag = false
+
+        var tmpMapa: MutableMap<String, Boolean> =
+            selectedEvent.listOfUsers as MutableMap<String, Boolean>
+        val IsAccepted = tmpMapa[myUserId].toString()
+            if (IsAccepted == "true")
+                    return true
         return flag
     }
 
@@ -216,5 +267,34 @@ class AskToJoinFragmentDialog : DialogFragment() {
             friendsView.addView(viewItem)
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
 
 }

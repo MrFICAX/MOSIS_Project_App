@@ -15,9 +15,12 @@
         android:roundIcon="@drawable/freelencelivelogo_1"
         android:supportsRtl="true"
         android:theme="@style/Theme.FreelenceLive">
+
+        <service android:name=".services.NotificationsService" />
+
         <activity
             android:name=".MainWindowActivity"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="adjustPan">
 
         </activity>

@@ -10,18 +10,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentLogInBinding
+import elfak.mosis.freelencelive.model.userViewModel
 
 
 class LogInFragment : Fragment() {
 
     private lateinit var binding: FragmentLogInBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private val userViewModel: userViewModel by activityViewModels()
     lateinit var pd : ProgressDialog
 
     fun setViews(){
@@ -115,7 +118,8 @@ class LogInFragment : Fragment() {
                     password,
                     pd,
                     this,
-                    requireActivity()
+                    requireActivity(),
+                    userViewModel
                      )
 
 

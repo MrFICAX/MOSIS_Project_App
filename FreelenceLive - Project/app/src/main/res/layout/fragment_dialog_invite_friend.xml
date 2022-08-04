@@ -97,10 +97,10 @@
             android:layout_width="match_parent"
             android:textColor="@color/purple_700"
             android:layout_weight="1"
-            android:dropDownHeight="250dp"
+            android:dropDownHeight="200dp"
             android:dropDownSelector="@color/light_pink"
             android:textSize="20sp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>

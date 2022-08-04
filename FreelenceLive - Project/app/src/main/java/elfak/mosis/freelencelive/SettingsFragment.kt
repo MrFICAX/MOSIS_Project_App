@@ -11,10 +11,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import elfak.mosis.freelencelive.databinding.FragmentSettingsBinding
 import elfak.mosis.freelencelive.model.fragmentViewModel
+import elfak.mosis.freelencelive.model.userViewModel
 
 
 class SettingsFragment : Fragment() {
     private val fragmentViewModel: fragmentViewModel by activityViewModels()
+    private val userViewModel: userViewModel by activityViewModels()
 
     lateinit var binding: FragmentSettingsBinding
     var status: Boolean = false
@@ -32,33 +34,22 @@ class SettingsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentSettingsBinding.inflate(inflater)
-        return  binding.root
+        return binding.root
         //return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.shapeableImageView.setOnClickListener{
+        binding.shapeableImageView.setOnClickListener {
             val action = SettingsFragmentDirections.actionSettingsToStartPage()
             NavHostFragment.findNavController(this).navigate(action)
         }
 
-//        binding.toggleService.setOnClickListener {
-//            if(!status){
-//                binding.toggleService.setImageResource(R.drawable.toggle_on)
-//                binding.toggleService.setColorFilter(
-//                    ContextCompat.getColor(requireContext(), R.color.green),
-//                    android.graphics.PorterDuff.Mode.SRC_IN)
-//                status = true
-//            } else{
-//                binding.toggleService.setImageResource(R.drawable.toggle_off)
-//                binding.toggleService.setColorFilter(
-//                    ContextCompat.getColor(requireContext(), R.color.red),
-//                    android.graphics.PorterDuff.Mode.SRC_IN)
-//                status = false
-//            }
-//        }
+        binding.serviceSwitch.setOnCheckedChangeListener({ _, isChecked ->
+                userViewModel.setBackGroundService(isChecked)
+        })
+
 //        binding.toggleOnline.setOnClickListener {
 //            if(!online){
 //                binding.toggleOnline.setImageResource(R.drawable.toggle_on)

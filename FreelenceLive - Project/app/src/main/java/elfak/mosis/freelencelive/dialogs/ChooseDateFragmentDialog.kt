@@ -1,5 +1,6 @@
 package elfak.mosis.freelencelive.dialogs
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -22,6 +23,7 @@ class ChooseDateFragmentDialog : DialogFragment() {
     private val userViewModel: userViewModel by activityViewModels()
     private var dateTmp : Date = Date()
     private var day: Int = 0
+    private var flag = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,27 +65,66 @@ class ChooseDateFragmentDialog : DialogFragment() {
                         "Date should be in future!",
                         Toast.LENGTH_SHORT
                     ).show()
-
+                    flag = false
                 }
                 tmp < 0 -> {
                     dateTmp = Date(year, month, day)
                     this.day = day
+                    flag = true
 
                 }
                 else -> {
                     dateTmp = Date(year, month, day)
                     this.day = day
+                    flag = true
                 }
             }
         }
 
         binding.buttonApplyChanges.setOnClickListener {
+            if (flag){
+
             userViewModel.setSelectedEventDate(dateTmp.year, dateTmp.month, day)
             dialog?.dismiss()
+            } else{
+                Toast.makeText(
+                    requireContext(),
+                    "Date should be in future!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         return binding.root
         //return inflater.inflate(R.layout.fragment_dialog_choose_date, container, false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
 }

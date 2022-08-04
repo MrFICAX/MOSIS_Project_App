@@ -63,12 +63,23 @@ class MapFragment : Fragment(), LocationListener {
         savedInstanceState: Bundle?
     ): View? {
 
+        setUserLocationValueEventListener()
+        //setEventValueListener()
 
-        FirebaseHelper.geUserLocationsData(userViewModel)
+
+
+
+        if(userViewModel.userLocations.value?.isEmpty() == true)
+            FirebaseHelper.getUserLocationsData(userViewModel)
 
         userViewModel.restartSearch()
+
+
         if (userViewModel.users.value?.isEmpty() == true)
+        {
             FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
+        }
+
 
         if (userViewModel.askToJoin.value?.isEmpty() == true)
             FirebaseHelper.getAllAskToJoins(requireContext(), userViewModel)
@@ -117,6 +128,19 @@ class MapFragment : Fragment(), LocationListener {
         myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(activity), map)
 
         return binding.root
+    }
+
+    private fun setUserValueListener() {
+        FirebaseHelper.setUserValueChangedListener(userViewModel)
+    }
+
+    private fun setEventValueListener() {
+        FirebaseHelper.setEventValueChangedListener(userViewModel)
+
+    }
+
+    private fun setUserLocationValueEventListener() {
+        FirebaseHelper.setUserLocationEventListener(userViewModel)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -358,7 +382,7 @@ class MapFragment : Fragment(), LocationListener {
             "lon" to location.longitude
         )
 
-        FirebaseHelper.postMyLocation(myLocationOverlay.myLocation)
+        FirebaseHelper.postMyLocation(GeoPoint(location.latitude, location.longitude))
 
 //        //ogranicavanje skrolovanja mape
 //        val constraintOffset = 0.1
@@ -396,4 +420,24 @@ class MapFragment : Fragment(), LocationListener {
 //        cardView.draw(canvas)
 //        return bitmap
 //    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
 }

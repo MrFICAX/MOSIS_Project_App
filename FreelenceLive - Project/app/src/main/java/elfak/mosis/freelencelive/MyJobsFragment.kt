@@ -89,7 +89,10 @@ class MyJobsFragment : Fragment() {
                 writeFilteredEventsOverlays(userViewModel.events.value!!, newValue)
             }
         }
-        userViewModel.searchFieldsSetAdvancedSearch.observe(viewLifecycleOwner, searchFieldsSetAdvancedSearchObserver)
+        userViewModel.searchFieldsSetAdvancedSearch.observe(
+            viewLifecycleOwner,
+            searchFieldsSetAdvancedSearchObserver
+        )
 
 
         // Inflate the layout for this fragment
@@ -98,20 +101,34 @@ class MyJobsFragment : Fragment() {
         //return inflater.inflate(R.layout.fragment_my_jobs, container, false)
     }
 
-    private fun filterByStringEventName(listaEventa: List<Event>, filterString: String): List<Event> {
+    private fun filterByStringEventName(
+        listaEventa: List<Event>,
+        filterString: String
+    ): List<Event> {
 
         return listaEventa.filter { it.name.contains(filterString) }
     }
 
-    private fun filterByStringEventOrganiserName(listaEventa: List<Event>, filterString: String): List<Event> {
+    private fun filterByStringEventOrganiserName(
+        listaEventa: List<Event>,
+        filterString: String
+    ): List<Event> {
         val listaKorisnika: List<User>? = userViewModel.users.value
 
         var tmpLista: MutableList<Event> = mutableListOf()
 
         listaEventa.forEach { event ->
-            val issuedByUser: User? = listaKorisnika?.filter { it.id.equals(event.organiser) }?.firstOrNull()
-            if (issuedByUser != null)
-                tmpLista.add(event)
+            if (event.organiser == FirebaseAuth.getInstance().currentUser?.uid) {
+                if (userViewModel.user.value?.userName?.contains(filterString) == true) {
+                    tmpLista.add(event)
+                }
+            } else {
+              
+                val issuedByUser: User? =
+                    listaKorisnika?.filter { it.id.equals(event.organiser) }?.firstOrNull()
+                if (issuedByUser?.userName?.contains(filterString) == true)
+                    tmpLista.add(event)
+            }
         }
         return tmpLista
     }
@@ -139,10 +156,16 @@ class MyJobsFragment : Fragment() {
             )
         }
         if (listOfBooleans?.get(2) == true) {
-            listOfFilteredEvents = filterByFinished(listOfFilteredEvents, userViewModel.searchBarEventFinishedAdvancedSearch.value!!)
+            listOfFilteredEvents = filterByFinished(
+                listOfFilteredEvents,
+                userViewModel.searchBarEventFinishedAdvancedSearch.value!!
+            )
         }
         if (listOfBooleans?.get(3) == true) {
-            listOfFilteredEvents = filterByMyJobs(listOfFilteredEvents, userViewModel.searchBarEventFinishedAdvancedSearch.value!!)
+            listOfFilteredEvents = filterByMyJobs(
+                listOfFilteredEvents,
+                userViewModel.searchBarEventFinishedAdvancedSearch.value!!
+            )
         }
 
         addJobsToLinearLayout(listOfFilteredEvents)
@@ -151,25 +174,24 @@ class MyJobsFragment : Fragment() {
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.shapeableImageView.setOnClickListener{
+        binding.shapeableImageView.setOnClickListener {
             val action = MyJobsFragmentDirections.actionMyJobsToStartpage()
             NavHostFragment.findNavController(this).navigate(action)
         }
 
-        binding.buttonAdvancedSearch.setOnClickListener{
+        binding.buttonAdvancedSearch.setOnClickListener {
 
             val fragmentNovi = AdvancedSearchFragmentDialog()
             fragmentNovi.show(parentFragmentManager, "customString")
         }
 
-        jobsLayout =  requireActivity().findViewById(R.id.MyJobsLayout) //binding.gallery
+        jobsLayout = requireActivity().findViewById(R.id.MyJobsLayout) //binding.gallery
         inflater = LayoutInflater.from(requireContext())
 
-       // addJobsToLinearLayout()
+        // addJobsToLinearLayout()
 
     }
 
@@ -179,17 +201,19 @@ class MyJobsFragment : Fragment() {
 
         val listaKorisnika: List<User>? = userViewModel.users.value
 
-        for(event in lista){
+        for (event in lista) {
             //this.flag = event.organiser == FirebaseAuth.getInstance().currentUser?.uid
 
             val viewItem: View = inflater.inflate(R.layout.fragment_job_item, jobsLayout, false)
 
-            val imageView: ImageView = viewItem.findViewById(R.id.imageCameraBackground) as ImageView
+            val imageView: ImageView =
+                viewItem.findViewById(R.id.imageCameraBackground) as ImageView
             val usernameView: TextView = viewItem.findViewById(R.id.username)
             val jobTitle: TextView = viewItem.findViewById(R.id.JobTitleInvitations)
             val dateTitle: TextView = viewItem.findViewById(R.id.DateTextInvitations)
             val finishedTitle: TextView = viewItem.findViewById(R.id.finished)
-            val imageViewFinished: ImageView = viewItem.findViewById(R.id.imageCameraBackground2) as ImageView
+            val imageViewFinished: ImageView =
+                viewItem.findViewById(R.id.imageCameraBackground2) as ImageView
 
             val issuedByUser: User? =
                 listaKorisnika?.filter { it.id.equals(event.organiser) }?.firstOrNull()
@@ -201,7 +225,7 @@ class MyJobsFragment : Fragment() {
                 usernameView.setText(issuedByUser?.userName)
             }
 
-            if (event.organiser == FirebaseAuth.getInstance().currentUser?.uid){
+            if (event.organiser == FirebaseAuth.getInstance().currentUser?.uid) {
                 Glide.with(this).load(userViewModel.user.value?.imageUrl).into(imageView)
 
                 usernameView.setText(userViewModel.user.value?.userName)
@@ -220,8 +244,10 @@ class MyJobsFragment : Fragment() {
             val month = lista?.get(1)
             val day = lista?.get(2)//lista?.get(2)?.toInt()
             val hourMinute = lista?.get(3)?.split(":")
-            var hour: String? = hourMinute?.get(0)//event.date.hours.toString()//lista?.get(3)?.toInt()
-            var minute: String? = hourMinute?.get(1)//event.date.minutes.toString()//lista?.get(4)?.toInt()
+            var hour: String? =
+                hourMinute?.get(0)//event.date.hours.toString()//lista?.get(3)?.toInt()
+            var minute: String? =
+                hourMinute?.get(1)//event.date.minutes.toString()//lista?.get(4)?.toInt()
 //            var noviHour: String = hour
 //            var noviMinute: String = minute
 //            if (hour.toInt() < 10){
@@ -231,18 +257,18 @@ class MyJobsFragment : Fragment() {
 //                noviMinute = "0"+minute
 //            }
 
-            val timeString: String = day.toString() + "/" + month + "/" + year.toString() + " " + hour + ":" + minute + "h"
+            val timeString: String =
+                day.toString() + "/" + month + "/" + year.toString() + " " + hour + ":" + minute + "h"
 
             dateTitle.setText(timeString)    //.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-            viewItem.setOnClickListener{
+            viewItem.setOnClickListener {
                 //ako sam ja organizator
                 val action: NavDirections
                 userViewModel.setSelectedEvent(event)
 
-                if (event.organiser == FirebaseAuth.getInstance().currentUser?.uid){
+                if (event.organiser == FirebaseAuth.getInstance().currentUser?.uid) {
                     action = MyJobsFragmentDirections.actionMyJobsToJobReview()
-                }
-                else{
+                } else {
                     action = MyJobsFragmentDirections.actionMyJobsToJobView()
                 }
 

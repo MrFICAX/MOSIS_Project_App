@@ -1,5 +1,6 @@
 package elfak.mosis.freelencelive.dialogs
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -55,5 +56,33 @@ class searchByRadiusFragmentDialog : DialogFragment() {
             userViewModel.setRadiusValue(inputFloatValue)
             dialog?.dismiss()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }

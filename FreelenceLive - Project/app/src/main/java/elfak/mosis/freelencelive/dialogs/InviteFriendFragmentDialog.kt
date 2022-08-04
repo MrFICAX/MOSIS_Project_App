@@ -1,5 +1,6 @@
 package elfak.mosis.freelencelive.dialogs
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.data.Event
 import elfak.mosis.freelencelive.data.User
+import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentDialogInviteFriendBinding
 import elfak.mosis.freelencelive.model.userViewModel
 
@@ -56,13 +58,14 @@ class InviteFriendFragmentDialog : DialogFragment() {
         listaMyJobsa =
             userViewModel.events.value?.filter { it.organiser.equals(FirebaseAuth.getInstance().currentUser?.uid) }
 
+        listaMyJobsa = listaMyJobsa?.filter { !it.listOfUsers.containsKey(selectedUser?.id) }
+
         val listaEventsString: MutableList<String> = mutableListOf()
         listaMyJobsa?.forEach {
             listaEventsString.add(it.name)
         }
 
-        val nizPoslova =
-            listaEventsString// listOf<String>("Posao 0", "Posao 1", "Posao 2", "Posao 3", "Posao 4")
+        val nizPoslova = listaEventsString // listOf<String>("Posao 0", "Posao 1", "Posao 2", "Posao 3", "Posao 4")
         //val feelings = resources.getStringArray(R.array.feelings)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, nizPoslova)
 
@@ -75,9 +78,17 @@ class InviteFriendFragmentDialog : DialogFragment() {
 
             if (binding.autoCompleteTextView.text.isNotEmpty()) {
 
-                Toast.makeText(requireContext(), binding.autoCompleteTextView.text, Toast.LENGTH_LONG).show()
+//                Toast.makeText(requireContext(), binding.autoCompleteTextView.text, Toast.LENGTH_LONG).show()
+                val selectedInput: String = binding.autoCompleteTextView.text.toString()
+                val selectedEvent: Event? = listaMyJobsa?.filter { it.name.equals(selectedInput) }?.firstOrNull()
+                if(selectedEvent != null){
+                    Toast.makeText(requireContext(), "Sending invite!", Toast.LENGTH_LONG).show()
+                    FirebaseHelper.sendInviteFriend(selectedUser, selectedEvent, userViewModel, dialog, requireContext())
+//                    dialog?.dismiss()
+                }
+
+
                 //KOD ZA SLANJE INVITE-A PRIJATELJU
-                dialog?.dismiss()
             } else {
                 Toast.makeText(requireContext(), "No option selected!", Toast.LENGTH_LONG).show()
             }
@@ -117,6 +128,30 @@ class InviteFriendFragmentDialog : DialogFragment() {
 //                }
 //            }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 
 }

@@ -6,6 +6,6 @@
     android:background="@drawable/dropdown_item_style"
     android:textStyle="bold"
     android:textSize="20sp"
-    android:padding="14dp"
-    android:layout_height="50dp"
+    android:padding="10dp"
+    android:layout_height="wrap_content"
     android:text="TextView" />

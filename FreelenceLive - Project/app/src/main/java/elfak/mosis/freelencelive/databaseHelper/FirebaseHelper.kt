@@ -1,12 +1,13 @@
 package elfak.mosis.freelencelive.databaseHelper
 
 import android.app.Activity
+import android.app.Dialog
 import android.app.ProgressDialog
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.view.View
@@ -17,7 +18,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
@@ -27,8 +27,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -38,11 +38,9 @@ import com.google.firebase.storage.ktx.storage
 import elfak.mosis.freelencelive.*
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.data.*
-import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper.realtimeReference
 import elfak.mosis.freelencelive.databinding.FragmentMyProfileBinding
 import elfak.mosis.freelencelive.databinding.FragmentSignUpBinding
 import elfak.mosis.freelencelive.model.userViewModel
-import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.Serializable
 import java.text.ParseException
@@ -278,7 +276,8 @@ object FirebaseHelper {
         password: String,
         pd: ProgressDialog,
         fragment: Fragment,
-        activity: Activity
+        activity: Activity,
+        userViewModel: userViewModel
     ) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             pd.dismiss()
@@ -291,7 +290,7 @@ object FirebaseHelper {
 
                 val user = firebaseAuth.currentUser
                 if (user != null) {
-                    getUserDataAndStartActivity(context, activity)
+                    getUserDataAndStartActivity(context, activity, userViewModel)
                 } else {
                     Toast.makeText(
                         fragment.requireActivity(),
@@ -310,7 +309,11 @@ object FirebaseHelper {
         }
     }
 
-    private fun getUserDataAndStartActivity(context: Context, activity: Activity) {
+    private fun getUserDataAndStartActivity(
+        context: Context,
+        activity: Activity,
+        userViewModel: userViewModel
+    ) {
 
         val user = firebaseAuth.currentUser
         var data = cloudFirestore.collection("Profiles").document(
@@ -366,6 +369,7 @@ object FirebaseHelper {
                             Toast.makeText(context, "Data downloaded!", Toast.LENGTH_LONG).show()
                             val intent = Intent(context, MainWindowActivity::class.java)
                             intent.putExtra("user", userTmp as Serializable)
+                            userViewModel.setNewUser(userTmp)
 
                             startActivity(context, intent, null)
                             activity.finish()
@@ -488,6 +492,8 @@ object FirebaseHelper {
                 }
             }
             userViewModel.addUserList(lista)
+            setUserValueChangedListener(userViewModel)
+
         }.addOnFailureListener {
             Toast.makeText(context, "Users not downloaded!", Toast.LENGTH_LONG).show()
         }
@@ -768,6 +774,7 @@ object FirebaseHelper {
 
     fun acceptJobInvitation(
         event: Event, userViewModel: userViewModel,
+        pd: ProgressDialog,
         viewItem: View,
         invitationsLayout: LinearLayout,
         requireContext: Context
@@ -788,15 +795,49 @@ object FirebaseHelper {
 
                 Toast.makeText(requireContext, "Event updated", Toast.LENGTH_SHORT).show()
                 userViewModel.updateJob(event, meId)
-
+                pd.dismiss()
                 //invitationsLayout.removeView(viewItem)
 
             }.addOnFailureListener {
 
                 Toast.makeText(requireContext, "Event not updated", Toast.LENGTH_SHORT).show()
-
+                pd.dismiss()
             }
     }
+
+    fun declineJobInvitation(
+        event: Event, userViewModel: userViewModel,
+        pd: ProgressDialog,
+        viewItem: View?,
+        invitationsLayout: LinearLayout?,
+        requireContext: Context
+    ) {
+        val meId = FirebaseAuth.getInstance().currentUser?.uid
+
+        var currentEvent: Event =
+            userViewModel.events.value!!.filter { it.id.equals(event.id) }.firstOrNull()!!
+
+        var tmpMapa: MutableMap<String, String> =
+            currentEvent.listOfUsers as MutableMap<String, String>
+        tmpMapa.remove(meId.toString())
+
+
+        cloudFirestore.collection("events")
+            .document(event.id)
+            .update(mapOf("listOfUsers" to tmpMapa as Map<String, Any>)).addOnSuccessListener {
+
+                Toast.makeText(requireContext, "Event updated", Toast.LENGTH_SHORT).show()
+                //userViewModel.updateJob(event, meId)
+                pd.dismiss()
+                //invitationsLayout.removeView(viewItem)
+
+            }.addOnFailureListener {
+
+                Toast.makeText(requireContext, "Event not updated", Toast.LENGTH_SHORT).show()
+                pd.dismiss()
+            }
+    }
+
 
 
     fun postComment(
@@ -1130,6 +1171,7 @@ object FirebaseHelper {
 
             }
             userViewModel.addEventList(lista)
+            setEventValueChangedListener(userViewModel)
         }.addOnFailureListener {
             Toast.makeText(context, "requests not downoloaded!", Toast.LENGTH_LONG).show()
         }
@@ -1172,7 +1214,7 @@ object FirebaseHelper {
             Toast.makeText(requireContext, "Data updated successfully!", Toast.LENGTH_LONG)
                 .show()
             pd.dismiss()
-            findNavController.popBackStack()
+            //findNavController.popBackStack()
         }.addOnFailureListener {
             Toast.makeText(requireContext, "Data not updated !", Toast.LENGTH_LONG).show()
             pd.dismiss()
@@ -1517,7 +1559,7 @@ object FirebaseHelper {
             .child(Firebase.auth.currentUser!!.uid).setValue(userMap)
     }
 
-    fun geUserLocationsData(sharedViewModel: userViewModel) {
+    fun getUserLocationsData(userViewModel: userViewModel) {
 
         val dataRef = realtimeDatabase.getReference("map")
         dataRef.child("users").get().addOnSuccessListener {
@@ -1537,8 +1579,256 @@ object FirebaseHelper {
                     userLocations.add(event)
                 }
             }
-            sharedViewModel.addUserLocationsList(userLocations)
+            userViewModel.addUserLocationsList(userLocations)
         }
 
     }
+
+    fun setUserLocationEventListener(userViewModel: userViewModel) {
+        val dataRef = realtimeDatabase.getReference("map")
+        dataRef.child("users").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                getUserLocationsData(userViewModel)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+    }
+
+    fun sendInviteFriend(
+        selectedUser: User?,
+        selectedEvent: Event,
+        userViewModel: userViewModel,
+        dialog: Dialog?,
+        requireContext: Context
+    ) {
+
+        var tmpMapa: MutableMap<String, Boolean> =
+            selectedEvent.listOfUsers as MutableMap<String, Boolean>
+        tmpMapa.put(selectedUser?.id!!, false)
+
+        try {
+
+            cloudFirestore.collection("events")
+                .document(selectedEvent.id)
+                .update(mapOf("listOfUsers" to tmpMapa)) //.set(hashMapRequestToUser, SetOptions.merge())
+                .addOnSuccessListener {
+
+                    val updatedEvent: Event? =
+                        userViewModel.events.value?.filter {
+                            it.id.equals(
+                                selectedEvent.id
+                            )
+                        }
+                            ?.firstOrNull()
+                    //updatedEvent?.listOfUsers?.put(selectedUser.id, "false")
+
+                    userViewModel.addNewInvitedUserToJob(selectedEvent, selectedUser.id)
+                    dialog?.dismiss()
+
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        requireContext,
+                        "Data not updated!",
+                        Toast.LENGTH_LONG
+                    )
+                        .show()
+                }
+
+        } catch (e: Exception) {
+            Toast.makeText(requireContext, e.toString(), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun setEventValueChangedListener(userViewModel: userViewModel) {
+        cloudFirestore.collection("events").addSnapshotListener { snapshots, e ->
+            for (dc in snapshots!!.documentChanges) {
+                when (dc.type) {
+                    DocumentChange.Type.ADDED -> {
+                        var eventTmp: Event = Event(
+                            "",
+                            "",
+                            false,
+                            "",
+                            0.0,
+                            0.0,
+                            Date(),
+                            hashMapOf(),
+                            hashMapOf(),
+                            mutableListOf()
+                        )
+
+                        //user = result.toObject<User>()
+                        eventTmp.id = dc.document.data?.get("id").toString()
+                        eventTmp.name = dc.document.data?.get("name").toString()
+                        eventTmp.finished = dc.document.data?.get("finished") as Boolean
+
+                        eventTmp.organiser = dc.document.data?.get("organiser").toString()
+                        var tmpString: String = dc.document.data?.get("latitude").toString()
+                        eventTmp.latitude = tmpString.toDouble()
+                        tmpString = dc.document.data?.get("longitude").toString()
+                        eventTmp.longitude = tmpString.toDouble()
+
+//                val tmpDate = singleRequestDocument.data?.get("date")
+//                //eventTmp.date = Date()
+//                val timestamp: com.google.firebase.Timestamp =
+//                    tmpDate as com.google.firebase.Timestamp
+//                val date: Date = getUTCdatetimeAsDate(timestamp)
+
+                        val dateHashMap = dc.document.data?.getValue("dateHashMap")
+                        val hashMapaDate: HashMap<String, Int> = dateHashMap as HashMap<String, Int>
+                        var month = hashMapaDate["month"]!!
+                        var monthInt: Int? = month?.toInt()//?.minus(1)
+                        var date: Date = Date(
+                            hashMapaDate.get("year")!!,
+                            monthInt!!,
+                            hashMapaDate["day"]!!,
+                            hashMapaDate["hours"]!!,
+                            hashMapaDate["minutes"]!!
+                        )
+
+                        eventTmp.date = date //Date(timestamp.seconds * 1000)
+
+                        //PARSIRANJE VREME NE RADII KAKO TREBA, RESENJE JE DA SE DATUM U BAZI PAMTI KAO STRING ILI KAO HASHMAP SA POLJIMA ZA SVAKU VREDNOST
+
+                        var listOfUsersTmp = dc.document.data?.getValue("listOfUsers")
+                        eventTmp.listOfUsers = listOfUsersTmp as HashMap<String, Boolean>
+
+                        var listaEventa: MutableList<Event> =
+                            (userViewModel.events.value as MutableList<Event>?)!!
+                        if (!listaEventa.contains(eventTmp))
+                            listaEventa.add(eventTmp)
+                        userViewModel.addEventList(listaEventa)
+                    }
+                    DocumentChange.Type.MODIFIED -> {
+                        var eventTmp: Event = Event(
+                            "",
+                            "",
+                            false,
+                            "",
+                            0.0,
+                            0.0,
+                            Date(),
+                            hashMapOf(),
+                            hashMapOf(),
+                            mutableListOf()
+                        )
+
+                        //user = result.toObject<User>()
+                        eventTmp.id = dc.document.data?.get("id").toString()
+                        eventTmp.name = dc.document.data?.get("name").toString()
+                        eventTmp.finished = dc.document.data?.get("finished") as Boolean
+
+                        eventTmp.organiser = dc.document.data?.get("organiser").toString()
+                        var tmpString: String = dc.document.data?.get("latitude").toString()
+                        eventTmp.latitude = tmpString.toDouble()
+                        tmpString = dc.document.data?.get("longitude").toString()
+                        eventTmp.longitude = tmpString.toDouble()
+
+//                val tmpDate = singleRequestDocument.data?.get("date")
+//                //eventTmp.date = Date()
+//                val timestamp: com.google.firebase.Timestamp =
+//                    tmpDate as com.google.firebase.Timestamp
+//                val date: Date = getUTCdatetimeAsDate(timestamp)
+
+                        val dateHashMap = dc.document.data?.getValue("dateHashMap")
+                        val hashMapaDate: HashMap<String, Int> = dateHashMap as HashMap<String, Int>
+                        var month = hashMapaDate["month"]!!
+                        var monthInt: Int? = month?.toInt()//?.minus(1)
+                        var date: Date = Date(
+                            hashMapaDate.get("year")!!,
+                            monthInt!!,
+                            hashMapaDate["day"]!!,
+                            hashMapaDate["hours"]!!,
+                            hashMapaDate["minutes"]!!
+                        )
+
+                        eventTmp.date = date //Date(timestamp.seconds * 1000)
+
+                        //PARSIRANJE VREME NE RADII KAKO TREBA, RESENJE JE DA SE DATUM U BAZI PAMTI KAO STRING ILI KAO HASHMAP SA POLJIMA ZA SVAKU VREDNOST
+
+                        var listOfUsersTmp = dc.document.data?.getValue("listOfUsers")
+                        eventTmp.listOfUsers = listOfUsersTmp as HashMap<String, Boolean>
+
+                        userViewModel.updateEvent(eventTmp.id, eventTmp)
+                    }
+                    DocumentChange.Type.REMOVED -> {
+
+                    }
+                }
+            }
+
+        }
+    }
+
+    fun setUserValueChangedListener(userViewModel: userViewModel) {
+
+        val userMe: String? = userViewModel.user.value?.id
+
+
+        cloudFirestore.collection("Profiles").addSnapshotListener { snapshots, e ->
+            for (dc in snapshots!!.documentChanges) {
+                when (dc.type) {
+                    DocumentChange.Type.ADDED -> {
+
+                    }
+                    DocumentChange.Type.MODIFIED -> {
+
+                        try {
+                            var userTmp: User = User(
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                0f,
+                                0,
+                                "",
+                                hashMapOf<String, Boolean>()
+                            )
+                            //user = result.toObject<User>()
+                            userTmp.id = dc.document.data?.get("id").toString()
+
+                            userTmp.email = dc.document.data?.get("email").toString()
+                            userTmp.userName = dc.document.data?.get("userName").toString()
+                            userTmp.firstName = dc.document.data?.get("firstName").toString()
+                            userTmp.lastName = dc.document.data?.get("lastName").toString()
+                            userTmp.phoneNumber = dc.document.data?.get("phoneNumber").toString()
+                            var tmpString: String = dc.document.data?.get("numOfRatings").toString()
+                            userTmp.numOfRatings = tmpString.toInt()
+                            tmpString = dc.document.data?.get("totalScore").toString()
+                            userTmp.totalScore = tmpString.toFloat()
+
+                            var hashMapa = dc.document.data?.getValue("friendsList")
+                            userTmp.friendsList = hashMapa as HashMap<String, Boolean>
+
+                            if (!(userTmp.id == userMe!!)) {
+
+                                storageRef.child("ProfileImages/${userTmp.id}.png").downloadUrl.addOnSuccessListener {
+                                    //userTmp.imageUrl = it.toString()
+                                    userViewModel.setPhotoUrlToUser(userTmp.id, it.toString())
+                                }
+
+                                userViewModel.updateUser(userTmp.id, userTmp)
+                            }
+
+                        } catch (e: Exception) {
+                            Log.d("exception", e.toString())
+                        }
+                    }
+                    DocumentChange.Type.REMOVED -> {
+
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
 }
