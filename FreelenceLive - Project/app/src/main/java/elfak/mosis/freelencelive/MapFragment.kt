@@ -356,7 +356,7 @@ class MapFragment : Fragment(), LocationListener {
     private fun writeUserOverlay(element: UserLocation) {
         val startMarker = Marker(map)
         startMarker.position = GeoPoint(element.latitude, element.longitude)
-        startMarker.icon = getResources().getDrawable(R.drawable.icons8_user_48)
+        startMarker.icon = getResources().getDrawable(R.drawable.icons8_male_user48)
         startMarker.setTitle("Start point");
         startMarker.setOnMarkerClickListener { _, _ ->
 
