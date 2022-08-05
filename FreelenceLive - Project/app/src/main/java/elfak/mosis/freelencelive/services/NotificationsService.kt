@@ -1,9 +1,6 @@
 package elfak.mosis.freelencelive.services
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.location.Location
@@ -17,8 +14,10 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.freelencelive.MainActivity
+import elfak.mosis.freelencelive.MainWindowActivity
 import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.data.UserLocation
+import elfak.mosis.freelencelive.model.userViewModel
 
 
 class NotificationsService : Service() {
@@ -27,7 +26,6 @@ class NotificationsService : Service() {
     private var serviceRunning = false
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
-
     // Handler that receives messages from the thread
     private inner class ServiceHandler(looper: Looper) : Handler(looper) {
 
@@ -69,26 +67,30 @@ class NotificationsService : Service() {
                             )
 
                             if (distance[0] <= 450) {
-                                if (notifiedMap[user.userId] == false) {
+                                if (notifiedMap.containsKey(user.userId)) {
 
-                                    notifiedMap[user.userId] = true
-                                    createNotification(distance[0], currentUser, user.userId)
+                                    if (notifiedMap[user.userId] == false) {
+
+                                        notifiedMap[user.userId] = true
+                                        createNotification(distance[0], currentUser, user.userId)
 
 //                                    Thread.sleep(15*6000)
+                                    }
+                                } else {
+                                    notifiedMap[user.userId] = false
+                                    //Log.d("nearbyPerson", "This person is not near:\n ${user.id}")
                                 }
-                            } else {
-                                notifiedMap[user.userId] = false
-                                //Log.d("nearbyPerson", "This person is not near:\n ${user.id}")
                             }
+
                         }
 
                     }
-
-                    Thread.sleep(5000)
                 } catch (e: InterruptedException) {
                     // Restore interrupt status.
                     Thread.currentThread().interrupt()
                 }
+                Thread.sleep(5000)
+
             }
 
             // Stop the service using the startId, so that we don't stop
@@ -122,6 +124,7 @@ class NotificationsService : Service() {
             serviceHandler?.sendMessage(msg)
         }
 
+
         // If we get killed, after returning from here, restart
         return START_STICKY
     }
@@ -133,41 +136,77 @@ class NotificationsService : Service() {
 
     override fun onDestroy() {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
-       serviceRunning = false
+        serviceRunning = false
 
     }
 
-    fun createNotification(currentUser1: Float, currentUser: UserLocation?, id: String) {
+    fun createNotification(distance: Float, currentUser: UserLocation?, nearId: String) {
 
         try {
-            var intent: Intent = Intent(this, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                }
 
-            intent.putExtra("currentUser", currentUser?.userId)
+            var intent: Intent = Intent(this, MainWindowActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+
+            intent.putExtra("currentUserId", currentUser?.userId)
+            intent.putExtra("nearUserId", nearId)
+
+
             val pendingIntent: PendingIntent = PendingIntent.getActivity(
                 this,
                 0,
                 intent,
                 PendingIntent.FLAG_IMMUTABLE
             )
+// Create an Intent for the activity you want to start
+            val resultIntent = Intent(this, MainWindowActivity::class.java)
+            resultIntent.putExtra("currentUserId", currentUser?.userId)
+            resultIntent.putExtra("nearUserId", nearId)
+// Create the TaskStackBuilder
+            val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+                // Add the intent, which inflates the back stack
+                addNextIntentWithParentStack(resultIntent)
+                // Get the PendingIntent containing the entire back stack
+                getPendingIntent(0,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            }
 
-            var builder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.programmer)
-                .setContentTitle("Neko je u blizini!")
-                .setStyle(
+            val builder = NotificationCompat.Builder(this, channelId).apply {
+                setContentIntent(resultPendingIntent)
+                setSmallIcon(R.drawable.programmer)
+                setContentTitle("Someone is near!")
+                setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
+                setContentText("Check in app!")
+                setStyle(
                     NotificationCompat.BigTextStyle()
                         .bigText("Open app to check who is around you...")
                 )
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-
-            with(NotificationManagerCompat.from(applicationContext)) {
-                // notificationId is a unique int for each notification that you must define
-                notify((System.currentTimeMillis() % 10000).toInt(), builder.build())
-
+                setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                setAutoCancel(true)
             }
+            with(NotificationManagerCompat.from(this)) {
+                notify((System.currentTimeMillis() % 10000).toInt(), builder.build())
+            }
+
+//            var builder = NotificationCompat.Builder(this, channelId)
+//                .setBadgeIconType(R.drawable.programmer)
+//                .setSmallIcon(R.drawable.programmer)
+//                .setContentTitle("Neko je u blizini!")
+//                .setContentText("Proverite u aplikaciji!")
+//                .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
+//                .setStyle(
+//                    NotificationCompat.BigTextStyle()
+//                        .bigText("Open app to check who is around you...")
+//                )
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//                .setContentIntent(pendingIntent)
+//                .setAutoCancel(true)
+//
+//            with(NotificationManagerCompat.from(applicationContext)) {
+//                // notificationId is a unique int for each notification that you must define
+//                notify((System.currentTimeMillis() % 10000).toInt(), builder.build())
+//
+//            }
         } catch (ex: Exception) {
             Log.d("ErrorWhileLoading", ex.toString())
         }

@@ -60,7 +60,6 @@ class MyJobsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        userViewModel.restartAdvancedSearch()
         if (userViewModel.users.value?.isEmpty() == true)
             FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
 
@@ -118,7 +117,7 @@ class MyJobsFragment : Fragment() {
         var tmpLista: MutableList<Event> = mutableListOf()
 
         listaEventa.forEach { event ->
-            if (event.organiser == FirebaseAuth.getInstance().currentUser?.uid) {
+            if (event.organiser == userViewModel.user.value?.id) {
                 if (userViewModel.user.value?.userName?.contains(filterString) == true) {
                     tmpLista.add(event)
                 }
@@ -138,7 +137,7 @@ class MyJobsFragment : Fragment() {
     }
 
     private fun filterByMyJobs(listaEventa: List<Event>, value: Boolean): List<Event> {
-        return listaEventa.filter { it.organiser.equals(FirebaseAuth.getInstance().currentUser?.uid) }
+        return listaEventa.filter { it.organiser.equals(userViewModel.user.value?.id) }
     }
 
     private fun writeFilteredEventsOverlays(lista: List<Event>, listOfBooleans: List<Boolean>?) {
@@ -178,6 +177,7 @@ class MyJobsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.shapeableImageView.setOnClickListener {
+            userViewModel.restartAdvancedSearch()
             val action = MyJobsFragmentDirections.actionMyJobsToStartpage()
             NavHostFragment.findNavController(this).navigate(action)
         }
@@ -225,7 +225,7 @@ class MyJobsFragment : Fragment() {
                 usernameView.setText(issuedByUser?.userName)
             }
 
-            if (event.organiser == FirebaseAuth.getInstance().currentUser?.uid) {
+            if (event.organiser == userViewModel.user.value?.id) {
                 Glide.with(this).load(userViewModel.user.value?.imageUrl).into(imageView)
 
                 usernameView.setText(userViewModel.user.value?.userName)
@@ -266,7 +266,7 @@ class MyJobsFragment : Fragment() {
                 val action: NavDirections
                 userViewModel.setSelectedEvent(event)
 
-                if (event.organiser == FirebaseAuth.getInstance().currentUser?.uid) {
+                if (event.organiser == userViewModel.user.value?.id) {
                     action = MyJobsFragmentDirections.actionMyJobsToJobReview()
                 } else {
                     action = MyJobsFragmentDirections.actionMyJobsToJobView()

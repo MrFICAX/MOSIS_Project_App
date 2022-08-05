@@ -76,24 +76,4 @@ class StartPageFragment : Fragment() {
         })
     }
 
-    private fun setColorsOnMapClicked(){
-//        binding.navbarTitleInvitations.setTextColor(R.color.purple_200)
-        //binding.navbarIconInvitations.setColorFilter(R.color.purple_500)
-        var slika: ImageView =  requireView().findViewById(R.id.navbar_icon_invitations)
-        DrawableCompat.setTint(slika.getDrawable(), ContextCompat.getColor(requireContext(), R.color.purple_200));
-
-//        binding.navbarTitleMap.setTextColor(R.color.purple_500)
-        slika =  requireView().findViewById(R.id.navbar_icon_map)
-        DrawableCompat.setTint(slika.getDrawable(), ContextCompat.getColor(requireContext(), R.color.purple_500));
-
-//        binding.navbarTitleNotifications.setTextColor(R.color.purple_200)
-        //binding.navbarIconNotifications.setColorFilter(R.color.purple_500)
-
-        slika = requireView().findViewById(R.id.navbar_icon_notifications)
-        DrawableCompat.setTint(
-            slika.getDrawable(),
-            ContextCompat.getColor(requireContext(), R.color.purple_200)
-        );
-    }
-
 }

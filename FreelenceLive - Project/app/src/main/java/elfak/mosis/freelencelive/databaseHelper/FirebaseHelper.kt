@@ -309,7 +309,7 @@ object FirebaseHelper {
         }
     }
 
-    private fun getUserDataAndStartActivity(
+    fun getUserDataAndStartActivity(
         context: Context,
         activity: Activity,
         userViewModel: userViewModel
@@ -394,20 +394,105 @@ object FirebaseHelper {
             }
     }
 
+    fun getUserData(
+        context: Context,
+        activity: Activity,
+        userViewModel: userViewModel,
+        requireContext: Context
+    ) {
+
+        val user = firebaseAuth.currentUser
+        var data = cloudFirestore.collection("Profiles").document(
+            user!!.uid
+        ).get()
+            .addOnSuccessListener { result ->
+
+                if (result != null) {
+                    Log.d("100", "DocumentSnapshot data: ${result.data}")
+                    try {
+
+                        var userTmp: User = User(
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            0f,
+                            0,
+                            "",
+                            hashMapOf<String, Boolean>()
+                        )
+
+                        //user = result.toObject<User>()
+                        userTmp.id = result.data?.get("id").toString()
+                        userTmp.email = result.data?.get("email").toString()
+                        userTmp.userName = result.data?.get("userName").toString()
+                        userTmp.firstName = result.data?.get("firstName").toString()
+                        userTmp.lastName = result.data?.get("lastName").toString()
+                        userTmp.phoneNumber = result.data?.get("phoneNumber").toString()
+                        var tmpString: String = result.data?.get("numOfRatings").toString()
+                        userTmp.numOfRatings = tmpString.toInt()
+                        tmpString = result.data?.get("totalScore").toString()
+                        userTmp.totalScore = tmpString.toFloat()
+
+                        var lista = result.data?.getValue("friendsList")
+                        userTmp.friendsList = lista as HashMap<String, Boolean>
+                        //user.numOfRatings = result.data?.get("numOfRatings") as Int
+                        //user.totalScore = result.data?.get("totalScore") as Int
+
+//                    var profileImg = " "
+//                    val storageRef = Firebase.storage.reference
+                        storageRef.child("ProfileImages/${user.uid}.png").downloadUrl.addOnSuccessListener {
+                            userTmp.imageUrl = it.toString()
+
+                            val mapa: Map<String, String> = mapOf("imageUrl" to userTmp.imageUrl)
+
+                            cloudFirestore.collection("Profiles").document(
+                                user!!.uid
+                            ).update(mapa)
+
+                            Toast.makeText(context, "Data downloaded!", Toast.LENGTH_LONG).show()
+                            userViewModel.setNewUser(userTmp)
+                            getMyServiceValue(userViewModel, requireContext)
+//                            getOnlineValues(userViewModel, requireContext)
+                            setOnlineValueEventListener(userViewModel, requireContext)
+                        }
+                    } catch (e: Exception) {
+//                user?.delete()?.addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            context,
+                            e.toString(),
+                            //"Neuspešna registracija V2",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+//                    }
+//                }
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(context, exception.toString(), Toast.LENGTH_LONG).show()
+            }
+    }
+
     fun updateProfilePhoto(
         pd: ProgressDialog,
         imageBitmap: Bitmap,
+        userViewModel: userViewModel,
         binding: FragmentMyProfileBinding,
         imageUri: Uri?
     ) {
-        val user = firebaseAuth.currentUser
+        val user: User? = userViewModel.user.value// = firebaseAuth.currentUser
 
         val baos = ByteArrayOutputStream()
         imageBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
         val data = baos.toByteArray()
 
         val mountainImagesRef =
-            storageRef.child("ProfileImages/${user?.uid}.png")
+            storageRef.child("ProfileImages/${user?.id}.png")
         uploadTask = mountainImagesRef.putBytes(data)
         uploadTask.addOnFailureListener {
             pd.dismiss()
@@ -424,14 +509,15 @@ object FirebaseHelper {
 
     fun updateUserData(
         mapa: HashMap<String, String>,
+        userViewModel: userViewModel,
         pd: ProgressDialog,
         context: Context,
         navController: NavController
     ) {
-        val user = firebaseAuth.currentUser
+        val user: User? = userViewModel.user.value//firebaseAuth.currentUser
 
         cloudFirestore.collection("Profiles").document(
-            user!!.uid
+            user!!.id
         ).update(mapa as Map<String, Any>).addOnSuccessListener {
             Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_LONG).show()
 
@@ -443,13 +529,13 @@ object FirebaseHelper {
     }
 
     fun getOtherUsers(context: Context, userViewModel: userViewModel) {
-        val userMe = firebaseAuth.currentUser
+        val userMe: User? = userViewModel.user.value//firebaseAuth.currentUser
 
         cloudFirestore.collection("Profiles").get().addOnSuccessListener {
             val document = it.documents
             val lista: MutableList<User> = mutableListOf<User>()
             document.forEach { user ->
-                if (!(userMe?.uid.equals(user.id))) {
+                if (!(userMe?.id.equals(user.id))) {
 
                     var userTmp: User = User(
                         "",
@@ -500,7 +586,7 @@ object FirebaseHelper {
     }
 
     fun getAllFriendRequests(context: Context, userViewModel: userViewModel) {
-        val userMe = firebaseAuth.currentUser
+        val userMe: User? = userViewModel.user.value // = firebaseAuth.currentUser
 
         cloudFirestore.collection("friendRequests").get().addOnSuccessListener {
             val document = it.documents
@@ -544,31 +630,33 @@ object FirebaseHelper {
         val newRef = cloudFirestore.collection("friendRequests").document()
         val id = newRef.id
 
-        val newRequest: friendRequest =
-            friendRequest(id, FirebaseAuth.getInstance().currentUser?.uid.toString(), userId)
+        val newRequest: friendRequest? =
+            userViewModel.user.value?.id?.let { friendRequest(id, it, userId) }
 
 
-        newRef.set(newRequest)
-            .addOnSuccessListener {
-                Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
-                pd.dismiss()
-                sendRequestButton.setBackgroundTintList(
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.yellow
+        if (newRequest != null) {
+            newRef.set(newRequest)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
+                    pd.dismiss()
+                    sendRequestButton.setBackgroundTintList(
+                        ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.yellow
+                            )
                         )
                     )
-                )
-                sendRequestButton.setText("REQUEST SENT")
-                sendRequestButton.isClickable = false
-                userViewModel.addNewFriendRequest(newRequest)
+                    sendRequestButton.setText("REQUEST SENT")
+                    sendRequestButton.isClickable = false
+                    userViewModel.addNewFriendRequest(newRequest)
 
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
-                pd.dismiss()
-            }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                    pd.dismiss()
+                }
+        }
     }
 
 
@@ -779,7 +867,7 @@ object FirebaseHelper {
         invitationsLayout: LinearLayout,
         requireContext: Context
     ) {
-        val meId = FirebaseAuth.getInstance().currentUser?.uid
+        val meId = userViewModel.user.value?.id
 
         var currentEvent: Event =
             userViewModel.events.value!!.filter { it.id.equals(event.id) }.firstOrNull()!!
@@ -812,7 +900,7 @@ object FirebaseHelper {
         invitationsLayout: LinearLayout?,
         requireContext: Context
     ) {
-        val meId = FirebaseAuth.getInstance().currentUser?.uid
+        val meId = userViewModel.user.value?.id
 
         var currentEvent: Event =
             userViewModel.events.value!!.filter { it.id.equals(event.id) }.firstOrNull()!!
@@ -837,7 +925,6 @@ object FirebaseHelper {
                 pd.dismiss()
             }
     }
-
 
 
     fun postComment(
@@ -913,7 +1000,7 @@ object FirebaseHelper {
         newRating.id = id
 
         val checkRef = cloudFirestore.collection("ratings")
-            .whereEqualTo("issuedBy", FirebaseAuth.getInstance().currentUser?.uid)
+            .whereEqualTo("issuedBy", userViewModel.user.value?.id)
             .whereEqualTo("issuedFor", newRating.issuedFor).get().addOnSuccessListener {
 
                 var ratings = it.documents.firstOrNull()
@@ -1361,31 +1448,33 @@ object FirebaseHelper {
         val newRef = cloudFirestore.collection("askToJoins").document()
         val id = newRef.id
 
-        val newAskToJoin: askToJoin =
-            askToJoin(id, FirebaseAuth.getInstance().currentUser?.uid.toString(), eventid)
+        val newAskToJoin: askToJoin? =
+            userViewModel.user.value?.id?.let { askToJoin(id, it, eventid) }
 
 
-        newRef.set(newAskToJoin)
-            .addOnSuccessListener {
-                Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
-                pd.dismiss()
-                sendRequestButton.setBackgroundTintList(
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.red
+        if (newAskToJoin != null) {
+            newRef.set(newAskToJoin)
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
+                    pd.dismiss()
+                    sendRequestButton.setBackgroundTintList(
+                        ColorStateList.valueOf(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.red
+                            )
                         )
                     )
-                )
-                sendRequestButton.setText("REQUEST SENT")
-                sendRequestButton.isClickable = false
-                userViewModel.addNewAskToJoin(newAskToJoin)
+                    sendRequestButton.setText("REQUEST SENT")
+                    sendRequestButton.isClickable = false
+                    userViewModel.addNewAskToJoin(newAskToJoin)
 
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
-                pd.dismiss()
-            }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+                    pd.dismiss()
+                }
+        }
     }
 
     fun getAllAskToJoins(requireContext: Context, userViewModel: userViewModel) {
@@ -1548,15 +1637,163 @@ object FirebaseHelper {
         }
     }
 
-    fun postMyLocation(myLocation: org.osmdroid.util.GeoPoint) {
+    fun postMyLocation(myLocation: org.osmdroid.util.GeoPoint, userViewModel: userViewModel) {
 
         val userMap = mapOf(
             "lat" to myLocation?.latitude,
             "lon" to myLocation?.longitude
         )
 
-        realtimeDatabase.getReference("map").child("users")
-            .child(Firebase.auth.currentUser!!.uid).setValue(userMap)
+        userViewModel.user.value?.id?.let {
+            realtimeDatabase.getReference("map").child("users")
+                .child(it).setValue(userMap)
+        }
+    }
+
+    fun postMyServiceValue(
+        serviceActivatedBoolean: Boolean,
+        userViewModel: userViewModel,
+        requireContext: Context
+    ) {
+
+        val userMap = mapOf(
+            "serviceActive" to serviceActivatedBoolean
+        )
+
+        userViewModel.user.value?.id?.let {
+            realtimeDatabase.getReference("users").child("serviceValues")
+                .child(it).setValue(userMap).addOnSuccessListener {
+                    userViewModel.setBackGroundService(serviceActivatedBoolean)
+
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        requireContext,
+                        "UserService value not posted to database",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+    }
+
+    fun postMyOnlineValue(
+        online: Boolean,
+        userViewModel: userViewModel,
+        requireContext: Context
+    ) {
+
+        val userMap = mapOf(
+            "online" to online
+        )
+
+        userViewModel.user.value?.id?.let {
+            realtimeDatabase.getReference("users").child("online")
+                .child(it).setValue(userMap).addOnSuccessListener {
+                    //userViewModel.setBackGroundService(serviceActivatedBoolean)
+                    userViewModel.setOnlineValueForUser(online)
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        requireContext,
+                        "UserService value not posted to database",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+    }
+
+    fun getOnlineValues(userViewModel: userViewModel, requireContext: Context) {
+
+        userViewModel.user.value?.id?.let {
+            realtimeDatabase.getReference("users").child("online")
+                .get().addOnSuccessListener {
+                    if (it.exists()) {
+                        val temp: HashMap<Any, Any> = it.value as HashMap<Any, Any>
+                        val creatingHashMap: HashMap<String, Boolean> = hashMapOf()
+//                        var serviceItem: Boolean = false
+                        var tmpHashMap: HashMap<String, Boolean> = hashMapOf()
+
+                        temp.forEach { item ->
+                            if (item.key == userViewModel.user.value!!.id) {
+                                tmpHashMap = item.value as HashMap<String, Boolean>
+                                tmpHashMap.get("online")
+                                    ?.let { it1 -> userViewModel.setOnlineValueForUser(it1) }
+                            }
+//                            serviceItem = item.value as Boolean
+                            tmpHashMap = item.value as HashMap<String, Boolean>
+                            tmpHashMap.get("online")
+                                ?.let { it1 -> creatingHashMap.put(item.key as String, it1) }
+                        }
+                        userViewModel.setOnlineUsersMap(creatingHashMap)
+                    } else {
+                        userViewModel.setOnlineUsersMap(hashMapOf<String, Boolean>())
+                    }
+                    setOnlineValueEventListener(userViewModel, requireContext)
+
+                }.addOnFailureListener {
+                    Toast.makeText(requireContext, "UserService not fetched", Toast.LENGTH_SHORT)
+                        .show()
+                    userViewModel.setBackGroundService(false)
+                }
+        }
+    }
+
+    fun setOnlineValueEventListener(userViewModel: userViewModel, requireContext: Context) {
+        userViewModel.user.value?.id?.let {
+            realtimeDatabase.getReference("users").child("online").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(it: DataSnapshot) {
+                    if (it.exists()) {
+                        val temp: HashMap<Any, Any> = it.value as HashMap<Any, Any>
+                        val creatingHashMap: HashMap<String, Boolean> = hashMapOf()
+//                        var serviceItem: Boolean = false
+                        var tmpHashMap: HashMap<String, Boolean> = hashMapOf()
+
+                        temp.forEach { item ->
+                            if (item.key == userViewModel.user.value!!.id) {
+                                tmpHashMap = item.value as HashMap<String, Boolean>
+                                tmpHashMap.get("online")
+                                    ?.let { it1 -> userViewModel.setOnlineValueForUser(it1) }
+                            }
+//                            serviceItem = item.value as Boolean
+                            tmpHashMap = item.value as HashMap<String, Boolean>
+                            tmpHashMap.get("online")
+                                ?.let { it1 -> creatingHashMap.put(item.key as String, it1) }
+                        }
+                        userViewModel.setOnlineUsersMap(creatingHashMap)
+                    } else {
+                        userViewModel.setOnlineUsersMap(hashMapOf<String, Boolean>())
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException())
+                }
+            })
+        }
+    }
+
+    fun getMyServiceValue(userViewModel: userViewModel, requireContext: Context) {
+
+        userViewModel.user.value?.id?.let {
+            realtimeDatabase.getReference("users").child("serviceValues")
+                .child(it).get().addOnSuccessListener {
+                    if (it.exists()) {
+                        val temp: HashMap<Any, Any> = it.value as HashMap<Any, Any>
+                        var serviceItem: Boolean = false
+                        temp.forEach { item ->
+                            serviceItem = item.value as Boolean
+                        }
+                        userViewModel.setBackGroundService(serviceItem)
+                    } else {
+                        userViewModel.setBackGroundService(false)
+
+                    }
+
+                }.addOnFailureListener {
+                    Toast.makeText(requireContext, "UserService not fetched", Toast.LENGTH_SHORT)
+                        .show()
+                    userViewModel.setBackGroundService(false)
+                }
+        }
     }
 
     fun getUserLocationsData(userViewModel: userViewModel) {
@@ -1568,7 +1805,7 @@ object FirebaseHelper {
             val userLocations: MutableList<UserLocation> = mutableListOf()
 
             temp.forEach { entry ->
-                if (!entry.key.toString().equals(FirebaseAuth.getInstance().currentUser?.uid)) {
+                if (!entry.key.toString().equals(userViewModel.user.value?.id)) {
 
                     val eventMap = entry.value as HashMap<String, Any>
                     val event = UserLocation(

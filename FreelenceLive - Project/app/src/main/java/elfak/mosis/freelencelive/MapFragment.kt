@@ -3,6 +3,7 @@ package elfak.mosis.freelencelive
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
@@ -67,16 +68,13 @@ class MapFragment : Fragment(), LocationListener {
         //setEventValueListener()
 
 
-
-
-        if(userViewModel.userLocations.value?.isEmpty() == true)
+        if (userViewModel.userLocations.value?.isEmpty() == true)
             FirebaseHelper.getUserLocationsData(userViewModel)
 
         userViewModel.restartSearch()
 
 
-        if (userViewModel.users.value?.isEmpty() == true)
-        {
+        if (userViewModel.users.value?.isEmpty() == true) {
             FirebaseHelper.getOtherUsers(requireContext(), userViewModel)
         }
 
@@ -87,10 +85,35 @@ class MapFragment : Fragment(), LocationListener {
         val UserLocationsObserver = Observer<List<UserLocation>> { newValue ->
             //binding.buttonCreateJob.setText(newValue)
             val lista: List<UserLocation> = newValue
-            userViewModel.events.value?.let { writeUsersAndEventsOverlays(it, newValue, null, false) } // needs to be implemented
+            userViewModel.events.value?.let {
+                writeUsersAndEventsOverlays(
+                    it,
+                    newValue,
+                    null,
+                    false
+                )
+            } // needs to be implemented
 
         }
         userViewModel.userLocations.observe(viewLifecycleOwner, UserLocationsObserver)
+
+        val OnlineUsersObserver = Observer<HashMap<String, Boolean>> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+            //val lista: List<UserLocation> = newValue
+            userViewModel.events.value?.let { events ->
+                userViewModel.userLocations.value?.let { userLocations ->
+                    writeUsersAndEventsOverlays(
+                        events,
+                        userLocations,
+                        null,
+                        false
+                    )
+                }
+            } // needs to be implemented
+
+        }
+        userViewModel.onlineUsers.observe(viewLifecycleOwner, OnlineUsersObserver)
+
 
         if (userViewModel.events.value?.isEmpty() == true)
             FirebaseHelper.getAllEvents(requireContext(), userViewModel)
@@ -101,8 +124,10 @@ class MapFragment : Fragment(), LocationListener {
             //addFriendsToLinearLayout(lista, false, "")
             //writeAllEventsOverlays(lista)
             userViewModel.userLocations.value?.let {
-                writeUsersAndEventsOverlays(newValue,
-                    it, null, false)
+                writeUsersAndEventsOverlays(
+                    newValue,
+                    it, null, false
+                )
             }
         }
         userViewModel.events.observe(viewLifecycleOwner, EventsObserver)
@@ -115,7 +140,8 @@ class MapFragment : Fragment(), LocationListener {
                 userViewModel.userLocations.value?.let {
                     writeUsersAndEventsOverlays(
                         userViewModel.events.value!!,
-                        it, newValue, true)
+                        it, newValue, true
+                    )
                 }
 
             }
@@ -146,7 +172,8 @@ class MapFragment : Fragment(), LocationListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val locManager : LocationManager = requireActivity().getSystemService(Activity.LOCATION_SERVICE) as LocationManager
+        val locManager: LocationManager =
+            requireActivity().getSystemService(Activity.LOCATION_SERVICE) as LocationManager
         locManager.requestLocationUpdates(
             LocationManager.FUSED_PROVIDER,
             5555,
@@ -248,12 +275,17 @@ class MapFragment : Fragment(), LocationListener {
         map.getOverlays().add(mScaleBarOverlay);
     }
 
-    private fun writeUsersAndEventsOverlays(listOfEvents: List<Event>, listOfUserLocations: List<UserLocation>, listaFiltera: List<Boolean>?, filtersFlag: Boolean ){
+    private fun writeUsersAndEventsOverlays(
+        listOfEvents: List<Event>,
+        listOfUserLocations: List<UserLocation>,
+        listaFiltera: List<Boolean>?,
+        filtersFlag: Boolean
+    ) {
 
         map.overlays.removeAll(map.overlays)
         setBasicMapOverlays()
 
-        if(listOfEvents.isNotEmpty()) {
+        if (listOfEvents.isNotEmpty()) {
             if (filtersFlag) {
                 if (listaFiltera != null) {
                     writeFilteredEventsOverlays(listOfEvents, listaFiltera)
@@ -261,7 +293,7 @@ class MapFragment : Fragment(), LocationListener {
             } else
                 writeAllEventsOverlays(listOfEvents)
         }
-        if(listOfUserLocations.isNotEmpty())
+        if (listOfUserLocations.isNotEmpty())
             writeAllUserLocationsOverlays(listOfUserLocations)
     }
 
@@ -322,8 +354,13 @@ class MapFragment : Fragment(), LocationListener {
         var circlePoints: MutableList<GeoPoint> = mutableListOf<GeoPoint>();
 
         val myLocation: GeoPoint = myLocationOverlay.myLocation
-        for (i in 0..360){
-            circlePoints.add(GeoPoint(myLocation.latitude , myLocation.longitude ).destinationPoint(radius, i.toDouble()));
+        for (i in 0..360) {
+            circlePoints.add(
+                GeoPoint(myLocation.latitude, myLocation.longitude).destinationPoint(
+                    radius,
+                    i.toDouble()
+                )
+            );
 
         }
 
@@ -356,11 +393,26 @@ class MapFragment : Fragment(), LocationListener {
     private fun writeUserOverlay(element: UserLocation) {
         val startMarker = Marker(map)
         startMarker.position = GeoPoint(element.latitude, element.longitude)
-        startMarker.icon = getResources().getDrawable(R.drawable.icons8_male_user48)
+
+        if (userViewModel.onlineUsers.value?.containsKey(element.userId) == true) {
+            if (userViewModel.onlineUsers.value?.get(element.userId )!!){
+                startMarker.icon = getResources().getDrawable(R.drawable.online_online)
+
+            } else{
+                startMarker.icon = getResources().getDrawable(R.drawable.online_offline)
+
+            }
+        } else {
+            startMarker.icon = getResources().getDrawable(R.drawable.online_unknown)
+
+        }
+
+
         startMarker.setTitle("Start point");
         startMarker.setOnMarkerClickListener { _, _ ->
 
-            var selectedUser: User? = userViewModel.users.value?.filter { it.id.equals(element.userId) }?.firstOrNull()
+            var selectedUser: User? =
+                userViewModel.users.value?.filter { it.id.equals(element.userId) }?.firstOrNull()
 
             if (selectedUser != null) {
                 userViewModel.setSelectedUser(selectedUser)
@@ -382,7 +434,10 @@ class MapFragment : Fragment(), LocationListener {
             "lon" to location.longitude
         )
 
-        FirebaseHelper.postMyLocation(GeoPoint(location.latitude, location.longitude))
+        FirebaseHelper.postMyLocation(
+            GeoPoint(location.latitude, location.longitude),
+            userViewModel
+        )
 
 //        //ogranicavanje skrolovanja mape
 //        val constraintOffset = 0.1

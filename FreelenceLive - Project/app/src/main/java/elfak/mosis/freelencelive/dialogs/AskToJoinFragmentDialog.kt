@@ -86,7 +86,7 @@ class AskToJoinFragmentDialog : DialogFragment() {
 
         val button: Button = binding.buttonAsk
 
-        if (selectedEvent.organiser.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
+        if (selectedEvent.organiser.equals(userViewModel.user.value?.id)) {
             button.setText("MY EVENT")
             button.setBackgroundTintList(
                 ColorStateList.valueOf(
@@ -152,7 +152,7 @@ class AskToJoinFragmentDialog : DialogFragment() {
         var flag = false
         val lista: List<askToJoin>? = userViewModel.askToJoin.value
         lista?.forEach {
-            if (it.issuedBy.equals(FirebaseAuth.getInstance().currentUser?.uid) && it.joinToJob.equals(
+            if (it.issuedBy.equals(userViewModel.user.value?.id) && it.joinToJob.equals(
                     selectedEvent.id
                 )
             ) {
@@ -163,7 +163,7 @@ class AskToJoinFragmentDialog : DialogFragment() {
     }
 
     private fun checkIfYouAreAlreadyAccepted(): Boolean {
-        var myUserId :String = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        var myUserId : String? = userViewModel.user.value?.id
         var flag = false
 
         var tmpMapa: MutableMap<String, Boolean> =
@@ -215,7 +215,7 @@ class AskToJoinFragmentDialog : DialogFragment() {
             userViewModel.users.value?.filter { it.id.equals(selectedEvent.organiser) }
                 ?.firstOrNull()
             binding.organisedByText.setText(issuedByUser?.userName)
-        if (selectedEvent.organiser.equals(FirebaseAuth.getInstance().currentUser?.uid))
+        if (selectedEvent.organiser.equals(userViewModel.user.value?.id))
             binding.organisedByTitle.setText("")
     }
 

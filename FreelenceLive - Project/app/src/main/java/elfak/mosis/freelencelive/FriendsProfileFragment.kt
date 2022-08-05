@@ -113,26 +113,6 @@ class FriendsProfileFragment : Fragment() {
         return binding.root
     }
 
-    private fun setRating(lista: List<Rating>) {
-
-        var total: Float = 0f
-        for (element in lista) {
-            total += element.score
-        }
-
-
-        val totalScore = total//userViewModel.selectedUser.value?.totalScore?.toFloat()
-        val numOfRatings = lista.size //userViewModel.selectedUser.value?.numOfRatings
-
-        var ratingResult = 0f
-
-        if (!numOfRatings!!.equals(0)) {
-            ratingResult = totalScore?.div(numOfRatings!!)!!
-            binding.Rating.rating = ratingResult!!
-            binding.ScoreText.text = ratingResult.toString()!!
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -164,19 +144,34 @@ class FriendsProfileFragment : Fragment() {
         binding.rateButton.setOnClickListener {
             rateSelectedUser()
         }
-
-        //addCommentsToLinearLayout(lista)
-
         binding.leaveAComment.setOnClickListener {
             PostAComment()
         }
+    }
 
+    private fun setRating(lista: List<Rating>) {
+
+        var total: Float = 0f
+        for (element in lista) {
+            total += element.score
+        }
+
+        val totalScore = total//userViewModel.selectedUser.value?.totalScore?.toFloat()
+        val numOfRatings = lista.size //userViewModel.selectedUser.value?.numOfRatings
+
+        var ratingResult = 0f
+
+        if (!numOfRatings!!.equals(0)) {
+            ratingResult = totalScore?.div(numOfRatings!!)!!
+            binding.Rating.rating = ratingResult!!
+            binding.ScoreText.text = ratingResult.toString()!! +"/"+ numOfRatings.toString() + " reviews"
+        }
     }
 
     private fun rateSelectedUser() {
         val score: Float = binding.Rating.rating
         val issuedFor: String = userViewModel.selectedUser.value?.id.toString()
-        val issuedBy: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        val issuedBy: String = userViewModel.user.value?.id!!//FirebaseAuth.getInstance().currentUser?.uid.toString()
 
         val newRating: Rating = Rating("", issuedBy, issuedFor, score)
         pd.setMessage("Posting...")
@@ -193,7 +188,8 @@ class FriendsProfileFragment : Fragment() {
     private fun PostAComment() {
         val text: String = binding.commentText.text.toString()
         val issuedFor: String = userViewModel.selectedUser.value?.id.toString()
-        val issuedBy: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        val issuedBy: String =
+            userViewModel.user.value?.id!!//FirebaseAuth.getInstance().currentUser?.uid.toString()
 
         val newComment: Comment = Comment(issuedBy, issuedFor, text)
         pd.setMessage("Posting...")

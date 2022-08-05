@@ -262,7 +262,7 @@ class JobViewFragment : Fragment() {
         var flag = false
         val lista: List<friendRequest>? = userViewModel.friendReqeusts.value
         lista?.forEach {
-            if (it.issuedBy.equals(FirebaseAuth.getInstance().currentUser?.uid)
+            if (it.issuedBy.equals(userViewModel.user.value?.id)
                 && it.requestTo.equals(friendId)
             ) {
                 return true

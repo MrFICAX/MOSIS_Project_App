@@ -48,7 +48,7 @@ class InviteFriendFragmentDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Toast.makeText(requireContext(), "POZDRAV IZ DIALOG FRAGMENTA!", Toast.LENGTH_LONG).show()
+       // Toast.makeText(requireContext(), "POZDRAV IZ DIALOG FRAGMENTA!", Toast.LENGTH_LONG).show()
 
         selectedUser = userViewModel.selectedUser.value
         binding.userNameText.setText(selectedUser?.userName)
@@ -56,7 +56,7 @@ class InviteFriendFragmentDialog : DialogFragment() {
         Glide.with(this).load(selectedUser?.imageUrl).into(binding.imageCameraBackground)
 
         listaMyJobsa =
-            userViewModel.events.value?.filter { it.organiser.equals(FirebaseAuth.getInstance().currentUser?.uid) }
+            userViewModel.events.value?.filter { it.organiser.equals(userViewModel.user.value?.id) }
 
         listaMyJobsa = listaMyJobsa?.filter { !it.listOfUsers.containsKey(selectedUser?.id) }
 

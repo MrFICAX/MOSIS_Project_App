@@ -239,7 +239,7 @@ class InvitationsFragment : Fragment() {
 
             for (singleRequest in listaRequesta) {
 
-                if (singleRequest.requestTo.equals(FirebaseAuth.getInstance().currentUser?.uid)) {
+                if (singleRequest.requestTo.equals(userViewModel.user.value?.id)) {
 
 
                     val viewItem: View = inflater.inflate(

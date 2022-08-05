@@ -9,6 +9,7 @@ import elfak.mosis.freelencelive.data.*
 import java.sql.Time
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.collections.HashMap
 
 class userViewModel : ViewModel() {
 
@@ -16,9 +17,14 @@ class userViewModel : ViewModel() {
     val newEvent: LiveData<Event>
         get() = _newEvent
 
-    private val _backGroundServiceActivated = MutableLiveData<Boolean>()
+    private val _backGroundServiceActivated = MutableLiveData<Boolean>( false )
     val backGroundServiceActivated: LiveData<Boolean>
         get() = _backGroundServiceActivated
+
+    private val _onlineActivated = MutableLiveData<Boolean>( false )
+    val onlineActivated: LiveData<Boolean>
+        get() = _onlineActivated
+
 
     private var _dateChanged: Boolean = false
     val dateChanged: Boolean
@@ -31,6 +37,10 @@ class userViewModel : ViewModel() {
     private val _events: MutableLiveData<List<Event>> = MutableLiveData(listOf())
     val events: LiveData<List<Event>>
         get() = _events
+
+    private val _onlineUsers: MutableLiveData<HashMap<String, Boolean>> = MutableLiveData(hashMapOf())
+    val onlineUsers: LiveData<HashMap<String, Boolean>>
+        get() = _onlineUsers
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
@@ -90,6 +100,12 @@ class userViewModel : ViewModel() {
     fun setBackGroundService(flag: Boolean){
         _backGroundServiceActivated.value = flag
     }
+
+    fun setOnlineValueForUser(flag: Boolean){
+        _onlineActivated.value = flag
+        _events.value = _events.value
+    }
+
     fun setSearchBarEventName(input: String) {
         _searchBarEventName.value = input
 
@@ -307,8 +323,12 @@ class userViewModel : ViewModel() {
         _user.value = newUser
     }
 
-    fun setNewUser(user: User) {
+    fun setNewUser(user: User?) {
         _user.value = user
+    }
+
+    fun setOnlineUsersMap(mapa: HashMap<String, Boolean>) {
+        _onlineUsers.value = mapa
     }
 
     fun setNewEventDate(year: Int, month: Int, day: Int) {

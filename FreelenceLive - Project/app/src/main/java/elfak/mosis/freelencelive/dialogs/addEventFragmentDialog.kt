@@ -340,7 +340,7 @@ class addEventFragmentDialog : DialogFragment() {
 
     private fun filterByFriends(listaKorisnika: List<User>): List<User> {
 
-        return listaKorisnika.filter { it.friendsList.containsKey(FirebaseAuth.getInstance().currentUser?.uid) }
+        return listaKorisnika.filter { it.friendsList.containsKey(userViewModel.user.value?.id) }
     }
 
     override fun onDestroy() {

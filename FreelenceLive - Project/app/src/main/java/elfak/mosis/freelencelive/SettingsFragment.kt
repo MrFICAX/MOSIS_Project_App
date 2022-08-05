@@ -1,14 +1,13 @@
 package elfak.mosis.freelencelive
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
+import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
 import elfak.mosis.freelencelive.databinding.FragmentSettingsBinding
 import elfak.mosis.freelencelive.model.fragmentViewModel
 import elfak.mosis.freelencelive.model.userViewModel
@@ -41,14 +40,21 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.serviceSwitch.isChecked = userViewModel.backGroundServiceActivated.value == true
+        binding.onlineSwitch.isChecked = userViewModel.onlineActivated.value == true
         binding.shapeableImageView.setOnClickListener {
             val action = SettingsFragmentDirections.actionSettingsToStartPage()
             NavHostFragment.findNavController(this).navigate(action)
         }
 
-        binding.serviceSwitch.setOnCheckedChangeListener({ _, isChecked ->
-                userViewModel.setBackGroundService(isChecked)
-        })
+        binding.serviceSwitch.setOnCheckedChangeListener { _, isChecked ->
+            FirebaseHelper.postMyServiceValue(isChecked, userViewModel, requireContext())
+        }
+
+        binding.onlineSwitch.setOnCheckedChangeListener{ _, isCheched ->
+            FirebaseHelper.postMyOnlineValue(isCheched, userViewModel, requireContext())
+
+        }
 
 //        binding.toggleOnline.setOnClickListener {
 //            if(!online){

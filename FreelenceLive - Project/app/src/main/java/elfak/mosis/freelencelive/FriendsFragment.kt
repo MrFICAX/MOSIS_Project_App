@@ -129,7 +129,7 @@ class FriendsFragment : Fragment() {
                 viewItem.findViewById(R.id.send_request_button) as MaterialButton
 
 
-            if (singleUser.friendsList.containsKey(FirebaseAuth.getInstance().currentUser?.uid)) {
+            if (singleUser.friendsList.containsKey(userViewModel.user.value?.id)) {
                 sendRequestButton.setText("FRIENDS")
                 sendRequestButton.setBackgroundTintList(
                     ColorStateList.valueOf(
@@ -198,7 +198,7 @@ class FriendsFragment : Fragment() {
         var flag = false
         val lista: List<friendRequest>? = userViewModel.friendReqeusts.value
         lista?.forEach {
-            if (it.issuedBy.equals(FirebaseAuth.getInstance().currentUser?.uid)
+            if (it.issuedBy.equals(userViewModel.user.value?.id)
                 && it.requestTo.equals(friendId)
             ) {
                 return true

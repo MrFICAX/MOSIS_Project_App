@@ -122,7 +122,7 @@ class MyProfileFragment : Fragment() {
         if(!inputPhoneNumber.equals(userViewModel.user.value?.phoneNumber))
             mapa.put("phoneNumber", inputPhoneNumber)
 
-        FirebaseHelper.updateUserData(mapa, pd, requireContext(), findNavController())
+        FirebaseHelper.updateUserData(mapa, userViewModel, pd, requireContext(), findNavController())
 
     }
 
@@ -138,7 +138,7 @@ class MyProfileFragment : Fragment() {
             imageUri = data?.data
             val bitmapa:Bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
 
-            FirebaseHelper.updateProfilePhoto(pd, bitmapa, binding, imageUri)
+            FirebaseHelper.updateProfilePhoto(pd, bitmapa, userViewModel, binding, imageUri)
 
         }
     }

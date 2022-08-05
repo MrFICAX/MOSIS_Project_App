@@ -18,6 +18,7 @@ import elfak.mosis.freelencelive.R
 import elfak.mosis.freelencelive.data.User
 import elfak.mosis.freelencelive.databinding.FragmentBottomNavBarBinding
 import elfak.mosis.freelencelive.model.fragmentViewModel
+import elfak.mosis.freelencelive.model.userViewModel
 
 
 class BottomNavBarFragment : Fragment() {
@@ -25,6 +26,7 @@ class BottomNavBarFragment : Fragment() {
     private lateinit var binding: FragmentBottomNavBarBinding
     private var action: NavDirections? = null
     private val fragmentViewModel: fragmentViewModel by activityViewModels()
+    private val userViewModel: userViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +97,8 @@ class BottomNavBarFragment : Fragment() {
                 R.id.myJobsFragment -> {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = MyJobsFragmentDirections.actionMyJobsToInvitations()
+                    userViewModel.restartAdvancedSearch()
+
                 }
                 R.id.dashboardFragment -> {
                     //navController.navigate(R.id.action_startpage_to_invitations)
@@ -157,6 +161,8 @@ class BottomNavBarFragment : Fragment() {
                 R.id.myJobsFragment -> {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = MyJobsFragmentDirections.actionMyJobsToStartpage()
+                    userViewModel.restartAdvancedSearch()
+
                 }
                 R.id.dashboardFragment -> {
                     //navController.navigate(R.id.action_startpage_to_invitations)
@@ -217,6 +223,8 @@ class BottomNavBarFragment : Fragment() {
                 R.id.myJobsFragment -> {
                     //navController.navigate(R.id.action_startpage_to_invitations)
                     action = MyJobsFragmentDirections.actionMyJobsToNotifications()
+                    userViewModel.restartAdvancedSearch()
+
                 }
                 R.id.dashboardFragment -> {
                     //navController.navigate(R.id.action_startpage_to_invitations)

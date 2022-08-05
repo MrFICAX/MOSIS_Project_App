@@ -3,36 +3,24 @@ package elfak.mosis.freelencelive
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import elfak.mosis.freelencelive.R
-import elfak.mosis.freelencelive.data.Event
 import elfak.mosis.freelencelive.data.User
+import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
+import elfak.mosis.freelencelive.dialogs.InviteFriendFragmentDialog
 import elfak.mosis.freelencelive.model.userViewModel
 import elfak.mosis.freelencelive.services.NotificationsService
-import java.io.Serializable
 
 class MainWindowActivity : AppCompatActivity() {
 
@@ -41,7 +29,7 @@ class MainWindowActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     lateinit var toggle: ActionBarDrawerToggle
     lateinit var drawerLayout: DrawerLayout
-
+    private var notificationIntentFlag = false
 
     //val object = intent.extras.get("extra_object") as Object
     //val user = intent.getSerializableExtra("user") as? User
@@ -56,9 +44,25 @@ class MainWindowActivity : AppCompatActivity() {
         }
         userViewModel.backGroundServiceActivated.observe(this, BackGroundServiceObserver)
 
+        if (this.intent.hasExtra("user")) {
+            notificationIntentFlag = false
+            val newUser: User = this.intent.getSerializableExtra("user") as User
+            userViewModel.setNewUser(newUser)
+            FirebaseHelper.getMyServiceValue(userViewModel, this)
+            FirebaseHelper.setOnlineValueEventListener(userViewModel, this)
+        } else if (this.intent.hasExtra("currentUserId") && this.intent.hasExtra("nearUserId")) {
+//            Toast.makeText(
+//                this,
+//                this.intent.getStringExtra("currentUserId") + this.intent.getStringExtra("nearUserId"),
+//                Toast.LENGTH_SHORT
+//            ).show()
+            FirebaseHelper.getUserData(this, this, userViewModel, this)
+            notificationIntentFlag = true
 
-        val newUser: User = this.intent.getSerializableExtra("user") as User
-        userViewModel.setNewUser(newUser)
+        } else {
+            startActivity(Intent(this, MainActivity::class.java))
+            notificationIntentFlag = false
+        }
 
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
 
@@ -109,12 +113,15 @@ class MainWindowActivity : AppCompatActivity() {
                     drawerLayout.close()
                 }
                 R.id.nav_logout -> {
+                    FirebaseHelper.postMyOnlineValue(false, userViewModel, this)
+                    userViewModel.setNewUser(null)
+
+                    FirebaseAuth.getInstance().signOut()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     this.finish()
                     drawerLayout.close()
 
-                    FirebaseAuth.getInstance().signOut()
                 }
 //                R.id.nav_slideshow -> {
 //                    Toast.makeText(this, "SLIDESHOW!", Toast.LENGTH_LONG).show()
@@ -125,13 +132,28 @@ class MainWindowActivity : AppCompatActivity() {
         val headerView = navView.getHeaderView(0)
         var userNameText: TextView = headerView.findViewById(R.id.UserNameText)
         //userNameText.setText("MrFICAX")
+        val profilePicture: ImageView = headerView.findViewById(R.id.shapeableImageViewUser)
 
         val UserObserver = Observer<User> { newValue ->
             //binding.buttonCreateJob.setText(newValue)
-            userNameText.setText(newValue.userName)
-
+            userNameText.setText(newValue?.userName)
+            Glide.with(this).load(userViewModel.user.value?.imageUrl).into(profilePicture)
         }
         userViewModel.user.observe(this, UserObserver)
+
+        val OtherUsersObserver = Observer<List<User>> { newValue ->
+            //binding.buttonCreateJob.setText(newValue)
+
+            val nearUserId: String? = this.intent.getStringExtra("nearUserId")
+            val listOfUsers: List<User> = newValue
+            var selectedUser: User? = listOfUsers.filter { it.id.equals(nearUserId) }.firstOrNull()
+
+            if (notificationIntentFlag && selectedUser?.imageUrl?.isNotEmpty() == true)
+                setAndOpenSelectedUser(nearUserId)
+
+
+        }
+        userViewModel.users.observe(this, OtherUsersObserver)
 
 
         val shapeableView: ImageView = headerView.findViewById(R.id.shapeableImageView)
@@ -139,9 +161,6 @@ class MainWindowActivity : AppCompatActivity() {
             drawerLayout.close()
         }
 
-        val profilePicture: ImageView = headerView.findViewById(R.id.shapeableImageViewUser)
-
-        Glide.with(this).load(userViewModel.user.value?.imageUrl).into(profilePicture)
 
         val profileConstraint =
             headerView.findViewById<ConstraintLayout>(R.id.ToolbarConstraintUser)
@@ -151,6 +170,19 @@ class MainWindowActivity : AppCompatActivity() {
             drawerLayout.close()
         }
 
+    }
+
+    private fun setAndOpenSelectedUser(nearUserId: String?) {
+        var selectedUser: User? =
+            userViewModel.users.value?.filter { it.id.equals(nearUserId) }?.firstOrNull()
+
+        if (selectedUser != null) {
+            userViewModel.setSelectedUser(selectedUser)
+        }
+
+        val fragmentNovi = InviteFriendFragmentDialog()
+        fragmentNovi.show(supportFragmentManager, "customString")
+        notificationIntentFlag = false
     }
 
     private fun StartBackgroundService(newValue: Boolean?) {
@@ -203,6 +235,13 @@ class MainWindowActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Intent(
+            applicationContext,
+            NotificationsService::class.java
+        )
+        stopService(intent)
+
+        FirebaseHelper.postMyOnlineValue(false, userViewModel, this)
     }
 
 
