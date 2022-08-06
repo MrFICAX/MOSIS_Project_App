@@ -174,20 +174,20 @@ class NotificationsFragment : Fragment() {
                         itemMap.setOnClickListener {
                             if (joinToJob != null) {
                                 userViewModel.setSelectedEvent(joinToJob)
-                                Toast.makeText(
-                                    requireContext(),
-                                    "KLIK NA VIEW LOCATION!",
-                                    Toast.LENGTH_LONG
-                                )
-                                    .show()
+//                                Toast.makeText(
+//                                    requireContext(),
+//                                    "KLIK NA VIEW LOCATION!",
+//                                    Toast.LENGTH_LONG
+//                                )
+//                                    .show()
                                 val action =
                                     NotificationsFragmentDirections.actionNotificationsToViewLocationOnMap()
                                 findNavController().navigate(action)
                             }
                         }
                         acceptButton.setOnClickListener {
-                            Toast.makeText(requireContext(), "ACCEPT BUTTON!", Toast.LENGTH_LONG)
-                                .show()
+                            //Toast.makeText(requireContext(), "ACCEPT BUTTON!", Toast.LENGTH_LONG)
+                            //    .show()
 
                             if (joinToJob != null) {
                                 FirebaseHelper.acceptAskToJoin(
@@ -201,8 +201,8 @@ class NotificationsFragment : Fragment() {
                             }
                         }
                         declineButton.setOnClickListener {
-                            Toast.makeText(requireContext(), "DECLINE BUTTON!", Toast.LENGTH_LONG)
-                                .show()
+                            //Toast.makeText(requireContext(), "DECLINE BUTTON!", Toast.LENGTH_LONG)
+                            //    .show()
                             FirebaseHelper.declineAskToJoin(
                                 singleAskToJoin,
                                 requireContext(),

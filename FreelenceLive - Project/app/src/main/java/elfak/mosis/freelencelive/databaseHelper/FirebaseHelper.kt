@@ -520,7 +520,7 @@ object FirebaseHelper {
             user!!.id
         ).update(mapa as Map<String, Any>).addOnSuccessListener {
             Toast.makeText(context, "Data updated successfully!", Toast.LENGTH_LONG).show()
-
+            userViewModel.updateUserData(user, mapa)
             navController.popBackStack()
         }.addOnFailureListener {
             Toast.makeText(context, "Data not updated !", Toast.LENGTH_LONG).show()
@@ -881,7 +881,7 @@ object FirebaseHelper {
             .document(event.id)
             .update(mapOf("listOfUsers" to tmpMapa as Map<String, Any>)).addOnSuccessListener {
 
-                Toast.makeText(requireContext, "Event updated", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext, "Event updated", Toast.LENGTH_SHORT).show()
                 userViewModel.updateJob(event, meId)
                 pd.dismiss()
                 //invitationsLayout.removeView(viewItem)
@@ -914,7 +914,7 @@ object FirebaseHelper {
             .document(event.id)
             .update(mapOf("listOfUsers" to tmpMapa as Map<String, Any>)).addOnSuccessListener {
 
-                Toast.makeText(requireContext, "Event updated", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext, "Event updated", Toast.LENGTH_SHORT).show()
                 //userViewModel.updateJob(event, meId)
                 pd.dismiss()
                 //invitationsLayout.removeView(viewItem)

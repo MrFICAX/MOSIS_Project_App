@@ -58,6 +58,7 @@ class ViewLocationOnMapFragment : Fragment() {
 //            writeOverlayAfterClick(GeoPoint(newValue.latitude, newValue.longitude))
 
             setSelectedEventOverlay(GeoPoint(newValue.latitude, newValue.longitude))
+            setJobTitle(newValue.name)
         }
         userViewModel.selectedEvent.observe(viewLifecycleOwner, NewEventObserver)
 
@@ -69,6 +70,10 @@ class ViewLocationOnMapFragment : Fragment() {
 
         return binding.root
         //return inflater.inflate(R.layout.fragment_view_location_on_map, container, false)
+    }
+
+    private fun setJobTitle(name: String) {
+        binding.viewLocation.setText(name)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -106,7 +111,7 @@ class ViewLocationOnMapFragment : Fragment() {
         val startMarker = Marker(map)
         startMarker.position = location
         startMarker.icon = getResources().getDrawable(R.drawable.point_on_map)
-        startMarker.setTitle("Start point");
+        //startMarker.setTitle("Start point");
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         map.overlays.add(startMarker)
 

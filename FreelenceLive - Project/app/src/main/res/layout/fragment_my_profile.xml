@@ -255,52 +255,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/passwordTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="204dp"
-            android:gravity="center"
-            android:text="@string/password_"
-            android:textAlignment="center"
-            android:textColor="@color/light_pink"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordLayout"
-            android:layout_width="177dp"
-            android:layout_height="58dp"
-            android:hint="@string/new_pass"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:endIconMode="clear_text"
-            app:hintTextColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.07"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordTitle"
-            app:layout_constraintVertical_bias="0.0"
-            app:passwordToggleEnabled="true"
-            app:startIconDrawable="@drawable/edit_text">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passwordText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/rectange_job_title"
-                android:backgroundTint="@color/purple_200"
-                android:inputType="textPassword"
-                android:textColor="@color/black" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
             android:id="@+id/FirstNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -356,7 +310,7 @@
             android:textColor="@color/light_pink"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.976"
+            app:layout_constraintHorizontal_bias="0.518"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -373,7 +327,7 @@
             app:hintTextColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.97"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/LastNameTitle"
             app:layout_constraintVertical_bias="0.0"

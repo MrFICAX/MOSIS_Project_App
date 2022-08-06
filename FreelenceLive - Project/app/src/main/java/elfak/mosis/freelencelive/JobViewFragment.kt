@@ -224,12 +224,12 @@ class JobViewFragment : Fragment() {
                     )
                     sendRequestButton.setOnClickListener {
                         //SLANJE ZAHTEVA ZA PRIJATELJSTVO
-                        Toast.makeText(
-                            requireContext(),
-                            "SALJEM ZAHTEV ZA PRIJATELJSTVO!",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        pd.setMessage("REGISTRATING...")
+//                        Toast.makeText(
+//                            requireContext(),
+//                            "Sending friend!",
+//                            Toast.LENGTH_LONG
+//                        ).show()
+                        pd.setMessage("Sending friend request...")
                         pd.show()
                         sendfriendRequest(singleUser.id, sendRequestButton)
                     }

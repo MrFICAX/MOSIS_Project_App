@@ -75,7 +75,7 @@ class MyProfileFragment : Fragment() {
             {
                 updateUserInDatabase()
             } else{
-                Toast.makeText(requireContext(), "Polja ne smeju biti prazna", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Fields cannot be empty!", Toast.LENGTH_LONG).show()
             }
         }
 

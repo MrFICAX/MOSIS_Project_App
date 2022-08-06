@@ -122,12 +122,15 @@ class AskToJoinFragmentDialog : DialogFragment() {
                     pd.setMessage("SENDING...")
                     pd.show()
                     declineInvitation(selectedEvent, userViewModel)
+                    dialog?.dismiss()
                 }
             } else
                 button.setOnClickListener {
                     pd.setMessage("SENDING...")
                     pd.show()
                     sendAskToJoinRequest(button)
+                    dialog?.dismiss()
+
                 }
             }
         }

@@ -492,6 +492,19 @@ class userViewModel : ViewModel() {
         }
     }
 
+    fun updateUserData(user: User, map: HashMap<String, String>){
+
+        if (map.containsKey("userName"))
+            user.userName = map.get("userName").toString()
+        if (map.containsKey("firstName"))
+            user.firstName = map.get("firstName").toString()
+        if (map.containsKey("lastName"))
+            user.lastName = map.get("lastName").toString()
+        if (map.containsKey("phoneNumber"))
+            user.phoneNumber = map.get("phoneNumber").toString()
+
+    }
+
 
     init {
         setNewEvent()

@@ -333,7 +333,7 @@ class SetLocationFragment : Fragment() {
         startMarker.position = startPoint
         //startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         startMarker.icon = getResources().getDrawable(R.drawable.job_icon)
-        startMarker.setTitle("Start point");
+        //startMarker.setTitle("Start point");
 
         startMarker.setOnMarkerClickListener { _, _ ->
 
@@ -358,7 +358,7 @@ class SetLocationFragment : Fragment() {
         val startMarker = Marker(map)
         startMarker.position = location
         startMarker.icon = getResources().getDrawable(R.drawable.point_on_map)
-        startMarker.setTitle("Start point");
+        //startMarker.setTitle("Start point");
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         map.overlays.add(startMarker)
 

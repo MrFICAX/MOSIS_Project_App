@@ -375,7 +375,7 @@ class MapFragment : Fragment(), LocationListener {
         val startMarker = Marker(map)
         startMarker.position = GeoPoint(event.latitude, event.longitude)
         startMarker.icon = getResources().getDrawable(R.drawable.job_icon)
-        startMarker.setTitle("Start point");
+        //startMarker.setTitle("Start point");
         startMarker.setOnMarkerClickListener { _, _ ->
 
             userViewModel.setSelectedEvent(event)
@@ -408,7 +408,7 @@ class MapFragment : Fragment(), LocationListener {
         }
 
 
-        startMarker.setTitle("Start point");
+        //startMarker.setTitle("Start point");
         startMarker.setOnMarkerClickListener { _, _ ->
 
             var selectedUser: User? =

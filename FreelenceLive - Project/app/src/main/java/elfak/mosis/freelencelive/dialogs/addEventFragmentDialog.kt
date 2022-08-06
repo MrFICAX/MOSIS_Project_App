@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -294,6 +295,10 @@ class addEventFragmentDialog : DialogFragment() {
                 inflater.inflate(elfak.mosis.freelencelive.R.layout.user_item, friendsView, false)
             val imageView: ImageView =
                 viewItem.findViewById(elfak.mosis.freelencelive.R.id.imageView) as ImageView
+            val imageView2: ImageView =
+                viewItem.findViewById(elfak.mosis.freelencelive.R.id.imageView2) as ImageView
+
+            imageView2.isVisible = false
 
             imageView.setOnClickListener {
                 //appViewModel.selectedUser = nizKorisnika[i]

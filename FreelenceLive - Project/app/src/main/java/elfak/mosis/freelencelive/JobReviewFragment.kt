@@ -218,7 +218,7 @@ class JobReviewFragment : Fragment() {
         fab.isVisible = false
         //imageView.background = R.drawable.rectangle_10_shape.toDrawable()
         imageView.setOnClickListener {
-            Toast.makeText(context, "POZDRAV CLIKC!", Toast.LENGTH_LONG).show()
+            //Toast.makeText(context, "POZDRAV CLIKC!", Toast.LENGTH_LONG).show()
             OpenGalleryToAddPhoto()
         }
         gallery.addView(viewItem)

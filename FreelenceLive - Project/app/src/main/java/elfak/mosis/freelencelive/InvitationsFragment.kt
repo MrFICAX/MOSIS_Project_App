@@ -257,12 +257,11 @@ class InvitationsFragment : Fragment() {
                         viewItem.findViewById(R.id.linearLayoutDecline) as LinearLayout
 
                     acceptButton.setOnClickListener {
-                        Toast.makeText(requireContext(), "ACCEPT BUTTON!", Toast.LENGTH_LONG).show()
+                       // Toast.makeText(requireContext(), "ACCEPT BUTTON!", Toast.LENGTH_LONG).show()
                         acceptRequest(singleRequest, viewItem, invitationsLayout)
                     }
                     declineButton.setOnClickListener {
-                        Toast.makeText(requireContext(), "DECLINE BUTTON!", Toast.LENGTH_LONG)
-                            .show()
+                        //Toast.makeText(requireContext(), "DECLINE BUTTON!", Toast.LENGTH_LONG).show()
                         declineRequest(singleRequest, viewItem, invitationsLayout)
                     }
 

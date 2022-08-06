@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -58,11 +59,13 @@ class MainWindowActivity : AppCompatActivity() {
 //            ).show()
             FirebaseHelper.getUserData(this, this, userViewModel, this)
             notificationIntentFlag = true
+            FirebaseHelper.postMyOnlineValue(true, userViewModel, this)
 
         } else {
             startActivity(Intent(this, MainActivity::class.java))
             notificationIntentFlag = false
         }
+
 
         drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
 
@@ -187,21 +190,20 @@ class MainWindowActivity : AppCompatActivity() {
 
     private fun StartBackgroundService(newValue: Boolean?) {
         if (newValue == true) {
-            Intent(
+            val intent = Intent(
                 applicationContext,
                 NotificationsService::class.java
-            ).also { intent ->
-                stopService(intent)
-                startService(intent)
+            )
+            stopService(intent)
+            startService(intent)
 
-            }
         } else {
-            Intent(
+            val intent = Intent(
                 applicationContext,
                 NotificationsService::class.java
-            ).also { intent ->
-                stopService(intent)
-            }
+            )
+            stopService(intent)
+
         }
     }
 
@@ -215,6 +217,7 @@ class MainWindowActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
+
     }
 
     override fun onPause() {
@@ -222,11 +225,20 @@ class MainWindowActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
+        FirebaseHelper.postMyOnlineValue(true, userViewModel, this)
         super.onStart()
+
     }
 
     override fun onStop() {
+        val intent = Intent(
+            applicationContext,
+            NotificationsService::class.java
+        )
+        stopService(intent)
         super.onStop()
+
+        //FirebaseHelper.postMyOnlineValue(false, userViewModel, this)
     }
 
     override fun onResume() {
@@ -234,14 +246,16 @@ class MainWindowActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-        Intent(
+        //Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+
+        val intent =  Intent(
             applicationContext,
             NotificationsService::class.java
         )
         stopService(intent)
 
         FirebaseHelper.postMyOnlineValue(false, userViewModel, this)
+        super.onDestroy()
     }
 
 
