@@ -9,32 +9,32 @@
     <View
         android:id="@+id/rectangle_10"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rectangle_10_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/freelencelive"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/freelencelivelogo_1"
         android:layout_width="246dp"
         android:layout_height="235dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="-20dp"
         android:contentDescription="@string/freelencelivelogo_1"
-        android:src="@drawable/freelencelivelogo_1"
+        android:src="@drawable/freelencelivelogo_1_bg_removed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/freelencelive"
-        android:layout_width="408.98dp"
-        android:layout_height="115.9dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="212dp"
         android:text="@string/freelencelive_string"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -42,7 +42,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/freelencelivelogo_1" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonLogin"
@@ -78,19 +78,17 @@
 
     <TextView
         android:id="@+id/begin_your_journey_by_logging_in_or_signing_up_"
-        android:layout_width="408dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="52dp"
+        android:padding="15dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/begin_your_journey_by_logging_in_or_signing_up__string"
         android:textColor="@color/white"
-        android:textSize="40sp"
+        android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/freelencelive" />
+        app:layout_constraintTop_toTopOf="@+id/rectangle_10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

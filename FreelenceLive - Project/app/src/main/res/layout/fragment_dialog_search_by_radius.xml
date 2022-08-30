@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/searchByRadius"
-        android:layout_width="415dp"
+        android:layout_width="match_parent"
         android:layout_height="78dp"
         android:background="@color/rectangle_10_color"
         android:gravity="center_vertical"
@@ -18,29 +18,12 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="43sp"
-
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlCompat" />
-
-<!--    <TextView-->
-<!--        android:id="@+id/creatingJob"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="78dp"-->
-<!--        android:background="@color/rectangle_10_color"-->
-<!--        android:gravity="center_vertical"-->
-<!--        android:text="@string/search_by_radius"-->
-<!--        android:textAlignment="center"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textSize="40sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        tools:ignore="RtlCompat" />-->
-
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/JobNameLayout"
@@ -67,10 +50,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSetSearch"
-        android:layout_width="415dp"
+        android:layout_width="350dp"
         android:layout_height="77dp"
         android:background="@drawable/rectangle_10_shape"
-        android:text="SEARCH"
+        android:text="@string/search"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="36sp"

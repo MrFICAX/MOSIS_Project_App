@@ -157,12 +157,12 @@
         android:layout_marginStart="84dp"
         android:padding="1dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.016"
+        app:layout_constraintVertical_bias="0.5"
         app:shapeAppearance="@style/photo"
-        app:srcCompat="@drawable/nikola"
+        app:srcCompat="@drawable/programmer"
         app:strokeWidth="2dp" />
 
     <TextView
@@ -171,18 +171,18 @@
         android:layout_height="29dp"
         android:layout_gravity="center_horizontal|center"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="52dp"
         android:gravity="center_vertical"
         android:paddingStart="3sp"
         android:text="@string/username"
         android:textColor="@color/comment_username_color"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.357"
         app:layout_constraintStart_toEndOf="@+id/imageCameraBackground"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.045" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/textView"

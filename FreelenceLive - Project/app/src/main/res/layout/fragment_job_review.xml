@@ -32,7 +32,7 @@
 
         <TextView
             android:id="@+id/editMobileNo"
-            android:layout_width="301dp"
+            android:layout_width="wrap_content"
             android:layout_height="77dp"
             android:text="@string/freelencelive_string"
             android:textAlignment="center"
@@ -58,7 +58,7 @@
 
         <TextView
             android:id="@+id/myJobsTitle"
-            android:layout_width="301dp"
+            android:layout_width="wrap_content"
             android:layout_height="77dp"
             android:gravity="center"
             android:text="@string/my_jobs"
@@ -189,14 +189,17 @@
             android:id="@+id/checkBox"
             android:layout_width="48dp"
             android:layout_height="47dp"
-            android:layout_marginTop="60dp"
             android:checked="false"
-            android:scaleX="2.5"
-            android:scaleY="2.5"
+            android:scaleX="2.3"
+            android:scaleY="2.3"
             app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintVertical_bias="0.121"
             app:layout_constraintHorizontal_bias="0.148"
             app:layout_constraintStart_toEndOf="@+id/finishedText"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
 
         <TextView
             android:id="@+id/dateText"
@@ -217,12 +220,11 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/date_picker"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="77dp"
-            android:layout_height="72dp"
+            android:layout_width="67dp"
+            android:layout_height="62dp"
             android:layout_margin="10dp"
             android:layout_marginStart="167dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/dateText"
             app:layout_constraintTop_toTopOf="parent"
@@ -234,15 +236,14 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/time_picker"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="77dp"
-            android:layout_height="72dp"
+            android:layout_width="67dp"
+            android:layout_height="62dp"
             android:layout_margin="10dp"
-            android:layout_marginStart="167dp"
             app:backgroundTint="@color/pink"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/dateText"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/date_picker"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.226"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent"
@@ -271,7 +272,6 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="18dp"
             android:layout_marginEnd="15dp"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -331,16 +331,27 @@
             app:layout_constraintVertical_bias="0.02" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/blackCons"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="3dp"-->
+<!--        android:layout_marginBottom="35dp"-->
+<!--        android:background="@drawable/border_bottom_top"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/blackCons"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_marginBottom="35dp"
-        android:background="@drawable/border_bottom_top"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/border_one_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

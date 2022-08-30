@@ -32,8 +32,8 @@
 
         <TextView
             android:id="@+id/editMobileNo"
-            android:layout_width="301dp"
-            android:layout_height="77dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/freelencelive_string"
             android:textAlignment="center"
             android:textColor="@color/light_pink"
@@ -58,7 +58,7 @@
 
         <TextView
             android:id="@+id/myJobsTitle"
-            android:layout_width="301dp"
+            android:layout_width="wrap_content"
             android:layout_height="77dp"
             android:gravity="center"
             android:text="@string/my_jobs"
@@ -160,14 +160,15 @@
             android:id="@+id/checkBox"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="60dp"
             android:checked="false"
             android:scaleX="1.5"
             android:scaleY="1.5"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.148"
             app:layout_constraintStart_toEndOf="@+id/finishedText"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.096" />
 
 
         <TextView
@@ -190,15 +191,16 @@
             android:id="@+id/dateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="184dp"
             android:gravity="center"
             android:text="your date"
             android:textAlignment="center"
             android:textColor="@color/light_pink"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dateTitle"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.174" />
 
 
@@ -206,16 +208,18 @@
             android:id="@+id/timeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="184dp"
             android:gravity="center"
             android:text="your time"
             android:textAlignment="center"
             android:textColor="@color/light_pink"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.231" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/dateTitle"
+            app:layout_constraintTop_toBottomOf="@+id/dateText"
+            app:layout_constraintHorizontal_bias="0.0"
+
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/PhotosText"
@@ -236,15 +240,15 @@
         <HorizontalScrollView
             android:id="@+id/horizScrl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="170dp"
             android:layout_marginEnd="15dp"
             android:scrollbars="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintBottom_toTopOf="@+id/horizScrlFriends"
+            app:layout_constraintTop_toBottomOf="@+id/PhotosText">
 
 
             <LinearLayout
@@ -262,7 +266,7 @@
         <ScrollView
             android:id="@+id/horizScrlFriends"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="110dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="15dp"
@@ -289,7 +293,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cancel_button"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="24dp"
@@ -298,11 +302,12 @@
             android:text="@string/back"
             android:textAlignment="center"
             android:textColor="@color/pink"
-            android:textSize="23sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:backgroundTint="#E1FFFEFE"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizScrlFriends"
             app:layout_constraintHorizontal_bias="0.942"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -311,8 +316,8 @@
         android:id="@+id/blackCons"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/border_bottom_top"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/border_one_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

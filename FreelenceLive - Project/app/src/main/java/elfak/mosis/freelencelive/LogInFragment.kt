@@ -104,7 +104,7 @@ class LogInFragment : Fragment() {
 
             if (CheckEmptyFields() && checkEmailStyle() && isValidPassword(password)){
 
-                pd.setMessage("REGISTRACIJA U TOKU...")
+                pd.setMessage("REGISTRATING...")
                 pd.show()
 
 //                val intent = Intent(requireActivity(), MainWindowActivity::class.java)

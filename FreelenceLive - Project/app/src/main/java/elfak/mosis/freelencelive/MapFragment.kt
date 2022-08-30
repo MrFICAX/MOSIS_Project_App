@@ -52,6 +52,14 @@ class MapFragment : Fragment(), LocationListener {
             if (isGranted) {
                 setMyLocationOverlay()
                 //setOnMapClickOverlay()
+                val locManager: LocationManager =
+                    requireActivity().getSystemService(Activity.LOCATION_SERVICE) as LocationManager
+                locManager.requestLocationUpdates(
+                    LocationManager.FUSED_PROVIDER,
+                    5555,
+                    100f,
+                    this
+                )
             }
         }
 
@@ -172,15 +180,6 @@ class MapFragment : Fragment(), LocationListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val locManager: LocationManager =
-            requireActivity().getSystemService(Activity.LOCATION_SERVICE) as LocationManager
-        locManager.requestLocationUpdates(
-            LocationManager.FUSED_PROVIDER,
-            5555,
-            100f,
-            this
-        )
-
         inflater = LayoutInflater.from(requireContext())
         var ctx: Context? = activity?.applicationContext
         Configuration.getInstance().load(ctx,
@@ -199,7 +198,9 @@ class MapFragment : Fragment(), LocationListener {
             requestPermissionLauncher.launch(
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             )
+
         }
+
 
 
         prepareMapAndSetAtMyLocation()

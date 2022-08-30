@@ -14,7 +14,10 @@
         android:background="@drawable/rectangle_10_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/register"
@@ -39,8 +42,9 @@
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/emailLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/log_in_ek3" />
 
@@ -48,7 +52,6 @@
         android:id="@+id/log_in_ek3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="356dp"
         android:text="@string/log_in_ek3_string"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -57,14 +60,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/rectangle_10"
+        app:layout_constraintBottom_toTopOf="@+id/fill_the_fields_with_your_username_and_password_"/>
 
     <ImageView
         android:id="@+id/freelencelivelogo_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/freelencelivelogodescription"
+        android:layout_width="257dp"
+        android:layout_height="201dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/freelencelivelogo_2"
         android:src="@drawable/freelencelivelogo_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -73,20 +79,21 @@
     <TextView
         android:id="@+id/freelencelive"
         android:layout_width="match_parent"
-        android:layout_height="115.9dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/freelencelivelogo_2"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="204dp"
         android:text="@string/freelencelive_string"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="48sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/rectangle_10"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/freelencelivelogo_2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.637" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailLayout"
@@ -94,11 +101,12 @@
         android:layout_height="70dp"
         android:hint="@string/email"
         app:boxStrokeWidth="0dp"
+        android:layout_marginBottom="10dp"
         app:boxStrokeWidthFocused="0dp"
         app:layout_constraintBottom_toTopOf="@+id/passwordLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fill_the_fields_with_your_username_and_password_">
+        >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"

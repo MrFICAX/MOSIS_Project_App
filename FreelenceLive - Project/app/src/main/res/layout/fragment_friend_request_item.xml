@@ -54,7 +54,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.016"
         app:shapeAppearance="@style/photo"
-        app:srcCompat="@drawable/nikola"
+        app:srcCompat="@drawable/programmer"
         app:strokeWidth="2dp" />
 
     <TextView

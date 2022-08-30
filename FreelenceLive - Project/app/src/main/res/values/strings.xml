@@ -108,7 +108,7 @@
     <string name="informations3">If you want, you can request for help or you can help others.</string>
     <string name="informations2">Connect with your friends and organise group jobs in order to finish them easily.</string>
     <string name="informations1">FreelenceLive is a mobile app for everyone who wants to find job online. Firstly, you need to register and that’s all you need to start your journey.</string>
-    <string name="informations4">MrFICAX 2022\n All Right reserved.</string>
+    <string name="informations4">MrFICAX 2022\nAll Right reserved.</string>
     <string name="activate_service">Activate\nservice</string>
     <string name="online">Online</string>
     <string name="invite_for">Invite for:</string>
@@ -125,6 +125,8 @@
     <string name="set">SET TIME</string>
     <string name="jobs">Jobs</string>
     <string name="informations">Informations</string>
+    <string name="organised_by">Organised by:</string>
+    <string name="search">SEARCH</string>
 
 
     <string-array name="feelings">

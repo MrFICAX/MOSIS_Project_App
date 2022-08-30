@@ -19,7 +19,7 @@
         android:layout_alignParentEnd="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.10"
         app:layout_constraintStart_toEndOf="@+id/finished"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.921"
@@ -117,11 +117,11 @@
 
     <TextView
         android:id="@+id/organisedBy"
-        android:layout_width="130dp"
-        android:layout_height="29dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center"
         android:gravity="center_vertical"
-        android:text="Organised by:"
+        android:text="@string/organised_by"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -138,11 +138,13 @@
         android:layout_height="42dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
+        android:layout_marginLeft="5dp"
+
         android:padding="1dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="@+id/username"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toEndOf="@+id/organisedBy"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.039"
@@ -152,19 +154,21 @@
 
     <TextView
         android:id="@+id/username"
-        android:layout_width="181dp"
-        android:layout_height="29dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center"
-        android:layout_marginEnd="12dp"
         android:gravity="center_vertical"
-        android:paddingLeft="3dp"
+        android:paddingLeft="5dp"
         android:text="@string/username"
         android:textColor="@color/comment_username_color"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toEndOf="@+id/imageCameraBackground"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.085" />
+        app:layout_constraintVertical_bias="0.083" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,7 +32,7 @@
 
         <TextView
             android:id="@+id/editMobileNo"
-            android:layout_width="301dp"
+            android:layout_width="wrap_content"
             android:layout_height="77dp"
             android:text="@string/freelencelive_string"
             android:textAlignment="center"

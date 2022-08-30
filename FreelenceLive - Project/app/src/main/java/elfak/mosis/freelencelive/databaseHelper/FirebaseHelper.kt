@@ -102,10 +102,10 @@ object FirebaseHelper {
 //    cloudFirestore.collection("users")
 //    .add(user)
 //    .addOnSuccessListener {
-//        Toast.makeText(this, "Sucessful added data", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "Successful added data", Toast.LENGTH_LONG).show()
 //    }
 //    .addOnFailureListener{
-//        Toast.makeText(this, "Not Sucessful added data", Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "Not Successful added data", Toast.LENGTH_LONG).show()
 //    }
 
     //PRIBAVLJANJE ID-JA ZA PRAZNI DOKUMENT KOJI NIJE DODAT U BAZU
@@ -637,7 +637,7 @@ object FirebaseHelper {
         if (newRequest != null) {
             newRef.set(newRequest)
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Successful added data", Toast.LENGTH_LONG).show()
                     pd.dismiss()
                     sendRequestButton.setBackgroundTintList(
                         ColorStateList.valueOf(
@@ -697,7 +697,7 @@ object FirebaseHelper {
 
         cloudFirestore.collection("users").document("SFKdYaQ7ZwBsuGuUN13Y").delete()
             .addOnSuccessListener {
-                Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Successful added data", Toast.LENGTH_LONG).show()
             }
             .addOnFailureListener {
                 Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
@@ -940,7 +940,7 @@ object FirebaseHelper {
 
         newRef.set(newComment)
             .addOnSuccessListener {
-                Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext, "Successful added data", Toast.LENGTH_LONG).show()
                 pd.dismiss()
 
                 var listaKomentara: MutableList<Comment> =
@@ -1013,7 +1013,7 @@ object FirebaseHelper {
                         .addOnSuccessListener {
                             Toast.makeText(
                                 requireContext,
-                                "Sucessful updated data",
+                                "Successful updated data",
                                 Toast.LENGTH_LONG
                             )
                                 .show()
@@ -1035,7 +1035,7 @@ object FirebaseHelper {
                         }.addOnFailureListener {
                             Toast.makeText(
                                 requireContext,
-                                "Not sucessful updated data",
+                                "Not successful updated data",
                                 Toast.LENGTH_LONG
                             )
                                 .show()
@@ -1046,7 +1046,7 @@ object FirebaseHelper {
                         .addOnSuccessListener {
                             Toast.makeText(
                                 requireContext,
-                                "Sucessful added data",
+                                "Successful added data",
                                 Toast.LENGTH_LONG
                             )
                                 .show()
@@ -1177,7 +1177,7 @@ object FirebaseHelper {
         eventTmp.dateHashMap = dateHashMap
         newRef.set(eventTmp!!)
             .addOnSuccessListener {
-                Toast.makeText(requireContext, "Sucessful added data", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext, "Successful added data", Toast.LENGTH_LONG).show()
 
 //                var lista = userViewModel.events.value
 //                var novaLista = lista as MutableList<Event>
@@ -1455,7 +1455,7 @@ object FirebaseHelper {
         if (newAskToJoin != null) {
             newRef.set(newAskToJoin)
                 .addOnSuccessListener {
-                    Toast.makeText(context, "Sucessful added data", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Successful added data", Toast.LENGTH_LONG).show()
                     pd.dismiss()
                     sendRequestButton.setBackgroundTintList(
                         ColorStateList.valueOf(

@@ -8,46 +8,30 @@
 
     <View
         android:id="@+id/rectangle_10"
-        android:layout_width="match_parent"
-        android:layout_height="645dp"
+        android:layout_width="wrap_content"
+        android:layout_height="600dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="5dp"
         android:background="@drawable/rectangle_10_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <ImageView
         android:id="@+id/freelencelivelogo_2"
         android:layout_width="257dp"
         android:layout_height="201dp"
+        android:layout_marginTop="-25dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-
         android:contentDescription="@string/freelencelivelogo_2"
-
-        android:src="@drawable/freelencelivelogo_2"
+        android:src="@drawable/freelencelivelogo_1_bg_removed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/freelencelive"
-        android:layout_width="408.98dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="184dp"
-        android:text="@string/freelencelive_string"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/register"
@@ -62,10 +46,11 @@
         android:textColor="@color/black"
         android:textSize="48sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/rectangle_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rectangle_10" />
+        app:layout_constraintTop_toBottomOf="@+id/freelencelivelogo_2" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailLayout"
@@ -232,7 +217,7 @@
         app:layout_constraintEnd_toStartOf="@+id/openGallery"
         app:layout_constraintHorizontal_bias="0.744"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register"
+        app:layout_constraintTop_toTopOf="@+id/rectangle_10"
         app:shapeAppearance="@style/photo"
         app:srcCompat="@drawable/programmer"
         app:strokeWidth="5dp" />
@@ -243,12 +228,12 @@
         android:layout_height="70dp"
         android:layout_below="@+id/register"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="36dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="112dp"
         android:contentDescription="@string/openGallery"
         android:src="@drawable/icons8_gallery_64"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register" />
+        app:layout_constraintTop_toTopOf="@+id/rectangle_10" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSignUp"

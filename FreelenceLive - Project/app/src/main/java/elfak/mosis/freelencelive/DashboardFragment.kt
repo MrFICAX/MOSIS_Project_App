@@ -135,7 +135,7 @@ class DashboardFragment : Fragment() {
         if (!numOfRatings!!.equals(0)) {
             ratingResult = totalScore?.div(numOfRatings!!)!!
             binding.Rating.rating = ratingResult!!
-            binding.ScoreText.text = ratingResult.toString()!!
+            binding.ScoreText.text = ratingResult.toString()!! +"/"+ numOfRatings.toString() + " reviews"
         }
     }
 

@@ -39,6 +39,8 @@ class MainWindowActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_window)
 
+        getWindow().navigationBarColor = resources.getColor(R.color.menuColor)
+
         val BackGroundServiceObserver = Observer<Boolean> { newValue ->
             //binding.buttonCreateJob.setText(newValue)
             StartBackgroundService(newValue)

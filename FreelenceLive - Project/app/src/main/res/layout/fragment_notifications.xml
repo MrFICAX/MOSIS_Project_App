@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/editMobileNo"
-            android:layout_width="301dp"
+            android:layout_width="wrap_content"
             android:layout_height="77dp"
             android:text="@string/freelencelive_string"
             android:textAlignment="center"
@@ -77,8 +77,9 @@
 
     <ScrollView
         android:id="@+id/horizScrlFriends"
-        android:layout_width="409dp"
-        android:layout_height="611dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
