@@ -1,6 +1,7 @@
 package elfak.mosis.freelencelive
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -38,6 +40,8 @@ class MainWindowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_window)
+
+        FirebaseHelper.postMyOnlineValue(true, userViewModel, this)
 
         getWindow().navigationBarColor = resources.getColor(R.color.menuColor)
 
@@ -191,6 +195,18 @@ class MainWindowActivity : AppCompatActivity() {
     }
 
     private fun StartBackgroundService(newValue: Boolean?) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Toast.makeText(this, "You need to grant location permissions to start service!", Toast.LENGTH_SHORT).show()
+            return;
+        }
         if (newValue == true) {
             val intent = Intent(
                 applicationContext,
@@ -207,6 +223,8 @@ class MainWindowActivity : AppCompatActivity() {
             stopService(intent)
 
         }
+        FirebaseHelper.postMyOnlineValue(true, userViewModel, this)
+
     }
 
     override fun onBackPressed() {
@@ -218,6 +236,8 @@ class MainWindowActivity : AppCompatActivity() {
     }
 
     override fun onRestart() {
+        FirebaseHelper.postMyOnlineValue(true, userViewModel, this)
+
         super.onRestart()
 
     }
@@ -233,17 +253,19 @@ class MainWindowActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        val intent = Intent(
-            applicationContext,
-            NotificationsService::class.java
-        )
-        stopService(intent)
+//        val intent = Intent(
+//            applicationContext,
+//            NotificationsService::class.java
+//        )
+//        stopService(intent)
+//
+//        FirebaseHelper.postMyOnlineValue(false, userViewModel, this)
         super.onStop()
-
-        //FirebaseHelper.postMyOnlineValue(false, userViewModel, this)
     }
 
     override fun onResume() {
+        FirebaseHelper.postMyOnlineValue(true, userViewModel, this)
+
         super.onResume()
     }
 

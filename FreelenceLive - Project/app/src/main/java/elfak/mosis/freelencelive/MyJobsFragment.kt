@@ -105,7 +105,7 @@ class MyJobsFragment : Fragment() {
         filterString: String
     ): List<Event> {
 
-        return listaEventa.filter { it.name.contains(filterString) }
+        return listaEventa.filter { it.name.contains(filterString, ignoreCase = true) }
     }
 
     private fun filterByStringEventOrganiserName(
@@ -118,14 +118,14 @@ class MyJobsFragment : Fragment() {
 
         listaEventa.forEach { event ->
             if (event.organiser == userViewModel.user.value?.id) {
-                if (userViewModel.user.value?.userName?.contains(filterString) == true) {
+                if (userViewModel.user.value?.userName?.contains(filterString, ignoreCase = true) == true) {
                     tmpLista.add(event)
                 }
             } else {
 
                 val issuedByUser: User? =
                     listaKorisnika?.filter { it.id.equals(event.organiser) }?.firstOrNull()
-                if (issuedByUser?.userName?.contains(filterString) == true)
+                if (issuedByUser?.userName?.contains(filterString, ignoreCase = true) == true)
                     tmpLista.add(event)
             }
         }

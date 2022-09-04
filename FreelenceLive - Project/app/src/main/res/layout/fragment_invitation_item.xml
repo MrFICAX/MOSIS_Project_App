@@ -80,7 +80,7 @@
 
     <TextView
         android:id="@+id/DateTextInvitations"
-        android:layout_width="181dp"
+        android:layout_width="wrap_content"
         android:layout_height="29dp"
         android:layout_gravity="center_horizontal|center"
         android:layout_marginEnd="120dp"
@@ -116,13 +116,13 @@
 
     <TextView
         android:id="@+id/JobTitleInvitations"
-        android:layout_width="181dp"
+        android:layout_width="wrap_content"
         android:layout_height="29dp"
         android:layout_gravity="center_horizontal|center"
         android:layout_marginEnd="120dp"
         android:gravity="center_vertical"
         android:paddingLeft="3dp"
-        android:text="@string/JobTitle"
+        android:text="@string/job_title"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"

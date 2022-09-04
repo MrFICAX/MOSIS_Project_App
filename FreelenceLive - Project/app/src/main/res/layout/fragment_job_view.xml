@@ -10,7 +10,7 @@
         android:id="@+id/ToolbarConstraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/menuColor"
+        android:background="@drawable/border_one_bottom_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -296,7 +296,7 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/rectangle_11_shape"
 
             android:text="@string/back"

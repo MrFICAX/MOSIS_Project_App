@@ -10,7 +10,7 @@
         android:id="@+id/ToolbarConstraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/menuColor"
+        android:background="@drawable/border_one_bottom_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -385,14 +385,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/BottomLayout"
+        android:id="@+id/bottomLine"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@drawable/border_bottom_top"
+        android:layout_height="3dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/border_one_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

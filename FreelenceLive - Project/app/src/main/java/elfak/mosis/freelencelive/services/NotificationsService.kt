@@ -80,6 +80,9 @@ class NotificationsService : Service() {
                                     notifiedMap[user.userId] = false
                                     //Log.d("nearbyPerson", "This person is not near:\n ${user.id}")
                                 }
+                            } else{
+                                notifiedMap[user.userId] = false
+
                             }
 
                         }

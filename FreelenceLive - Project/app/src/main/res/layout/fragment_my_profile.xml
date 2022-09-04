@@ -10,7 +10,7 @@
         android:id="@+id/ToolbarConstraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/menuColor"
+        android:background="@drawable/border_one_bottom_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,8 +32,8 @@
 
         <TextView
             android:id="@+id/editMobileNo"
-            android:layout_width="301dp"
-            android:layout_height="77dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/freelencelive_string"
             android:textAlignment="center"
@@ -58,7 +58,7 @@
 
         <TextView
             android:id="@+id/myJobsTitle"
-            android:layout_width="301dp"
+            android:layout_width="wrap_content"
             android:layout_height="77dp"
             android:gravity="center"
             android:text="@string/my_profile"
@@ -80,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-
+    app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintTop_toBottomOf="@+id/myJobsTitleLayout">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -92,7 +92,7 @@
             android:layout_marginStart="32dp"
             android:padding="3dp"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/change_photo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.411"
@@ -102,7 +102,7 @@
 
         <TextView
             android:id="@+id/change_photo"
-            android:layout_width="117dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:gravity="center"
@@ -113,8 +113,8 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.916" />
+            app:layout_constraintTop_toBottomOf="@+id/imageCameraBackground"
+            app:layout_constraintVertical_bias="0.0" />
 
 
         <TextView
@@ -212,7 +212,7 @@
             android:id="@+id/PhoneText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             android:text="@string/phone_number"
             android:textAlignment="center"
@@ -221,7 +221,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.064"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/EmailText" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phoneNumberLayout"
@@ -258,7 +258,7 @@
             android:id="@+id/FirstNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             android:text="@string/first_name_"
             android:textAlignment="center"
@@ -267,7 +267,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.976"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/EmailText"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/firstNameLayout"
@@ -303,16 +304,17 @@
             android:id="@+id/LastNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="204dp"
             android:gravity="center"
             android:text="@string/last_name_"
             android:textAlignment="center"
             android:textColor="@color/light_pink"
             android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/ApplyChanges"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.518"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/phoneNumberLayout"
+            app:layout_constraintVertical_bias="0.094" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lastNameLayout"
@@ -350,7 +352,7 @@
             android:layout_height="62dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="55dp"
+            android:layout_marginBottom="25dp"
             android:background="@drawable/rectange_job_shape"
             android:text="@string/apply"
             android:textAlignment="center"
@@ -367,10 +369,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="23dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="55dp"
+            android:layout_marginBottom="25dp"
             android:background="@drawable/rectangle_11_shape"
-
-            android:text="CANCEL"
+            android:text="@string/cancel"
             android:textAlignment="center"
             android:textColor="@color/pink"
             android:textSize="23sp"
@@ -385,8 +386,8 @@
         android:id="@+id/blackCons"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_marginBottom="35dp"
-        android:background="@drawable/border_bottom_top"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/border_one_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

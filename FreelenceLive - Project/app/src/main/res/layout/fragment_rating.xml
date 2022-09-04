@@ -11,7 +11,7 @@
         android:id="@+id/ToolbarConstraint"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/menuColor"
+        android:background="@drawable/border_one_bottom_line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -119,8 +119,8 @@
         android:id="@+id/horizScrlFriends"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="50dp"
-        android:background="@color/menuColor"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/border_one_line"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -140,5 +140,17 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/blackCons"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/border_one_line"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

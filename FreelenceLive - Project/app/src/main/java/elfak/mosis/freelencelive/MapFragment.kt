@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -43,7 +44,7 @@ class MapFragment : Fragment(), LocationListener {
     lateinit var inflater: LayoutInflater // LayoutInflater.from(requireContext())
     private lateinit var myLocationOverlay: MyLocationNewOverlay
     private val userViewModel: userViewModel by activityViewModels()
-
+    private lateinit var locManager: LocationManager
 
     private val requestPermissionLauncher =
         registerForActivityResult(
@@ -52,8 +53,6 @@ class MapFragment : Fragment(), LocationListener {
             if (isGranted) {
                 setMyLocationOverlay()
                 //setOnMapClickOverlay()
-                val locManager: LocationManager =
-                    requireActivity().getSystemService(Activity.LOCATION_SERVICE) as LocationManager
                 locManager.requestLocationUpdates(
                     LocationManager.FUSED_PROVIDER,
                     5555,
@@ -62,6 +61,7 @@ class MapFragment : Fragment(), LocationListener {
                 )
             }
         }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -180,6 +180,9 @@ class MapFragment : Fragment(), LocationListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        locManager = requireActivity().getSystemService(Activity.LOCATION_SERVICE) as LocationManager
+
+
         inflater = LayoutInflater.from(requireContext())
         var ctx: Context? = activity?.applicationContext
         Configuration.getInstance().load(ctx,
@@ -199,6 +202,13 @@ class MapFragment : Fragment(), LocationListener {
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             )
 
+        } else{
+            locManager.requestLocationUpdates(
+                LocationManager.FUSED_PROVIDER,
+                5555,
+                100f,
+                this
+            )
         }
 
 
@@ -331,6 +341,11 @@ class MapFragment : Fragment(), LocationListener {
     }
 
     private fun filterByRadius(listaEventa: List<Event>, inputRadius: Double): List<Event> {
+        if (myLocationOverlay.myLocation == null){
+
+            Toast.makeText(requireContext(), "Firstly turn on your location permissions!", Toast.LENGTH_SHORT).show()
+            return listaEventa;
+        }
         val myLocation: GeoPoint = myLocationOverlay.myLocation
 
         var tmpLista: MutableList<Event> = mutableListOf()
@@ -345,7 +360,7 @@ class MapFragment : Fragment(), LocationListener {
 
     private fun filterByString(listaEventa: List<Event>, filterString: String): List<Event> {
 
-        return listaEventa.filter { it.name.contains(filterString) }
+        return listaEventa.filter { it.name.contains(filterString, ignoreCase = true) }
     }
 
 

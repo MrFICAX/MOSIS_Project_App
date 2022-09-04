@@ -1,10 +1,12 @@
 package elfak.mosis.freelencelive
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import elfak.mosis.freelencelive.databaseHelper.FirebaseHelper
@@ -40,6 +42,18 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            binding.serviceSwitch.isEnabled = false;
+            binding.onlineSwitch.isEnabled = false;
+        }
         binding.serviceSwitch.isChecked = userViewModel.backGroundServiceActivated.value == true
         binding.onlineSwitch.isChecked = userViewModel.onlineActivated.value == true
         binding.shapeableImageView.setOnClickListener {

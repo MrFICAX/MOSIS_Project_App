@@ -406,6 +406,12 @@ class userViewModel : ViewModel() {
     }
 
     fun setSelectedEventGSPhotos(photosListGSTmp: MutableList<String>) {
+        val selectedEvent: Event? = _selectedEvent.value
+        //selectedEvent?.photosList?.clear()
+        selectedEvent?.photosList = photosListGSTmp
+
+        _selectedEvent.value = selectedEvent
+
         _gsPhotosList.value = photosListGSTmp
     }
 

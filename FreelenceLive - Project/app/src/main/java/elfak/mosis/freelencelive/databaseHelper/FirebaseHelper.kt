@@ -496,6 +496,7 @@ object FirebaseHelper {
         uploadTask = mountainImagesRef.putBytes(data)
         uploadTask.addOnFailureListener {
             pd.dismiss()
+
             // Handle unsuccessful uploads
             Log.d("PictureFail", "This is a picture upload failure")
         }.addOnSuccessListener { taskSnapshot ->
@@ -1332,7 +1333,7 @@ object FirebaseHelper {
                 Log.d("PictureFail", "This is a picture upload failure")
             }.addOnSuccessListener { taskSnapshot ->
 
-                Toast.makeText(requireContext, taskSnapshot.toString(), Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext, "Photos uploaded!", Toast.LENGTH_SHORT)
                     .show()
             }.addOnFailureListener {
                 Toast.makeText(requireContext, it.toString(), Toast.LENGTH_SHORT).show()
@@ -1422,8 +1423,8 @@ object FirebaseHelper {
                         val gsReference =
                             FirebaseStorage.getInstance().getReferenceFromUrl(item.toString())
                         gsReference.downloadUrl.addOnSuccessListener {
-                            val string = it.toString()
-                            userViewModel.setPhotoUrlToSelectedEvent(string.toString())
+                            val photoUrlString = it.toString()
+                            userViewModel.setPhotoUrlToSelectedEvent(photoUrlString)
 
                         }
                     }
